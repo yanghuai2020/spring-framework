@@ -36,7 +36,7 @@ public class BeanFactoryAccessor implements PropertyAccessor {
 
 	@Override
 	public Class<?>[] getSpecificTargetClasses() {
-		return new Class<?>[] {BeanFactory.class};
+		return new Class<?>[]{BeanFactory.class};
 	}
 
 	@Override
@@ -56,8 +56,7 @@ public class BeanFactoryAccessor implements PropertyAccessor {
 	}
 
 	@Override
-	public void write(EvaluationContext context, @Nullable Object target, String name, @Nullable Object newValue)
-			throws AccessException {
+	public void write(EvaluationContext context, @Nullable Object target, String name, @Nullable Object newValue) throws AccessException {
 
 		throw new AccessException("Beans in a BeanFactory are read-only");
 	}

@@ -30,8 +30,8 @@ import org.springframework.util.StringUtils;
  *
  * @author Phillip Webb
  * @author Juergen Hoeller
- * @since 4.0
  * @see SimpleKeyGenerator
+ * @since 4.0
  */
 @SuppressWarnings("serial")
 public class SimpleKey implements Serializable {
@@ -50,6 +50,7 @@ public class SimpleKey implements Serializable {
 
 	/**
 	 * Create a new {@link SimpleKey} instance.
+	 *
 	 * @param elements the elements of the key
 	 */
 	public SimpleKey(Object... elements) {
@@ -62,8 +63,7 @@ public class SimpleKey implements Serializable {
 
 	@Override
 	public boolean equals(@Nullable Object other) {
-		return (this == other ||
-				(other instanceof SimpleKey && Arrays.deepEquals(this.params, ((SimpleKey) other).params)));
+		return (this == other || (other instanceof SimpleKey && Arrays.deepEquals(this.params, ((SimpleKey) other).params)));
 	}
 
 	@Override

@@ -26,9 +26,9 @@ import org.springframework.lang.NonNull;
  * {@link DefaultListableBeanFactory#isAllowBeanDefinitionOverriding()} is {@code false}.
  *
  * @author Juergen Hoeller
- * @since 5.1
  * @see DefaultListableBeanFactory#setAllowBeanDefinitionOverriding
  * @see DefaultListableBeanFactory#registerBeanDefinition
+ * @since 5.1
  */
 @SuppressWarnings("serial")
 public class BeanDefinitionOverrideException extends BeanDefinitionStoreException {
@@ -40,16 +40,14 @@ public class BeanDefinitionOverrideException extends BeanDefinitionStoreExceptio
 
 	/**
 	 * Create a new BeanDefinitionOverrideException for the given new and existing definition.
-	 * @param beanName the name of the bean
-	 * @param beanDefinition the newly registered bean definition
+	 *
+	 * @param beanName           the name of the bean
+	 * @param beanDefinition     the newly registered bean definition
 	 * @param existingDefinition the existing bean definition for the same name
 	 */
-	public BeanDefinitionOverrideException(
-			String beanName, BeanDefinition beanDefinition, BeanDefinition existingDefinition) {
+	public BeanDefinitionOverrideException(String beanName, BeanDefinition beanDefinition, BeanDefinition existingDefinition) {
 
-		super(beanDefinition.getResourceDescription(), beanName,
-				"Cannot register bean definition [" + beanDefinition + "] for bean '" + beanName +
-				"': There is already [" + existingDefinition + "] bound.");
+		super(beanDefinition.getResourceDescription(), beanName, "Cannot register bean definition [" + beanDefinition + "] for bean '" + beanName + "': There is already [" + existingDefinition + "] bound.");
 		this.beanDefinition = beanDefinition;
 		this.existingDefinition = existingDefinition;
 	}
@@ -75,6 +73,7 @@ public class BeanDefinitionOverrideException extends BeanDefinitionStoreExceptio
 
 	/**
 	 * Return the newly registered bean definition.
+	 *
 	 * @see #getBeanName()
 	 */
 	public BeanDefinition getBeanDefinition() {
@@ -83,6 +82,7 @@ public class BeanDefinitionOverrideException extends BeanDefinitionStoreExceptio
 
 	/**
 	 * Return the existing bean definition for the same name.
+	 *
 	 * @see #getBeanName()
 	 */
 	public BeanDefinition getExistingDefinition() {

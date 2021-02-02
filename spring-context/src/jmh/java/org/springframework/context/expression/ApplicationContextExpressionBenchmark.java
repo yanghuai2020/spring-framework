@@ -32,6 +32,7 @@ import org.springframework.context.support.GenericApplicationContext;
 
 /**
  * Benchmark for application context expressions resolution during prototype bean creation.
+ *
  * @author Brian Clozel
  */
 @BenchmarkMode(Mode.Throughput)

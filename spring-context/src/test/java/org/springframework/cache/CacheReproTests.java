@@ -125,9 +125,7 @@ public class CacheReproTests {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Spr13081Config.class);
 		Spr13081Service bean = context.getBean(Spr13081Service.class);
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				bean.getSimple(null))
-			.withMessageContaining(MyCacheResolver.class.getName());
+		assertThatIllegalStateException().isThrownBy(() -> bean.getSimple(null)).withMessageContaining(MyCacheResolver.class.getName());
 	}
 
 	@Test
@@ -228,9 +226,7 @@ public class CacheReproTests {
 		}
 
 		@Override
-		@Caching(cacheable = {
-				@Cacheable(cacheNames = "bigCache", unless = "#result.size() < 4"),
-				@Cacheable(cacheNames = "smallCache", unless = "#result.size() > 3")})
+		@Caching(cacheable = {@Cacheable(cacheNames = "bigCache", unless = "#result.size() < 4"), @Cacheable(cacheNames = "smallCache", unless = "#result.size() > 3")})
 		public List<String> multiple(int id) {
 			if (this.multipleCount > 0) {
 				throw new AssertionError("Called too many times");

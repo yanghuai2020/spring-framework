@@ -26,10 +26,10 @@ import org.springframework.core.type.MethodMetadata;
  *
  * @author Chris Beams
  * @author Juergen Hoeller
- * @since 3.0
  * @see ConfigurationClass
  * @see ConfigurationClassParser
  * @see ConfigurationClassBeanDefinitionReader
+ * @since 3.0
  */
 final class BeanMethod extends ConfigurationMethod {
 
@@ -56,8 +56,7 @@ final class BeanMethod extends ConfigurationMethod {
 	private class NonOverridableMethodError extends Problem {
 
 		public NonOverridableMethodError() {
-			super(String.format("@Bean method '%s' must not be private or final; change the method's modifiers to continue",
-					getMetadata().getMethodName()), getResourceLocation());
+			super(String.format("@Bean method '%s' must not be private or final; change the method's modifiers to continue", getMetadata().getMethodName()), getResourceLocation());
 		}
 	}
 }

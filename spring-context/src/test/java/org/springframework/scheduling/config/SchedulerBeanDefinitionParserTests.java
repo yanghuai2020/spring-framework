@@ -36,8 +36,7 @@ public class SchedulerBeanDefinitionParserTests {
 
 	@BeforeEach
 	public void setup() {
-		this.context = new ClassPathXmlApplicationContext(
-				"schedulerContext.xml", SchedulerBeanDefinitionParserTests.class);
+		this.context = new ClassPathXmlApplicationContext("schedulerContext.xml", SchedulerBeanDefinitionParserTests.class);
 	}
 
 	@Test

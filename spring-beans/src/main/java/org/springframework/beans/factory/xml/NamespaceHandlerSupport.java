@@ -38,9 +38,9 @@ import org.springframework.lang.Nullable;
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
- * @since 2.0
  * @see #registerBeanDefinitionParser(String, BeanDefinitionParser)
  * @see #registerBeanDefinitionDecorator(String, BeanDefinitionDecorator)
+ * @since 2.0
  */
 public abstract class NamespaceHandlerSupport implements NamespaceHandler {
 
@@ -83,8 +83,7 @@ public abstract class NamespaceHandlerSupport implements NamespaceHandler {
 		String localName = parserContext.getDelegate().getLocalName(element);
 		BeanDefinitionParser parser = this.parsers.get(localName);
 		if (parser == null) {
-			parserContext.getReaderContext().fatal(
-					"Cannot locate BeanDefinitionParser for element [" + localName + "]", element);
+			parserContext.getReaderContext().fatal("Cannot locate BeanDefinitionParser for element [" + localName + "]", element);
 		}
 		return parser;
 	}
@@ -95,8 +94,7 @@ public abstract class NamespaceHandlerSupport implements NamespaceHandler {
 	 */
 	@Override
 	@Nullable
-	public BeanDefinitionHolder decorate(
-			Node node, BeanDefinitionHolder definition, ParserContext parserContext) {
+	public BeanDefinitionHolder decorate(Node node, BeanDefinitionHolder definition, ParserContext parserContext) {
 
 		BeanDefinitionDecorator decorator = findDecoratorForNode(node, parserContext);
 		return (decorator != null ? decorator.decorate(node, definition, parserContext) : null);
@@ -113,17 +111,13 @@ public abstract class NamespaceHandlerSupport implements NamespaceHandler {
 		String localName = parserContext.getDelegate().getLocalName(node);
 		if (node instanceof Element) {
 			decorator = this.decorators.get(localName);
-		}
-		else if (node instanceof Attr) {
+		} else if (node instanceof Attr) {
 			decorator = this.attributeDecorators.get(localName);
-		}
-		else {
-			parserContext.getReaderContext().fatal(
-					"Cannot decorate based on Nodes of type [" + node.getClass().getName() + "]", node);
+		} else {
+			parserContext.getReaderContext().fatal("Cannot decorate based on Nodes of type [" + node.getClass().getName() + "]", node);
 		}
 		if (decorator == null) {
-			parserContext.getReaderContext().fatal("Cannot locate BeanDefinitionDecorator for " +
-					(node instanceof Element ? "element" : "attribute") + " [" + localName + "]", node);
+			parserContext.getReaderContext().fatal("Cannot locate BeanDefinitionDecorator for " + (node instanceof Element ? "element" : "attribute") + " [" + localName + "]", node);
 		}
 		return decorator;
 	}

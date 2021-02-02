@@ -36,6 +36,7 @@ import org.springframework.context.support.GenericApplicationContext;
 
 /**
  * Benchmark for bean annotation processing with various annotations.
+ *
  * @author Brian Clozel
  */
 @BenchmarkMode(Mode.Throughput)
@@ -60,8 +61,7 @@ public class AnnotationProcessorBenchmark {
 			this.context.refresh();
 			if (this.testBeanClass.equals("ResourceAnnotatedTestBean")) {
 				rbd = new RootBeanDefinition(ResourceAnnotatedTestBean.class);
-			}
-			else {
+			} else {
 				rbd = new RootBeanDefinition(AutowiredAnnotatedTestBean.class);
 			}
 			rbd.setScope(BeanDefinition.SCOPE_PROTOTYPE);

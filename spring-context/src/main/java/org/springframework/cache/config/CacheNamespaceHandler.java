@@ -41,9 +41,7 @@ public class CacheNamespaceHandler extends NamespaceHandlerSupport {
 
 
 	static String extractCacheManager(Element element) {
-		return (element.hasAttribute(CacheNamespaceHandler.CACHE_MANAGER_ATTRIBUTE) ?
-				element.getAttribute(CacheNamespaceHandler.CACHE_MANAGER_ATTRIBUTE) :
-				CacheNamespaceHandler.DEFAULT_CACHE_MANAGER_BEAN_NAME);
+		return (element.hasAttribute(CacheNamespaceHandler.CACHE_MANAGER_ATTRIBUTE) ? element.getAttribute(CacheNamespaceHandler.CACHE_MANAGER_ATTRIBUTE) : CacheNamespaceHandler.DEFAULT_CACHE_MANAGER_BEAN_NAME);
 	}
 
 	static BeanDefinition parseKeyGenerator(Element element, BeanDefinition def) {

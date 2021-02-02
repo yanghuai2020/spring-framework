@@ -47,8 +47,7 @@ import static org.springframework.util.ClassUtils.convertClassNameToResourcePath
 public class QualifierAnnotationTests {
 
 	private static final String CLASSNAME = QualifierAnnotationTests.class.getName();
-	private static final String CONFIG_LOCATION =
-		format("classpath:%s-context.xml", convertClassNameToResourcePath(CLASSNAME));
+	private static final String CONFIG_LOCATION = format("classpath:%s-context.xml", convertClassNameToResourcePath(CLASSNAME));
 
 
 	@Test
@@ -57,9 +56,7 @@ public class QualifierAnnotationTests {
 		BeanDefinitionReader reader = new XmlBeanDefinitionReader(context);
 		reader.loadBeanDefinitions(CONFIG_LOCATION);
 		context.registerSingleton("testBean", NonQualifiedTestBean.class);
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(
-				context::refresh)
-			.withMessageContaining("found 6");
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(context::refresh).withMessageContaining("found 6");
 	}
 
 	@Test
@@ -190,9 +187,7 @@ public class QualifierAnnotationTests {
 		BeanDefinitionReader reader = new XmlBeanDefinitionReader(context);
 		reader.loadBeanDefinitions(CONFIG_LOCATION);
 		context.registerSingleton("testBean", QualifiedByAttributesTestBean.class);
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(
-				context::refresh)
-			.withMessageContaining("found 6");
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(context::refresh).withMessageContaining("found 6");
 	}
 
 	@Test
@@ -200,8 +195,7 @@ public class QualifierAnnotationTests {
 		StaticApplicationContext context = new StaticApplicationContext();
 		BeanDefinitionReader reader = new XmlBeanDefinitionReader(context);
 		reader.loadBeanDefinitions(CONFIG_LOCATION);
-		QualifierAnnotationAutowireCandidateResolver resolver = (QualifierAnnotationAutowireCandidateResolver)
-				context.getDefaultListableBeanFactory().getAutowireCandidateResolver();
+		QualifierAnnotationAutowireCandidateResolver resolver = (QualifierAnnotationAutowireCandidateResolver) context.getDefaultListableBeanFactory().getAutowireCandidateResolver();
 		resolver.addQualifierType(MultipleAttributeQualifier.class);
 		context.registerSingleton("testBean", MultiQualifierClient.class);
 		context.refresh();
@@ -234,7 +228,8 @@ public class QualifierAnnotationTests {
 
 	private static class QualifiedByValueTestBean {
 
-		@Autowired @Qualifier("larry")
+		@Autowired
+		@Qualifier("larry")
 		private Person larry;
 
 		public Person getLarry() {
@@ -245,7 +240,8 @@ public class QualifierAnnotationTests {
 
 	private static class QualifiedByParentValueTestBean {
 
-		@Autowired @Qualifier("parentLarry")
+		@Autowired
+		@Qualifier("parentLarry")
 		private Person larry;
 
 		public Person getLarry() {
@@ -256,10 +252,12 @@ public class QualifierAnnotationTests {
 
 	private static class QualifiedByBeanNameTestBean {
 
-		@Autowired @Qualifier("larryBean")
+		@Autowired
+		@Qualifier("larryBean")
 		private Person larry;
 
-		@Autowired @Qualifier("testProperties")
+		@Autowired
+		@Qualifier("testProperties")
 		public Properties myProps;
 
 		public Person getLarry() {
@@ -296,7 +294,8 @@ public class QualifierAnnotationTests {
 
 	private static class QualifiedByAliasTestBean {
 
-		@Autowired @Qualifier("stooge")
+		@Autowired
+		@Qualifier("stooge")
 		private Person stooge;
 
 		public Person getStooge() {
@@ -307,7 +306,8 @@ public class QualifierAnnotationTests {
 
 	private static class QualifiedByAnnotationTestBean {
 
-		@Autowired @Qualifier("special")
+		@Autowired
+		@Qualifier("special")
 		private Person larry;
 
 		public Person getLarry() {
@@ -318,7 +318,8 @@ public class QualifierAnnotationTests {
 
 	private static class QualifiedByCustomValueTestBean {
 
-		@Autowired @SimpleValueQualifier("curly")
+		@Autowired
+		@SimpleValueQualifier("curly")
 		private Person curly;
 
 		public Person getCurly() {
@@ -329,7 +330,8 @@ public class QualifierAnnotationTests {
 
 	private static class QualifiedByAnnotationValueTestBean {
 
-		@Autowired @SimpleValueQualifier("special")
+		@Autowired
+		@SimpleValueQualifier("special")
 		private Person larry;
 
 		public Person getLarry() {
@@ -341,10 +343,12 @@ public class QualifierAnnotationTests {
 	@SuppressWarnings("unused")
 	private static class QualifiedByAttributesTestBean {
 
-		@Autowired @MultipleAttributeQualifier(name="moe", age=42)
+		@Autowired
+		@MultipleAttributeQualifier(name = "moe", age = 42)
 		private Person moeSenior;
 
-		@Autowired @MultipleAttributeQualifier(name="moe", age=15)
+		@Autowired
+		@MultipleAttributeQualifier(name = "moe", age = 15)
 		private Person moeJunior;
 
 		public Person getMoeSenior() {
@@ -374,8 +378,7 @@ public class QualifierAnnotationTests {
 
 	@Qualifier("special")
 	@SimpleValueQualifier("special")
-	private static class SpecialPerson extends Person {
-	}
+	private static class SpecialPerson extends Person {}
 
 
 	@Target({ElementType.FIELD, ElementType.TYPE})
@@ -404,21 +407,21 @@ public class QualifierAnnotationTests {
 
 	public static class MultiQualifierClient {
 
-		@Autowired @Qualifier(FACTORY_QUALIFIER)
+		@Autowired
+		@Qualifier(FACTORY_QUALIFIER)
 		public Theta factoryTheta;
 
-		@Autowired @Qualifier(IMPL_QUALIFIER)
+		@Autowired
+		@Qualifier(IMPL_QUALIFIER)
 		public Theta implTheta;
 	}
 
 
-	public interface Theta {
-	}
+	public interface Theta {}
 
 
 	@Qualifier(IMPL_QUALIFIER)
-	public static class ThetaImpl implements Theta {
-	}
+	public static class ThetaImpl implements Theta {}
 
 
 	@Qualifier(FACTORY_QUALIFIER)

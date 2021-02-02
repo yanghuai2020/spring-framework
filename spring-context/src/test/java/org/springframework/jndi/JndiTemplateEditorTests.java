@@ -29,8 +29,7 @@ public class JndiTemplateEditorTests {
 
 	@Test
 	public void testNullIsIllegalArgument() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new JndiTemplateEditor().setAsText(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new JndiTemplateEditor().setAsText(null));
 	}
 
 	@Test

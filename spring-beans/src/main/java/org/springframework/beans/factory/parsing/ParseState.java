@@ -113,7 +113,6 @@ public final class ParseState {
 	/**
 	 * Marker interface for entries into the {@link ParseState}.
 	 */
-	public interface Entry {
-	}
+	public interface Entry {}
 
 }

@@ -208,15 +208,13 @@ public class ConfigurationClassWithConditionTests {
 	@Conditional(NeverCondition.class)
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target({ElementType.TYPE, ElementType.METHOD})
-	public @interface Never {
-	}
+	public @interface Never {}
 
 	@Conditional(AlwaysCondition.class)
 	@Never
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target({ElementType.TYPE, ElementType.METHOD})
-	public @interface MetaNever {
-	}
+	public @interface MetaNever {}
 
 	static class NoBeanOneCondition implements Condition {
 
@@ -291,7 +289,8 @@ public class ConfigurationClassWithConditionTests {
 	static class ImportsNotCreated {
 
 		static {
-			if (true) throw new RuntimeException();
+			if (true)
+				throw new RuntimeException();
 		}
 	}
 
@@ -299,37 +298,38 @@ public class ConfigurationClassWithConditionTests {
 	static class ConfigurationNotCreated {
 
 		static {
-			if (true) throw new RuntimeException();
+			if (true)
+				throw new RuntimeException();
 		}
 	}
 
 	static class RegistrarNotCreated implements ImportBeanDefinitionRegistrar {
 
 		static {
-			if (true) throw new RuntimeException();
+			if (true)
+				throw new RuntimeException();
 		}
 
 		@Override
-		public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata,
-				BeanDefinitionRegistry registry) {
+		public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
 		}
 	}
 
 	static class ImportSelectorNotCreated implements ImportSelector {
 
 		static {
-			if (true) throw new RuntimeException();
+			if (true)
+				throw new RuntimeException();
 		}
 
 		@Override
 		public String[] selectImports(AnnotationMetadata importingClassMetadata) {
-			return new String[] {};
+			return new String[]{};
 		}
 
 	}
 
-	static class ExampleBean {
-	}
+	static class ExampleBean {}
 
 	@Configuration
 	static class ConfigWithBeanActive {

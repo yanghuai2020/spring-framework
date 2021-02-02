@@ -34,9 +34,7 @@ public class SimplePropertyNamespaceHandlerWithExpressionLanguageTests {
 
 	@Test
 	public void combineWithExpressionLanguage() {
-		ApplicationContext applicationContext =
-				new ClassPathXmlApplicationContext("simplePropertyNamespaceHandlerWithExpressionLanguageTests.xml",
-						getClass());
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("simplePropertyNamespaceHandlerWithExpressionLanguageTests.xml", getClass());
 		ITestBean foo = applicationContext.getBean("foo", ITestBean.class);
 		ITestBean bar = applicationContext.getBean("bar", ITestBean.class);
 		assertThat(foo.getName()).as("Invalid name").isEqualTo("Baz");

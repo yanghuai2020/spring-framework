@@ -73,8 +73,7 @@ public class DestroyMethodInferenceTests {
 
 	@Test
 	public void xml() {
-		ConfigurableApplicationContext ctx = new GenericXmlApplicationContext(
-				getClass(), "DestroyMethodInferenceTests-context.xml");
+		ConfigurableApplicationContext ctx = new GenericXmlApplicationContext(getClass(), "DestroyMethodInferenceTests-context.xml");
 		WithLocalCloseMethod x1 = ctx.getBean("x1", WithLocalCloseMethod.class);
 		WithLocalCloseMethod x2 = ctx.getBean("x2", WithLocalCloseMethod.class);
 		WithLocalCloseMethod x3 = ctx.getBean("x3", WithLocalCloseMethod.class);
@@ -129,6 +128,7 @@ public class DestroyMethodInferenceTests {
 				public void close() {
 					throw new IllegalStateException("close() should not be called");
 				}
+
 				@SuppressWarnings("unused")
 				public void other() {
 					this.closed = true;

@@ -65,10 +65,10 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIOException;
 
 /**
- * @since 13.03.2003
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Chris Beams
+ * @since 13.03.2003
  */
 public class ProxyFactoryBeanTests {
 
@@ -95,8 +95,7 @@ public class ProxyFactoryBeanTests {
 		DefaultListableBeanFactory parent = new DefaultListableBeanFactory();
 		parent.registerBeanDefinition("target2", new RootBeanDefinition(TestApplicationListener.class));
 		this.factory = new DefaultListableBeanFactory(parent);
-		new XmlBeanDefinitionReader((BeanDefinitionRegistry) this.factory).loadBeanDefinitions(
-				new ClassPathResource(CONTEXT, getClass()));
+		new XmlBeanDefinitionReader((BeanDefinitionRegistry) this.factory).loadBeanDefinitions(new ClassPathResource(CONTEXT, getClass()));
 	}
 
 
@@ -138,22 +137,14 @@ public class ProxyFactoryBeanTests {
 	private void testDoubleTargetSourceIsRejected(String name) {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
 		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(new ClassPathResource(DBL_TARGETSOURCE_CONTEXT, CLASS));
-		assertThatExceptionOfType(BeanCreationException.class).as("Should not allow TargetSource to be specified in interceptorNames as well as targetSource property")
-			.isThrownBy(() -> bf.getBean(name))
-			.havingCause()
-			.isInstanceOf(AopConfigException.class)
-			.withMessageContaining("TargetSource");
+		assertThatExceptionOfType(BeanCreationException.class).as("Should not allow TargetSource to be specified in interceptorNames as well as targetSource property").isThrownBy(() -> bf.getBean(name)).havingCause().isInstanceOf(AopConfigException.class).withMessageContaining("TargetSource");
 	}
 
 	@Test
 	public void testTargetSourceNotAtEndOfInterceptorNamesIsRejected() {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
 		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(new ClassPathResource(NOTLAST_TARGETSOURCE_CONTEXT, CLASS));
-		assertThatExceptionOfType(BeanCreationException.class).as("TargetSource or non-advised object must be last in interceptorNames")
-			.isThrownBy(() -> bf.getBean("targetSourceNotLast"))
-			.havingCause()
-			.isInstanceOf(AopConfigException.class)
-			.withMessageContaining("interceptorNames");
+		assertThatExceptionOfType(BeanCreationException.class).as("TargetSource or non-advised object must be last in interceptorNames").isThrownBy(() -> bf.getBean("targetSourceNotLast")).havingCause().isInstanceOf(AopConfigException.class).withMessageContaining("interceptorNames");
 	}
 
 	@Test
@@ -189,9 +180,7 @@ public class ProxyFactoryBeanTests {
 		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(new ClassPathResource(TARGETSOURCE_CONTEXT, CLASS));
 
 		ITestBean tb = (ITestBean) bf.getBean("noTarget");
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-				tb.getName())
-			.withMessage("getName");
+		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> tb.getName()).withMessage("getName");
 		FactoryBean<?> pfb = (ProxyFactoryBean) bf.getBean("&noTarget");
 		assertThat(ITestBean.class.isAssignableFrom(pfb.getObjectType())).as("Has correct object type").isTrue();
 	}
@@ -236,8 +225,9 @@ public class ProxyFactoryBeanTests {
 
 	/**
 	 * Uses its own bean factory XML for clarity
+	 *
 	 * @param beanName name of the ProxyFactoryBean definition that should
-	 * be a prototype
+	 *                 be a prototype
 	 */
 	private Object testPrototypeInstancesAreIndependent(String beanName) {
 		// Initial count value set in bean factory XML
@@ -250,7 +240,7 @@ public class ProxyFactoryBeanTests {
 		SideEffectBean raw = (SideEffectBean) bf.getBean("prototypeTarget");
 		assertThat(raw.getCount()).isEqualTo(INITIAL_COUNT);
 		raw.doWork();
-		assertThat(raw.getCount()).isEqualTo(INITIAL_COUNT+1);
+		assertThat(raw.getCount()).isEqualTo(INITIAL_COUNT + 1);
 		raw = (SideEffectBean) bf.getBean("prototypeTarget");
 		assertThat(raw.getCount()).isEqualTo(INITIAL_COUNT);
 
@@ -313,9 +303,7 @@ public class ProxyFactoryBeanTests {
 		assertThat(config.getAdvisors().length).as("Have correct advisor count").isEqualTo(2);
 
 		ITestBean tb1 = (ITestBean) factory.getBean("test1");
-		assertThatExceptionOfType(Exception.class)
-			.isThrownBy(tb1::toString)
-			.isSameAs(ex);
+		assertThatExceptionOfType(Exception.class).isThrownBy(tb1::toString).isSameAs(ex);
 	}
 
 	/**
@@ -340,8 +328,7 @@ public class ProxyFactoryBeanTests {
 	 */
 	@Test
 	public void testCanAddAndRemoveAspectInterfacesOnPrototype() {
-		assertThat(factory.getBean("test2")).as("Shouldn't implement TimeStamped before manipulation")
-				.isNotInstanceOf(TimeStamped.class);
+		assertThat(factory.getBean("test2")).as("Shouldn't implement TimeStamped before manipulation").isNotInstanceOf(TimeStamped.class);
 
 		ProxyFactoryBean config = (ProxyFactoryBean) factory.getBean("&test2");
 		long time = 666L;
@@ -362,8 +349,7 @@ public class ProxyFactoryBeanTests {
 		// Check no change on existing object reference
 		assertThat(ts.getTimeStamp() == time).isTrue();
 
-		assertThat(factory.getBean("test2")).as("Should no longer implement TimeStamped")
-				.isNotInstanceOf(TimeStamped.class);
+		assertThat(factory.getBean("test2")).as("Should no longer implement TimeStamped").isNotInstanceOf(TimeStamped.class);
 
 		// Now check non-effect of removing interceptor that isn't there
 		config.removeAdvice(new DebugInterceptor());
@@ -441,17 +427,13 @@ public class ProxyFactoryBeanTests {
 		assertThat(cba.getCalls()).isEqualTo(2);
 		assertThat(th.getCalls()).isEqualTo(0);
 		Exception expected = new Exception();
-		assertThatExceptionOfType(Exception.class).isThrownBy(() ->
-				echo.echoException(1, expected))
-			.matches(expected::equals);
+		assertThatExceptionOfType(Exception.class).isThrownBy(() -> echo.echoException(1, expected)).matches(expected::equals);
 		// No throws handler method: count should still be 0
 		assertThat(th.getCalls()).isEqualTo(0);
 
 		// Handler knows how to handle this exception
 		FileNotFoundException expectedFileNotFound = new FileNotFoundException();
-		assertThatIOException().isThrownBy(() ->
-				echo.echoException(1, expectedFileNotFound))
-			.matches(expectedFileNotFound::equals);
+		assertThatIOException().isThrownBy(() -> echo.echoException(1, expectedFileNotFound)).matches(expectedFileNotFound::equals);
 
 		// One match
 		assertThat(th.getCalls("ioException")).isEqualTo(1);
@@ -476,8 +458,7 @@ public class ProxyFactoryBeanTests {
 	public void testEmptyInterceptorNames() {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
 		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(new ClassPathResource(INVALID_CONTEXT, CLASS));
-		assertThatExceptionOfType(BeanCreationException.class).as("Interceptor names cannot be empty").isThrownBy(() ->
-				bf.getBean("emptyInterceptorNames"));
+		assertThatExceptionOfType(BeanCreationException.class).as("Interceptor names cannot be empty").isThrownBy(() -> bf.getBean("emptyInterceptorNames"));
 	}
 
 	/**
@@ -487,9 +468,7 @@ public class ProxyFactoryBeanTests {
 	public void testGlobalsWithoutTarget() {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
 		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(new ClassPathResource(INVALID_CONTEXT, CLASS));
-		assertThatExceptionOfType(BeanCreationException.class).as("Should require target name").isThrownBy(() ->
-				bf.getBean("globalsWithoutTarget"))
-			.withCauseInstanceOf(AopConfigException.class);
+		assertThatExceptionOfType(BeanCreationException.class).as("Should require target name").isThrownBy(() -> bf.getBean("globalsWithoutTarget")).withCauseInstanceOf(AopConfigException.class);
 	}
 
 	/**
@@ -513,8 +492,7 @@ public class ProxyFactoryBeanTests {
 		agi = (AddedGlobalInterface) l;
 		assertThat(agi.globalsAdded() == -1).isTrue();
 
-		assertThat(factory.getBean("test1")).as("Aspect interface should't be implemeneted without globals")
-				.isNotInstanceOf(AddedGlobalInterface.class);
+		assertThat(factory.getBean("test1")).as("Aspect interface should't be implemeneted without globals").isNotInstanceOf(AddedGlobalInterface.class);
 	}
 
 	@Test
@@ -589,8 +567,7 @@ public class ProxyFactoryBeanTests {
 
 		((Lockable) bean1).lock();
 
-		assertThatExceptionOfType(LockedException.class).isThrownBy(() ->
-				bean1.setAge(5));
+		assertThatExceptionOfType(LockedException.class).isThrownBy(() -> bean1.setAge(5));
 
 		bean2.setAge(6); //do not expect LockedException"
 	}
@@ -610,8 +587,7 @@ public class ProxyFactoryBeanTests {
 
 		((Lockable) bean1).lock();
 
-		assertThatExceptionOfType(LockedException.class).isThrownBy(() ->
-				bean1.setAge(5));
+		assertThatExceptionOfType(LockedException.class).isThrownBy(() -> bean1.setAge(5));
 
 		// do not expect LockedException
 		bean2.setAge(6);
@@ -633,7 +609,7 @@ public class ProxyFactoryBeanTests {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
 		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(new ClassPathResource(FROZEN_CONTEXT, CLASS));
 
-		Advised advised = (Advised)bf.getBean("frozen");
+		Advised advised = (Advised) bf.getBean("frozen");
 		assertThat(advised.isFrozen()).as("The proxy should be frozen").isTrue();
 	}
 
@@ -734,7 +710,7 @@ public class ProxyFactoryBeanTests {
 
 		@Override
 		public Class<?>[] getInterfaces() {
-			return new Class<?>[] { AddedGlobalInterface.class };
+			return new Class<?>[]{AddedGlobalInterface.class};
 		}
 
 		@Override

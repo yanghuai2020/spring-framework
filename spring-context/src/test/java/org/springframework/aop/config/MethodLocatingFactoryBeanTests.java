@@ -58,46 +58,41 @@ public class MethodLocatingFactoryBeanTests {
 	@Test
 	public void testWithNullTargetBeanName() {
 		factory.setMethodName("toString()");
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				factory.setBeanFactory(beanFactory));
+		assertThatIllegalArgumentException().isThrownBy(() -> factory.setBeanFactory(beanFactory));
 	}
 
 	@Test
 	public void testWithEmptyTargetBeanName() {
 		factory.setTargetBeanName("");
 		factory.setMethodName("toString()");
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				factory.setBeanFactory(beanFactory));
+		assertThatIllegalArgumentException().isThrownBy(() -> factory.setBeanFactory(beanFactory));
 	}
 
 	@Test
 	public void testWithNullTargetMethodName() {
 		factory.setTargetBeanName(BEAN_NAME);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				factory.setBeanFactory(beanFactory));
+		assertThatIllegalArgumentException().isThrownBy(() -> factory.setBeanFactory(beanFactory));
 	}
 
 	@Test
 	public void testWithEmptyTargetMethodName() {
 		factory.setTargetBeanName(BEAN_NAME);
 		factory.setMethodName("");
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				factory.setBeanFactory(beanFactory));
+		assertThatIllegalArgumentException().isThrownBy(() -> factory.setBeanFactory(beanFactory));
 	}
 
 	@Test
 	public void testWhenTargetBeanClassCannotBeResolved() {
 		factory.setTargetBeanName(BEAN_NAME);
 		factory.setMethodName("toString()");
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				factory.setBeanFactory(beanFactory));
+		assertThatIllegalArgumentException().isThrownBy(() -> factory.setBeanFactory(beanFactory));
 		verify(beanFactory).getType(BEAN_NAME);
 	}
 
 	@Test
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void testSunnyDayPath() throws Exception {
-		given(beanFactory.getType(BEAN_NAME)).willReturn((Class)String.class);
+		given(beanFactory.getType(BEAN_NAME)).willReturn((Class) String.class);
 		factory.setTargetBeanName(BEAN_NAME);
 		factory.setMethodName("toString()");
 		factory.setBeanFactory(beanFactory);
@@ -110,13 +105,12 @@ public class MethodLocatingFactoryBeanTests {
 	}
 
 	@Test
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void testWhereMethodCannotBeResolved() {
-		given(beanFactory.getType(BEAN_NAME)).willReturn((Class)String.class);
+		given(beanFactory.getType(BEAN_NAME)).willReturn((Class) String.class);
 		factory.setTargetBeanName(BEAN_NAME);
 		factory.setMethodName("loadOfOld()");
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				factory.setBeanFactory(beanFactory));
+		assertThatIllegalArgumentException().isThrownBy(() -> factory.setBeanFactory(beanFactory));
 	}
 
 }

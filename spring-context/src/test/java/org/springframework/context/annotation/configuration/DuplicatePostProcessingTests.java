@@ -41,7 +41,6 @@ public class DuplicatePostProcessingTests {
 	}
 
 
-
 	static class Config {
 
 		@Bean
@@ -131,7 +130,6 @@ public class DuplicatePostProcessingTests {
 	}
 
 
-	static class ExampleBean {
-	}
+	static class ExampleBean {}
 
 }

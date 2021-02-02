@@ -40,8 +40,7 @@ public class DeclarationOrderIndependenceTests {
 
 	@BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
 		aspect = (TopsyTurvyAspect) ctx.getBean("topsyTurvyAspect");
 		target = (TopsyTurvyTarget) ctx.getBean("topsyTurvyTarget");
 	}
@@ -84,7 +83,9 @@ public class DeclarationOrderIndependenceTests {
 	}
 
 
-	/** public visibility is required */
+	/**
+	 * public visibility is required
+	 */
 	public static class BeanNameAwareMixin implements BeanNameAware {
 
 		@SuppressWarnings("unused")
@@ -97,10 +98,11 @@ public class DeclarationOrderIndependenceTests {
 
 	}
 
-	/** public visibility is required */
+	/**
+	 * public visibility is required
+	 */
 	@SuppressWarnings("serial")
-	public static class SerializableMixin implements Serializable {
-	}
+	public static class SerializableMixin implements Serializable {}
 
 }
 
@@ -109,7 +111,9 @@ class TopsyTurvyAspect {
 
 	interface Collaborator {
 		void beforeAdviceFired();
+
 		void afterReturningAdviceFired();
+
 		void aroundAdviceFired();
 	}
 

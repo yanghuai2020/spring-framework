@@ -29,11 +29,10 @@ import org.springframework.util.ClassUtils;
  * JDK 1.6 {@link java.util.ServiceLoader} facility.
  *
  * @author Juergen Hoeller
- * @since 2.5
  * @see java.util.ServiceLoader
+ * @since 2.5
  */
-public abstract class AbstractServiceLoaderBasedFactoryBean extends AbstractFactoryBean<Object>
-		implements BeanClassLoaderAware {
+public abstract class AbstractServiceLoaderBasedFactoryBean extends AbstractFactoryBean<Object> implements BeanClassLoaderAware {
 
 	@Nullable
 	private Class<?> serviceType;
@@ -65,6 +64,7 @@ public abstract class AbstractServiceLoaderBasedFactoryBean extends AbstractFact
 
 	/**
 	 * Delegates to {@link #getObjectToExpose(java.util.ServiceLoader)}.
+	 *
 	 * @return the object to expose
 	 */
 	@Override
@@ -76,6 +76,7 @@ public abstract class AbstractServiceLoaderBasedFactoryBean extends AbstractFact
 	/**
 	 * Determine the actual object to expose for the given ServiceLoader.
 	 * <p>Left to concrete subclasses.
+	 *
 	 * @param serviceLoader the ServiceLoader for the configured service class
 	 * @return the object to expose
 	 */

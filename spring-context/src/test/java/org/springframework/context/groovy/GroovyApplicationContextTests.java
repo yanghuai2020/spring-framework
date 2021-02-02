@@ -32,8 +32,7 @@ public class GroovyApplicationContextTests {
 
 	@Test
 	public void testLoadingConfigFile() {
-		GenericGroovyApplicationContext ctx = new GenericGroovyApplicationContext(
-				"org/springframework/context/groovy/applicationContext.groovy");
+		GenericGroovyApplicationContext ctx = new GenericGroovyApplicationContext("org/springframework/context/groovy/applicationContext.groovy");
 
 		Object framework = ctx.getBean("framework");
 		assertThat(framework).as("could not find framework bean").isNotNull();
@@ -42,9 +41,7 @@ public class GroovyApplicationContextTests {
 
 	@Test
 	public void testLoadingMultipleConfigFiles() {
-		GenericGroovyApplicationContext ctx = new GenericGroovyApplicationContext(
-				"org/springframework/context/groovy/applicationContext2.groovy",
-				"org/springframework/context/groovy/applicationContext.groovy");
+		GenericGroovyApplicationContext ctx = new GenericGroovyApplicationContext("org/springframework/context/groovy/applicationContext2.groovy", "org/springframework/context/groovy/applicationContext.groovy");
 
 		Object framework = ctx.getBean("framework");
 		assertThat(framework).as("could not find framework bean").isNotNull();
@@ -72,8 +69,7 @@ public class GroovyApplicationContextTests {
 
 	@Test
 	public void testConfigFileParsingError() {
-		assertThatExceptionOfType(BeanDefinitionParsingException.class).isThrownBy(() ->
-				new GenericGroovyApplicationContext("org/springframework/context/groovy/applicationContext-error.groovy"));
+		assertThatExceptionOfType(BeanDefinitionParsingException.class).isThrownBy(() -> new GenericGroovyApplicationContext("org/springframework/context/groovy/applicationContext-error.groovy"));
 	}
 
 }

@@ -225,8 +225,7 @@ public class BeanFactoryPostProcessorTests {
 	}
 
 
-	public static class PrioritizedOuterBeanDefinitionRegistryPostProcessor extends OuterBeanDefinitionRegistryPostProcessor
-			implements PriorityOrdered {
+	public static class PrioritizedOuterBeanDefinitionRegistryPostProcessor extends OuterBeanDefinitionRegistryPostProcessor implements PriorityOrdered {
 
 		@Override
 		public int getOrder() {

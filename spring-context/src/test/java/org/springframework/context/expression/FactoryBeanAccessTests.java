@@ -51,22 +51,18 @@ public class FactoryBeanAccessTests {
 		expr = new SpelExpressionParser().parseRaw("@boat.colour");
 		assertThat(expr.getValue(context)).isEqualTo("blue");
 		Expression notFactoryExpr = new SpelExpressionParser().parseRaw("&boat.class.name");
-		assertThatExceptionOfType(BeanIsNotAFactoryException.class).isThrownBy(() ->
-				notFactoryExpr.getValue(context));
+		assertThatExceptionOfType(BeanIsNotAFactoryException.class).isThrownBy(() -> notFactoryExpr.getValue(context));
 
 		// No such bean
 		Expression noBeanExpr = new SpelExpressionParser().parseRaw("@truck");
-		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() ->
-				noBeanExpr.getValue(context));
+		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() -> noBeanExpr.getValue(context));
 
 		// No such factory bean
 		Expression noFactoryBeanExpr = new SpelExpressionParser().parseRaw("&truck");
-		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() ->
-				noFactoryBeanExpr.getValue(context));
+		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() -> noFactoryBeanExpr.getValue(context));
 	}
 
-	static class SimpleBeanResolver
-			implements org.springframework.expression.BeanResolver {
+	static class SimpleBeanResolver implements org.springframework.expression.BeanResolver {
 
 		static class Car {
 
@@ -110,8 +106,7 @@ public class FactoryBeanAccessTests {
 		}
 
 		@Override
-		public Object resolve(EvaluationContext context, String beanName)
-				throws AccessException {
+		public Object resolve(EvaluationContext context, String beanName) throws AccessException {
 			return ac.getBean(beanName);
 		}
 	}

@@ -146,11 +146,9 @@ class Spr12526Tests {
 	}
 
 
-	public static class DependencyOne {
-	}
+	public static class DependencyOne {}
 
 
-	public static class DependencyTwo {
-	}
+	public static class DependencyTwo {}
 
 }

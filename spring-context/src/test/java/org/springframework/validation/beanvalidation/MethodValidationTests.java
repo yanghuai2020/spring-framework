@@ -70,40 +70,30 @@ public class MethodValidationTests {
 		ac.close();
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	private void doTestProxyValidation(MyValidInterface proxy) {
 		assertThat(proxy.myValidMethod("value", 5)).isNotNull();
-		assertThatExceptionOfType(ValidationException.class).isThrownBy(() ->
-				proxy.myValidMethod("value", 15));
-		assertThatExceptionOfType(ValidationException.class).isThrownBy(() ->
-				proxy.myValidMethod(null, 5));
-		assertThatExceptionOfType(ValidationException.class).isThrownBy(() ->
-				proxy.myValidMethod("value", 0));
+		assertThatExceptionOfType(ValidationException.class).isThrownBy(() -> proxy.myValidMethod("value", 15));
+		assertThatExceptionOfType(ValidationException.class).isThrownBy(() -> proxy.myValidMethod(null, 5));
+		assertThatExceptionOfType(ValidationException.class).isThrownBy(() -> proxy.myValidMethod("value", 0));
 		proxy.myValidAsyncMethod("value", 5);
-		assertThatExceptionOfType(ValidationException.class).isThrownBy(() ->
-				proxy.myValidAsyncMethod("value", 15));
-		assertThatExceptionOfType(ValidationException.class).isThrownBy(() ->
-				proxy.myValidAsyncMethod(null, 5));
+		assertThatExceptionOfType(ValidationException.class).isThrownBy(() -> proxy.myValidAsyncMethod("value", 15));
+		assertThatExceptionOfType(ValidationException.class).isThrownBy(() -> proxy.myValidAsyncMethod(null, 5));
 		assertThat(proxy.myGenericMethod("myValue")).isEqualTo("myValue");
-		assertThatExceptionOfType(ValidationException.class).isThrownBy(() ->
-				proxy.myGenericMethod(null));
+		assertThatExceptionOfType(ValidationException.class).isThrownBy(() -> proxy.myGenericMethod(null));
 	}
 
 	@Test
 	@SuppressWarnings("resource")
 	public void testLazyValidatorForMethodValidation() {
-		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(
-				LazyMethodValidationConfig.class, CustomValidatorBean.class,
-				MyValidBean.class, MyValidFactoryBean.class);
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(LazyMethodValidationConfig.class, CustomValidatorBean.class, MyValidBean.class, MyValidFactoryBean.class);
 		ctx.getBeansOfType(MyValidInterface.class).values().forEach(bean -> bean.myValidMethod("value", 5));
 	}
 
 	@Test
 	@SuppressWarnings("resource")
 	public void testLazyValidatorForMethodValidationWithProxyTargetClass() {
-		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(
-				LazyMethodValidationConfigWithProxyTargetClass.class, CustomValidatorBean.class,
-				MyValidBean.class, MyValidFactoryBean.class);
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(LazyMethodValidationConfigWithProxyTargetClass.class, CustomValidatorBean.class, MyValidBean.class, MyValidFactoryBean.class);
 		ctx.getBeansOfType(MyValidInterface.class).values().forEach(bean -> bean.myValidMethod("value", 5));
 	}
 
@@ -158,33 +148,31 @@ public class MethodValidationTests {
 
 	public interface MyValidInterface<T> {
 
-		@NotNull Object myValidMethod(@NotNull(groups = MyGroup.class) String arg1, @Max(10) int arg2);
+		@NotNull
+		Object myValidMethod(@NotNull(groups = MyGroup.class) String arg1, @Max(10) int arg2);
 
 		@MyValid
-		@Async void myValidAsyncMethod(@NotNull(groups = OtherGroup.class) String arg1, @Max(10) int arg2);
+		@Async
+		void myValidAsyncMethod(@NotNull(groups = OtherGroup.class) String arg1, @Max(10) int arg2);
 
 		T myGenericMethod(@NotNull T value);
 	}
 
 
-	public interface MyGroup {
-	}
+	public interface MyGroup {}
 
 
-	public interface OtherGroup {
-	}
+	public interface OtherGroup {}
 
 
 	@Validated({MyGroup.class, Default.class})
 	@Retention(RetentionPolicy.RUNTIME)
-	public @interface MyStereotype {
-	}
+	public @interface MyStereotype {}
 
 
 	@Validated({OtherGroup.class, Default.class})
 	@Retention(RetentionPolicy.RUNTIME)
-	public @interface MyValid {
-	}
+	public @interface MyValid {}
 
 
 	@Configuration

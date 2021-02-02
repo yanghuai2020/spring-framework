@@ -156,8 +156,7 @@ public class AutoProxyCreatorTests {
 
 		MessageSource messageSource = (MessageSource) sac.getBean("messageSource");
 		NoInterfaces noInterfaces = (NoInterfaces) sac.getBean("noInterfaces");
-		ContainerCallbackInterfacesOnly containerCallbackInterfacesOnly =
-				(ContainerCallbackInterfacesOnly) sac.getBean("containerCallbackInterfacesOnly");
+		ContainerCallbackInterfacesOnly containerCallbackInterfacesOnly = (ContainerCallbackInterfacesOnly) sac.getBean("containerCallbackInterfacesOnly");
 		ITestBean singletonNoInterceptor = (ITestBean) sac.getBean("singletonNoInterceptor");
 		ITestBean singletonToBeProxied = (ITestBean) sac.getBean("singletonToBeProxied");
 		ITestBean prototypeToBeProxied = (ITestBean) sac.getBean("prototypeToBeProxied");
@@ -191,8 +190,7 @@ public class AutoProxyCreatorTests {
 
 		MessageSource messageSource = (MessageSource) sac.getBean("messageSource");
 		NoInterfaces noInterfaces = (NoInterfaces) sac.getBean("noInterfaces");
-		ContainerCallbackInterfacesOnly containerCallbackInterfacesOnly =
-				(ContainerCallbackInterfacesOnly) sac.getBean("containerCallbackInterfacesOnly");
+		ContainerCallbackInterfacesOnly containerCallbackInterfacesOnly = (ContainerCallbackInterfacesOnly) sac.getBean("containerCallbackInterfacesOnly");
 		ITestBean singletonNoInterceptor = (ITestBean) sac.getBean("singletonNoInterceptor");
 		ITestBean singletonToBeProxied = (ITestBean) sac.getBean("singletonToBeProxied");
 		ITestBean prototypeToBeProxied = (ITestBean) sac.getBean("prototypeToBeProxied");
@@ -231,8 +229,7 @@ public class AutoProxyCreatorTests {
 
 		MessageSource messageSource = (MessageSource) sac.getBean("messageSource");
 		NoInterfaces noInterfaces = (NoInterfaces) sac.getBean("noInterfaces");
-		ContainerCallbackInterfacesOnly containerCallbackInterfacesOnly =
-				(ContainerCallbackInterfacesOnly) sac.getBean("containerCallbackInterfacesOnly");
+		ContainerCallbackInterfacesOnly containerCallbackInterfacesOnly = (ContainerCallbackInterfacesOnly) sac.getBean("containerCallbackInterfacesOnly");
 		ITestBean singletonNoInterceptor = (ITestBean) sac.getBean("singletonNoInterceptor");
 		ITestBean singletonToBeProxied = (ITestBean) sac.getBean("singletonToBeProxied");
 		ITestBean prototypeToBeProxied = (ITestBean) sac.getBean("prototypeToBeProxied");
@@ -400,17 +397,14 @@ public class AutoProxyCreatorTests {
 		protected Object[] getAdvicesAndAdvisorsForBean(Class<?> beanClass, String name, @Nullable TargetSource customTargetSource) {
 			if (StaticMessageSource.class.equals(beanClass)) {
 				return DO_NOT_PROXY;
-			}
-			else if (name.endsWith("ToBeProxied")) {
+			} else if (name.endsWith("ToBeProxied")) {
 				boolean isFactoryBean = FactoryBean.class.isAssignableFrom(beanClass);
 				if ((this.proxyFactoryBean && isFactoryBean) || (this.proxyObject && !isFactoryBean)) {
-					return new Object[] {this.testInterceptor};
-				}
-				else {
+					return new Object[]{this.testInterceptor};
+				} else {
 					return DO_NOT_PROXY;
 				}
-			}
-			else {
+			} else {
 				return PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS;
 			}
 		}
@@ -443,8 +437,7 @@ public class AutoProxyCreatorTests {
 	}
 
 
-	public static class NoInterfaces {
-	}
+	public static class NoInterfaces {}
 
 
 	@SuppressWarnings("serial")

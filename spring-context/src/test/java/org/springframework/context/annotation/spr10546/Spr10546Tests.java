@@ -45,7 +45,7 @@ public class Spr10546Tests {
 
 	@Test
 	public void enclosingConfigFirstParentDefinesBean() {
-		assertLoadsMyBean(AEnclosingConfig.class,AEnclosingConfig.ChildConfig.class);
+		assertLoadsMyBean(AEnclosingConfig.class, AEnclosingConfig.ChildConfig.class);
 	}
 
 	/**
@@ -60,16 +60,16 @@ public class Spr10546Tests {
 	 */
 	@Test
 	public void enclosingConfigFirstParentDefinesBeanWithScanning() {
-		AnnotationConfigApplicationContext ctx= new AnnotationConfigApplicationContext();
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
 		context = ctx;
 		ctx.scan(AEnclosingConfig.class.getPackage().getName());
 		ctx.refresh();
-		assertThat(context.getBean("myBean",String.class)).isEqualTo("myBean");
+		assertThat(context.getBean("myBean", String.class)).isEqualTo("myBean");
 	}
 
 	@Test
 	public void enclosingConfigFirstParentDefinesBeanWithImportResource() {
-		assertLoadsMyBean(AEnclosingWithImportResourceConfig.class,AEnclosingWithImportResourceConfig.ChildConfig.class);
+		assertLoadsMyBean(AEnclosingWithImportResourceConfig.class, AEnclosingWithImportResourceConfig.ChildConfig.class);
 	}
 
 	@Configuration
@@ -80,7 +80,7 @@ public class Spr10546Tests {
 
 	@Test
 	public void enclosingConfigFirstParentDefinesBeanWithComponentScan() {
-		assertLoadsMyBean(AEnclosingWithComponentScanConfig.class,AEnclosingWithComponentScanConfig.ChildConfig.class);
+		assertLoadsMyBean(AEnclosingWithComponentScanConfig.class, AEnclosingWithComponentScanConfig.ChildConfig.class);
 	}
 
 	@Configuration
@@ -91,7 +91,7 @@ public class Spr10546Tests {
 
 	@Test
 	public void enclosingConfigFirstParentWithParentDefinesBean() {
-		assertLoadsMyBean(AEnclosingWithGrandparentConfig.class,AEnclosingWithGrandparentConfig.ChildConfig.class);
+		assertLoadsMyBean(AEnclosingWithGrandparentConfig.class, AEnclosingWithGrandparentConfig.ChildConfig.class);
 	}
 
 	@Configuration
@@ -102,7 +102,7 @@ public class Spr10546Tests {
 
 	@Test
 	public void importChildConfigThenChildConfig() {
-		assertLoadsMyBean(ImportChildConfig.class,ChildConfig.class);
+		assertLoadsMyBean(ImportChildConfig.class, ChildConfig.class);
 	}
 
 	@Configuration
@@ -117,7 +117,7 @@ public class Spr10546Tests {
 
 	@Test
 	public void enclosingConfigFirstParentDefinesBeanWithImport() {
-		assertLoadsMyBean(AEnclosingWithImportConfig.class,AEnclosingWithImportConfig.ChildConfig.class);
+		assertLoadsMyBean(AEnclosingWithImportConfig.class, AEnclosingWithImportConfig.ChildConfig.class);
 	}
 
 	@Configuration
@@ -143,7 +143,7 @@ public class Spr10546Tests {
 
 	private void assertLoadsMyBean(Class<?>... annotatedClasses) {
 		context = new AnnotationConfigApplicationContext(annotatedClasses);
-		assertThat(context.getBean("myBean",String.class)).isEqualTo("myBean");
+		assertThat(context.getBean("myBean", String.class)).isEqualTo("myBean");
 	}
 
 }

@@ -28,8 +28,8 @@ import org.springframework.util.ObjectUtils;
  *
  * @author Costin Leau
  * @author Stephane Nicoll
- * @since 4.2
  * @see CachedExpressionEvaluator
+ * @since 4.2
  */
 public final class AnnotatedElementKey implements Comparable<AnnotatedElementKey> {
 
@@ -59,8 +59,7 @@ public final class AnnotatedElementKey implements Comparable<AnnotatedElementKey
 			return false;
 		}
 		AnnotatedElementKey otherKey = (AnnotatedElementKey) other;
-		return (this.element.equals(otherKey.element) &&
-				ObjectUtils.nullSafeEquals(this.targetClass, otherKey.targetClass));
+		return (this.element.equals(otherKey.element) && ObjectUtils.nullSafeEquals(this.targetClass, otherKey.targetClass));
 	}
 
 	@Override

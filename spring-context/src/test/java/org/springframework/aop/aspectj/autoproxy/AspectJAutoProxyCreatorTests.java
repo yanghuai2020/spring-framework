@@ -112,12 +112,10 @@ public class AspectJAutoProxyCreatorTests {
 		GenericApplicationContext childAc = new GenericApplicationContext(ac);
 		// Create a child factory with a bean that should be woven
 		RootBeanDefinition bd = new RootBeanDefinition(TestBean.class);
-		bd.getPropertyValues().addPropertyValue(new PropertyValue("name", "Adrian"))
-				.addPropertyValue(new PropertyValue("age", 34));
+		bd.getPropertyValues().addPropertyValue(new PropertyValue("name", "Adrian")).addPropertyValue(new PropertyValue("age", 34));
 		childAc.registerBeanDefinition("adrian2", bd);
 		// Register the advisor auto proxy creator with subclass
-		childAc.registerBeanDefinition(AnnotationAwareAspectJAutoProxyCreator.class.getName(), new RootBeanDefinition(
-				AnnotationAwareAspectJAutoProxyCreator.class));
+		childAc.registerBeanDefinition(AnnotationAwareAspectJAutoProxyCreator.class.getName(), new RootBeanDefinition(AnnotationAwareAspectJAutoProxyCreator.class));
 		childAc.refresh();
 
 		ITestBean beanFromChildContextThatShouldBeWeaved = (ITestBean) childAc.getBean("adrian2");
@@ -318,8 +316,7 @@ public class AspectJAutoProxyCreatorTests {
 
 	private void assertStopWatchTimeLimit(final StopWatch sw, final long maxTimeMillis) {
 		long totalTimeMillis = sw.getTotalTimeMillis();
-		assertThat(totalTimeMillis < maxTimeMillis).as("'" + sw.getLastTaskName() + "' took too long: expected less than<" + maxTimeMillis +
-				"> ms, actual<" + totalTimeMillis + "> ms.").isTrue();
+		assertThat(totalTimeMillis < maxTimeMillis).as("'" + sw.getLastTaskName() + "' took too long: expected less than<" + maxTimeMillis + "> ms, actual<" + totalTimeMillis + "> ms.").isTrue();
 	}
 
 }
@@ -443,8 +440,7 @@ class MultiplyReturnValue {
 }
 
 @Retention(RetentionPolicy.RUNTIME)
-@interface Marker {
-}
+@interface Marker {}
 
 @Aspect
 class MultiplyReturnValueForMarker {
@@ -512,13 +508,11 @@ class RetryAspect {
 				try {
 					o = jp.proceed();
 					this.commitCalls++;
-				}
-				catch (RetryableException re) {
+				} catch (RetryableException re) {
 					this.rollbackCalls++;
 					throw re;
 				}
-			}
-			catch (RetryableException re) {
+			} catch (RetryableException re) {
 				retry = true;
 			}
 		}

@@ -36,16 +36,14 @@ public class InvalidConfigurationClassDefinitionTests {
 	@Test
 	public void configurationClassesMayNotBeFinal() {
 		@Configuration
-		final class Config { }
+		final class Config {}
 
 		BeanDefinition configBeanDef = rootBeanDefinition(Config.class).getBeanDefinition();
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		beanFactory.registerBeanDefinition("config", configBeanDef);
 
 		ConfigurationClassPostProcessor pp = new ConfigurationClassPostProcessor();
-		assertThatExceptionOfType(BeanDefinitionParsingException.class).isThrownBy(() ->
-				pp.postProcessBeanFactory(beanFactory))
-			.withMessageContaining("Remove the final modifier");
+		assertThatExceptionOfType(BeanDefinitionParsingException.class).isThrownBy(() -> pp.postProcessBeanFactory(beanFactory)).withMessageContaining("Remove the final modifier");
 	}
 
 }

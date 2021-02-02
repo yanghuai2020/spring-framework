@@ -56,10 +56,9 @@ public class StaticApplicationContextMulticasterTests extends AbstractApplicatio
 		parent.registerPrototype("rod", TestBean.class, new MutablePropertyValues(m));
 		m.put("name", "Albert");
 		parent.registerPrototype("father", TestBean.class, new MutablePropertyValues(m));
-		parent.registerSingleton(StaticApplicationContext.APPLICATION_EVENT_MULTICASTER_BEAN_NAME,
-				TestApplicationEventMulticaster.class, null);
+		parent.registerSingleton(StaticApplicationContext.APPLICATION_EVENT_MULTICASTER_BEAN_NAME, TestApplicationEventMulticaster.class, null);
 		parent.refresh();
-		parent.addApplicationListener(parentListener) ;
+		parent.addApplicationListener(parentListener);
 
 		parent.getStaticMessageSource().addMessage("code1", Locale.getDefault(), "message1");
 

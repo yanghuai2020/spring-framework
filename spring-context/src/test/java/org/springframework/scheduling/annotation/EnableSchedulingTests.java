@@ -86,8 +86,7 @@ public class EnableSchedulingTests {
 		Thread.sleep(100);
 		assertThat(ctx.getBean(AtomicInteger.class).get()).isGreaterThanOrEqualTo(10);
 		assertThat(ctx.getBean(ExplicitSchedulerConfig.class).threadName).startsWith("explicitScheduler-");
-		assertThat(Arrays.asList(ctx.getDefaultListableBeanFactory().getDependentBeans("myTaskScheduler")).contains(
-		TaskManagementConfigUtils.SCHEDULED_ANNOTATION_PROCESSOR_BEAN_NAME)).isTrue();
+		assertThat(Arrays.asList(ctx.getDefaultListableBeanFactory().getDependentBeans("myTaskScheduler")).contains(TaskManagementConfigUtils.SCHEDULED_ANNOTATION_PROCESSOR_BEAN_NAME)).isTrue();
 	}
 
 	@Test
@@ -121,8 +120,7 @@ public class EnableSchedulingTests {
 	@Test
 	@EnabledForTestGroups(LONG_RUNNING)
 	public void withAmbiguousTaskSchedulers_andSingleTask_disambiguatedByScheduledTaskRegistrarBean() throws InterruptedException {
-		ctx = new AnnotationConfigApplicationContext(
-				SchedulingEnabled_withAmbiguousTaskSchedulers_andSingleTask_disambiguatedByScheduledTaskRegistrar.class);
+		ctx = new AnnotationConfigApplicationContext(SchedulingEnabled_withAmbiguousTaskSchedulers_andSingleTask_disambiguatedByScheduledTaskRegistrar.class);
 
 		Thread.sleep(100);
 		assertThat(ctx.getBean(ThreadAwareWorker.class).executedByThread).startsWith("explicitScheduler2-");
@@ -131,8 +129,7 @@ public class EnableSchedulingTests {
 	@Test
 	@EnabledForTestGroups(LONG_RUNNING)
 	public void withAmbiguousTaskSchedulers_andSingleTask_disambiguatedBySchedulerNameAttribute() throws InterruptedException {
-		ctx = new AnnotationConfigApplicationContext(
-				SchedulingEnabled_withAmbiguousTaskSchedulers_andSingleTask_disambiguatedBySchedulerNameAttribute.class);
+		ctx = new AnnotationConfigApplicationContext(SchedulingEnabled_withAmbiguousTaskSchedulers_andSingleTask_disambiguatedBySchedulerNameAttribute.class);
 
 		Thread.sleep(100);
 		assertThat(ctx.getBean(ThreadAwareWorker.class).executedByThread).startsWith("explicitScheduler2-");
@@ -192,8 +189,7 @@ public class EnableSchedulingTests {
 
 
 	@Configuration
-	static class FixedRateTaskConfigSubclass extends FixedRateTaskConfig {
-	}
+	static class FixedRateTaskConfigSubclass extends FixedRateTaskConfig {}
 
 
 	@Configuration
@@ -421,9 +417,7 @@ public class EnableSchedulingTests {
 		@Override
 		public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
 			taskRegistrar.setScheduler(taskScheduler());
-			taskRegistrar.addFixedRateTask(new IntervalTask(
-					() -> worker().executedByThread = Thread.currentThread().getName(),
-					10, 0));
+			taskRegistrar.addFixedRateTask(new IntervalTask(() -> worker().executedByThread = Thread.currentThread().getName(), 10, 0));
 		}
 	}
 
@@ -440,8 +434,7 @@ public class EnableSchedulingTests {
 		public TaskScheduler scheduler() {
 			ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
 			scheduler.initialize();
-			scheduler.schedule(() -> counter().incrementAndGet(),
-					triggerContext -> new Date(new Date().getTime()+10));
+			scheduler.schedule(() -> counter().incrementAndGet(), triggerContext -> new Date(new Date().getTime() + 10));
 			return scheduler;
 		}
 	}

@@ -70,27 +70,23 @@ class CacheOperationExpressionEvaluator extends CachedExpressionEvaluator {
 
 	/**
 	 * Create an {@link EvaluationContext}.
-	 * @param caches the current caches
-	 * @param method the method
-	 * @param args the method arguments
-	 * @param target the target object
+	 *
+	 * @param caches      the current caches
+	 * @param method      the method
+	 * @param args        the method arguments
+	 * @param target      the target object
 	 * @param targetClass the target class
-	 * @param result the return value (can be {@code null}) or
-	 * {@link #NO_RESULT} if there is no return at this time
+	 * @param result      the return value (can be {@code null}) or
+	 *                    {@link #NO_RESULT} if there is no return at this time
 	 * @return the evaluation context
 	 */
-	public EvaluationContext createEvaluationContext(Collection<? extends Cache> caches,
-			Method method, Object[] args, Object target, Class<?> targetClass, Method targetMethod,
-			@Nullable Object result, @Nullable BeanFactory beanFactory) {
+	public EvaluationContext createEvaluationContext(Collection<? extends Cache> caches, Method method, Object[] args, Object target, Class<?> targetClass, Method targetMethod, @Nullable Object result, @Nullable BeanFactory beanFactory) {
 
-		CacheExpressionRootObject rootObject = new CacheExpressionRootObject(
-				caches, method, args, target, targetClass);
-		CacheEvaluationContext evaluationContext = new CacheEvaluationContext(
-				rootObject, targetMethod, args, getParameterNameDiscoverer());
+		CacheExpressionRootObject rootObject = new CacheExpressionRootObject(caches, method, args, target, targetClass);
+		CacheEvaluationContext evaluationContext = new CacheEvaluationContext(rootObject, targetMethod, args, getParameterNameDiscoverer());
 		if (result == RESULT_UNAVAILABLE) {
 			evaluationContext.addUnavailableVariable(RESULT_VARIABLE);
-		}
-		else if (result != NO_RESULT) {
+		} else if (result != NO_RESULT) {
 			evaluationContext.setVariable(RESULT_VARIABLE, result);
 		}
 		if (beanFactory != null) {
@@ -105,13 +101,11 @@ class CacheOperationExpressionEvaluator extends CachedExpressionEvaluator {
 	}
 
 	public boolean condition(String conditionExpression, AnnotatedElementKey methodKey, EvaluationContext evalContext) {
-		return (Boolean.TRUE.equals(getExpression(this.conditionCache, methodKey, conditionExpression).getValue(
-				evalContext, Boolean.class)));
+		return (Boolean.TRUE.equals(getExpression(this.conditionCache, methodKey, conditionExpression).getValue(evalContext, Boolean.class)));
 	}
 
 	public boolean unless(String unlessExpression, AnnotatedElementKey methodKey, EvaluationContext evalContext) {
-		return (Boolean.TRUE.equals(getExpression(this.unlessCache, methodKey, unlessExpression).getValue(
-				evalContext, Boolean.class)));
+		return (Boolean.TRUE.equals(getExpression(this.unlessCache, methodKey, unlessExpression).getValue(evalContext, Boolean.class)));
 	}
 
 	/**

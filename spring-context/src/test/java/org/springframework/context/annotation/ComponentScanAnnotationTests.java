@@ -26,8 +26,8 @@ import org.springframework.core.type.filter.TypeFilter;
  * Unit tests for the @ComponentScan annotation.
  *
  * @author Chris Beams
- * @since 3.1
  * @see ComponentScanAnnotationIntegrationTests
+ * @since 3.1
  */
 public class ComponentScanAnnotationTests {
 
@@ -39,28 +39,11 @@ public class ComponentScanAnnotationTests {
 }
 
 
-@interface MyAnnotation {
-}
+@interface MyAnnotation {}
 
 @Configuration
-@ComponentScan(
-	basePackageClasses = TestBean.class,
-	nameGenerator = DefaultBeanNameGenerator.class,
-	scopedProxy = ScopedProxyMode.NO,
-	scopeResolver = AnnotationScopeMetadataResolver.class,
-	resourcePattern = "**/*custom.class",
-	useDefaultFilters = false,
-	includeFilters = {
-		@Filter(type = FilterType.ANNOTATION, value = MyAnnotation.class)
-	},
-	excludeFilters = {
-		@Filter(type = FilterType.CUSTOM, value = TypeFilter.class)
-	},
-	lazyInit = true
-)
-class MyConfig {
-}
+@ComponentScan(basePackageClasses = TestBean.class, nameGenerator = DefaultBeanNameGenerator.class, scopedProxy = ScopedProxyMode.NO, scopeResolver = AnnotationScopeMetadataResolver.class, resourcePattern = "**/*custom.class", useDefaultFilters = false, includeFilters = {@Filter(type = FilterType.ANNOTATION, value = MyAnnotation.class)}, excludeFilters = {@Filter(type = FilterType.CUSTOM, value = TypeFilter.class)}, lazyInit = true)
+class MyConfig {}
 
 @ComponentScan(basePackageClasses = example.scannable.NamedComponent.class)
-class SimpleConfig {
-}
+class SimpleConfig {}

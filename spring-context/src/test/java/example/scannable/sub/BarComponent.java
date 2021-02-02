@@ -22,5 +22,4 @@ import org.springframework.stereotype.Component;
  * @author Stephane Nicoll
  */
 @Component
-public class BarComponent {
-}
+public class BarComponent {}

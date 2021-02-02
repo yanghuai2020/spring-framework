@@ -201,9 +201,7 @@ public class BshScriptFactoryTests {
 
 	@Test
 	public void scriptCompilationException() {
-		assertThatExceptionOfType(NestedRuntimeException.class).isThrownBy(() ->
-				new ClassPathXmlApplicationContext("org/springframework/scripting/bsh/bshBrokenContext.xml"))
-			.matches(ex -> ex.contains(ScriptCompilationException.class));
+		assertThatExceptionOfType(NestedRuntimeException.class).isThrownBy(() -> new ClassPathXmlApplicationContext("org/springframework/scripting/bsh/bshBrokenContext.xml")).matches(ex -> ex.contains(ScriptCompilationException.class));
 	}
 
 	@Test
@@ -212,8 +210,7 @@ public class BshScriptFactoryTests {
 		final String badScript = "String getMessage() { throw new IllegalArgumentException(); }";
 		given(script.getScriptAsString()).willReturn(badScript);
 		given(script.isModified()).willReturn(true);
-		BshScriptFactory factory = new BshScriptFactory(
-				ScriptFactoryPostProcessor.INLINE_SCRIPT_PREFIX + badScript, Messenger.class);
+		BshScriptFactory factory = new BshScriptFactory(ScriptFactoryPostProcessor.INLINE_SCRIPT_PREFIX + badScript, Messenger.class);
 		assertThatExceptionOfType(BshScriptUtils.BshExecutionException.class).isThrownBy(() -> {
 			Messenger messenger = (Messenger) factory.getScriptedObject(script, Messenger.class);
 			messenger.getMessage();
@@ -222,20 +219,17 @@ public class BshScriptFactoryTests {
 
 	@Test
 	public void ctorWithNullScriptSourceLocator() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new BshScriptFactory(null, Messenger.class));
+		assertThatIllegalArgumentException().isThrownBy(() -> new BshScriptFactory(null, Messenger.class));
 	}
 
 	@Test
 	public void ctorWithEmptyScriptSourceLocator() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new BshScriptFactory("", Messenger.class));
+		assertThatIllegalArgumentException().isThrownBy(() -> new BshScriptFactory("", Messenger.class));
 	}
 
 	@Test
 	public void ctorWithWhitespacedScriptSourceLocator() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new BshScriptFactory("\n   ", Messenger.class));
+		assertThatIllegalArgumentException().isThrownBy(() -> new BshScriptFactory("\n   ", Messenger.class));
 	}
 
 	@Test

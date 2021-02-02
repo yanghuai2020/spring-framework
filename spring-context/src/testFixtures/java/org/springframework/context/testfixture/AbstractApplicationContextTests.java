@@ -47,12 +47,16 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
  */
 public abstract class AbstractApplicationContextTests extends AbstractListableBeanFactoryTests {
 
-	/** Must be supplied as XML */
+	/**
+	 * Must be supplied as XML
+	 */
 	public static final String TEST_NAMESPACE = "testNamespace";
 
 	protected ConfigurableApplicationContext applicationContext;
 
-	/** Subclass must register this */
+	/**
+	 * Subclass must register this
+	 */
 	protected TestApplicationListener listener = new TestApplicationListener();
 
 	protected TestApplicationListener parentListener = new TestApplicationListener();
@@ -147,8 +151,7 @@ public abstract class AbstractApplicationContextTests extends AbstractListableBe
 	public void messageSource() throws NoSuchMessageException {
 		assertThat(applicationContext.getMessage("code1", null, Locale.getDefault())).isEqualTo("message1");
 		assertThat(applicationContext.getMessage("code2", null, Locale.getDefault())).isEqualTo("message2");
-		assertThatExceptionOfType(NoSuchMessageException.class).isThrownBy(() ->
-				applicationContext.getMessage("code0", null, Locale.getDefault()));
+		assertThatExceptionOfType(NoSuchMessageException.class).isThrownBy(() -> applicationContext.getMessage("code0", null, Locale.getDefault()));
 	}
 
 	@Test
@@ -164,13 +167,11 @@ public abstract class AbstractApplicationContextTests extends AbstractListableBe
 		ObjectOutputStream oos = new ObjectOutputStream(bos);
 		oos.writeObject(event);
 		oos.close();
-		event = (MyEvent) new ObjectInputStream(new ByteArrayInputStream(
-				bos.toByteArray())).readObject();
+		event = (MyEvent) new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray())).readObject();
 		doTestEvents(this.listener, this.parentListener, event);
 	}
 
-	protected void doTestEvents(TestApplicationListener listener, TestApplicationListener parentListener,
-			MyEvent event) {
+	protected void doTestEvents(TestApplicationListener listener, TestApplicationListener parentListener, MyEvent event) {
 		listener.zeroCounter();
 		parentListener.zeroCounter();
 		assertThat(listener.getEventCount() == 0).as("0 events before publication").isTrue();

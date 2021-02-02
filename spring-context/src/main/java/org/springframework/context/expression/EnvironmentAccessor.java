@@ -35,11 +35,12 @@ public class EnvironmentAccessor implements PropertyAccessor {
 
 	@Override
 	public Class<?>[] getSpecificTargetClasses() {
-		return new Class<?>[] {Environment.class};
+		return new Class<?>[]{Environment.class};
 	}
 
 	/**
 	 * Can read any {@link Environment}, thus always returns true.
+	 *
 	 * @return true
 	 */
 	@Override
@@ -69,8 +70,7 @@ public class EnvironmentAccessor implements PropertyAccessor {
 	 * Read-only: no-op.
 	 */
 	@Override
-	public void write(EvaluationContext context, @Nullable Object target, String name, @Nullable Object newValue)
-			throws AccessException {
+	public void write(EvaluationContext context, @Nullable Object target, String name, @Nullable Object newValue) throws AccessException {
 	}
 
 }

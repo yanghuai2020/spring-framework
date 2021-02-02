@@ -48,8 +48,7 @@ public class BeforeAdviceBindingTests {
 
 	@BeforeEach
 	public void setup() throws Exception {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
 
 		testBeanProxy = (ITestBean) ctx.getBean("testBean");
 		assertThat(AopUtils.isAopProxy(testBeanProxy)).isTrue();
@@ -79,7 +78,7 @@ public class BeforeAdviceBindingTests {
 	@Test
 	public void testOneIntAndOneObjectArgs() {
 		testBeanProxy.setAge(5);
-		verify(mockCollaborator).oneIntAndOneObject(5,this.testBeanTarget);
+		verify(mockCollaborator).oneIntAndOneObject(5, this.testBeanTarget);
 	}
 
 	@Test

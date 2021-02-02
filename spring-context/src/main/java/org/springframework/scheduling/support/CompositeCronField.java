@@ -49,8 +49,7 @@ final class CompositeCronField extends CronField {
 
 		if (fields.length == 1) {
 			return fields[0];
-		}
-		else {
+		} else {
 			return new CompositeCronField(type, fields, value);
 		}
 	}
@@ -62,8 +61,7 @@ final class CompositeCronField extends CronField {
 		T result = null;
 		for (CronField field : this.fields) {
 			T candidate = field.nextOrSame(temporal);
-			if (result == null ||
-					candidate != null && candidate.compareTo(result) < 0) {
+			if (result == null || candidate != null && candidate.compareTo(result) < 0) {
 				result = candidate;
 			}
 		}
@@ -85,8 +83,7 @@ final class CompositeCronField extends CronField {
 			return false;
 		}
 		CompositeCronField other = (CompositeCronField) o;
-		return type() == other.type() &&
-				this.value.equals(other.value);
+		return type() == other.type() && this.value.equals(other.value);
 	}
 
 	@Override

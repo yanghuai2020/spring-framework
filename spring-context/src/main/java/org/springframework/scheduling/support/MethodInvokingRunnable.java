@@ -35,11 +35,10 @@ import org.springframework.util.ClassUtils;
  * {@link org.springframework.util.MethodInvoker}.
  *
  * @author Juergen Hoeller
- * @since 1.2.4
  * @see java.util.concurrent.Executor#execute(Runnable)
+ * @since 1.2.4
  */
-public class MethodInvokingRunnable extends ArgumentConvertingMethodInvoker
-		implements Runnable, BeanClassLoaderAware, InitializingBean {
+public class MethodInvokingRunnable extends ArgumentConvertingMethodInvoker implements Runnable, BeanClassLoaderAware, InitializingBean {
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
@@ -67,12 +66,10 @@ public class MethodInvokingRunnable extends ArgumentConvertingMethodInvoker
 	public void run() {
 		try {
 			invoke();
-		}
-		catch (InvocationTargetException ex) {
+		} catch (InvocationTargetException ex) {
 			logger.error(getInvocationFailureMessage(), ex.getTargetException());
 			// Do not throw exception, else the main loop of the scheduler might stop!
-		}
-		catch (Throwable ex) {
+		} catch (Throwable ex) {
 			logger.error(getInvocationFailureMessage(), ex);
 			// Do not throw exception, else the main loop of the scheduler might stop!
 		}
@@ -80,11 +77,11 @@ public class MethodInvokingRunnable extends ArgumentConvertingMethodInvoker
 
 	/**
 	 * Build a message for an invocation failure exception.
+	 *
 	 * @return the error message, including the target method name etc
 	 */
 	protected String getInvocationFailureMessage() {
-		return "Invocation of method '" + getTargetMethod() +
-				"' on target class [" + getTargetClass() + "] failed";
+		return "Invocation of method '" + getTargetMethod() + "' on target class [" + getTargetClass() + "] failed";
 	}
 
 }

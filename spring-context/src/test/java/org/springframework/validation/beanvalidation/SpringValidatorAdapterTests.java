@@ -337,12 +337,9 @@ public class SpringValidatorAdapterTests {
 			boolean matched = ObjectUtils.nullSafeEquals(fieldValue, comparingFieldValue);
 			if (matched) {
 				return true;
-			}
-			else {
+			} else {
 				context.disableDefaultConstraintViolation();
-				context.buildConstraintViolationWithTemplate(message)
-						.addPropertyNode(field)
-						.addConstraintViolation();
+				context.buildConstraintViolationWithTemplate(message).addPropertyNode(field).addConstraintViolation();
 				return false;
 			}
 		}
@@ -472,12 +469,9 @@ public class SpringValidatorAdapterTests {
 				try {
 					if (!field.getName().equals(ID) && field.get(value) == null) {
 						fieldsErrors.add(field);
-						context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
-								.addPropertyNode(field.getName())
-								.addConstraintViolation();
+						context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate()).addPropertyNode(field.getName()).addConstraintViolation();
 					}
-				}
-				catch (IllegalAccessException ex) {
+				} catch (IllegalAccessException ex) {
 					throw new IllegalStateException(ex);
 				}
 			});

@@ -286,7 +286,7 @@
 	Reference to an object that provides a method to be invoked.
 				]]></xsd:documentation>
 				<xsd:appinfo>
-					<tool:annotation kind="ref" />
+					<tool:annotation kind="ref"/>
 				</xsd:appinfo>
 			</xsd:annotation>
 		</xsd:attribute>

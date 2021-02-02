@@ -83,12 +83,7 @@ abstract class AbstractSchedulingTaskExecutorTests {
 	void executeFailingRunnable() {
 		TestTask task = new TestTask(this.testName, 0);
 		executor.execute(task);
-		Awaitility.await()
-			.dontCatchUncaughtExceptions()
-			.atMost(1, TimeUnit.SECONDS)
-			.pollInterval(10, TimeUnit.MILLISECONDS)
-			.until(() -> task.exception.get() != null && task.exception.get().getMessage().equals(
-				"TestTask failure for test 'executeFailingRunnable': expectedRunCount:<0>, actualRunCount:<1>"));
+		Awaitility.await().dontCatchUncaughtExceptions().atMost(1, TimeUnit.SECONDS).pollInterval(10, TimeUnit.MILLISECONDS).until(() -> task.exception.get() != null && task.exception.get().getMessage().equals("TestTask failure for test 'executeFailingRunnable': expectedRunCount:<0>, actualRunCount:<1>"));
 	}
 
 	@Test
@@ -104,8 +99,7 @@ abstract class AbstractSchedulingTaskExecutorTests {
 	void submitFailingRunnable() throws Exception {
 		TestTask task = new TestTask(this.testName, 0);
 		Future<?> future = executor.submit(task);
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(() ->
-				future.get(1000, TimeUnit.MILLISECONDS));
+		assertThatExceptionOfType(ExecutionException.class).isThrownBy(() -> future.get(1000, TimeUnit.MILLISECONDS));
 		assertThat(future.isDone()).isTrue();
 	}
 
@@ -127,10 +121,7 @@ abstract class AbstractSchedulingTaskExecutorTests {
 		ListenableFuture<?> future = executor.submitListenable(task);
 		future.addCallback(result -> outcome = result, ex -> outcome = ex);
 		// Assert
-		Awaitility.await()
-					.atMost(1, TimeUnit.SECONDS)
-					.pollInterval(10, TimeUnit.MILLISECONDS)
-					.until(future::isDone);
+		Awaitility.await().atMost(1, TimeUnit.SECONDS).pollInterval(10, TimeUnit.MILLISECONDS).until(future::isDone);
 		assertThat(outcome).isNull();
 		assertThreadNamePrefix(task);
 	}
@@ -141,11 +132,7 @@ abstract class AbstractSchedulingTaskExecutorTests {
 		ListenableFuture<?> future = executor.submitListenable(task);
 		future.addCallback(result -> outcome = result, ex -> outcome = ex);
 
-		Awaitility.await()
-					.dontCatchUncaughtExceptions()
-					.atMost(1, TimeUnit.SECONDS)
-					.pollInterval(10, TimeUnit.MILLISECONDS)
-					.until(() -> future.isDone() && outcome != null);
+		Awaitility.await().dontCatchUncaughtExceptions().atMost(1, TimeUnit.SECONDS).pollInterval(10, TimeUnit.MILLISECONDS).until(() -> future.isDone() && outcome != null);
 		assertThat(outcome.getClass()).isSameAs(RuntimeException.class);
 	}
 
@@ -157,16 +144,10 @@ abstract class AbstractSchedulingTaskExecutorTests {
 
 		try {
 			future1.get(1000, TimeUnit.MILLISECONDS);
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			/* ignore */
 		}
-		Awaitility.await()
-			.atMost(4, TimeUnit.SECONDS)
-			.pollInterval(10, TimeUnit.MILLISECONDS)
-			.untilAsserted(() ->
-				assertThatExceptionOfType(CancellationException.class).isThrownBy(() ->
-					future2.get(1000, TimeUnit.MILLISECONDS)));
+		Awaitility.await().atMost(4, TimeUnit.SECONDS).pollInterval(10, TimeUnit.MILLISECONDS).untilAsserted(() -> assertThatExceptionOfType(CancellationException.class).isThrownBy(() -> future2.get(1000, TimeUnit.MILLISECONDS)));
 	}
 
 	@Test
@@ -181,8 +162,7 @@ abstract class AbstractSchedulingTaskExecutorTests {
 	void submitFailingCallable() throws Exception {
 		TestCallable task = new TestCallable(this.testName, 0);
 		Future<String> future = executor.submit(task);
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(() ->
-				future.get(1000, TimeUnit.MILLISECONDS));
+		assertThatExceptionOfType(ExecutionException.class).isThrownBy(() -> future.get(1000, TimeUnit.MILLISECONDS));
 		assertThat(future.isDone()).isTrue();
 	}
 
@@ -194,16 +174,10 @@ abstract class AbstractSchedulingTaskExecutorTests {
 
 		try {
 			future1.get(1000, TimeUnit.MILLISECONDS);
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			/* ignore */
 		}
-		Awaitility.await()
-			.atMost(4, TimeUnit.SECONDS)
-			.pollInterval(10, TimeUnit.MILLISECONDS)
-			.untilAsserted(() ->
-				assertThatExceptionOfType(CancellationException.class).isThrownBy(() ->
-					future2.get(1000, TimeUnit.MILLISECONDS)));
+		Awaitility.await().atMost(4, TimeUnit.SECONDS).pollInterval(10, TimeUnit.MILLISECONDS).untilAsserted(() -> assertThatExceptionOfType(CancellationException.class).isThrownBy(() -> future2.get(1000, TimeUnit.MILLISECONDS)));
 	}
 
 	@Test
@@ -213,10 +187,7 @@ abstract class AbstractSchedulingTaskExecutorTests {
 		ListenableFuture<String> future = executor.submitListenable(task);
 		future.addCallback(result -> outcome = result, ex -> outcome = ex);
 		// Assert
-		Awaitility.await()
-					.atMost(1, TimeUnit.SECONDS)
-					.pollInterval(10, TimeUnit.MILLISECONDS)
-					.until(() -> future.isDone() && outcome != null);
+		Awaitility.await().atMost(1, TimeUnit.SECONDS).pollInterval(10, TimeUnit.MILLISECONDS).until(() -> future.isDone() && outcome != null);
 		assertThat(outcome.toString().substring(0, this.threadNamePrefix.length())).isEqualTo(this.threadNamePrefix);
 	}
 
@@ -227,11 +198,7 @@ abstract class AbstractSchedulingTaskExecutorTests {
 		ListenableFuture<String> future = executor.submitListenable(task);
 		future.addCallback(result -> outcome = result, ex -> outcome = ex);
 		// Assert
-		Awaitility.await()
-					.dontCatchUncaughtExceptions()
-					.atMost(1, TimeUnit.SECONDS)
-					.pollInterval(10, TimeUnit.MILLISECONDS)
-					.until(() -> future.isDone() && outcome != null);
+		Awaitility.await().dontCatchUncaughtExceptions().atMost(1, TimeUnit.SECONDS).pollInterval(10, TimeUnit.MILLISECONDS).until(() -> future.isDone() && outcome != null);
 		assertThat(outcome.getClass()).isSameAs(RuntimeException.class);
 	}
 
@@ -258,8 +225,7 @@ abstract class AbstractSchedulingTaskExecutorTests {
 	private void await(CountDownLatch latch) {
 		try {
 			latch.await(1000, TimeUnit.MILLISECONDS);
-		}
-		catch (InterruptedException ex) {
+		} catch (InterruptedException ex) {
 			throw new IllegalStateException(ex);
 		}
 		assertThat(latch.getCount()).as("latch did not count down,").isEqualTo(0);
@@ -291,13 +257,11 @@ abstract class AbstractSchedulingTaskExecutorTests {
 			lastThread = Thread.currentThread();
 			try {
 				Thread.sleep(10);
-			}
-			catch (InterruptedException ex) {
+			} catch (InterruptedException ex) {
 			}
 			if (expectedRunCount >= 0) {
 				if (actualRunCount.incrementAndGet() > expectedRunCount) {
-					RuntimeException exception = new RuntimeException(String.format("%s failure for test '%s': expectedRunCount:<%d>, actualRunCount:<%d>",
-						getClass().getSimpleName(), this.testName, expectedRunCount, actualRunCount.get()));
+					RuntimeException exception = new RuntimeException(String.format("%s failure for test '%s': expectedRunCount:<%d>, actualRunCount:<%d>", getClass().getSimpleName(), this.testName, expectedRunCount, actualRunCount.get()));
 					this.exception.set(exception);
 					throw exception;
 				}
@@ -324,13 +288,11 @@ abstract class AbstractSchedulingTaskExecutorTests {
 		public String call() throws Exception {
 			try {
 				Thread.sleep(10);
-			}
-			catch (InterruptedException ex) {
+			} catch (InterruptedException ex) {
 			}
 			if (expectedRunCount >= 0) {
 				if (actualRunCount.incrementAndGet() > expectedRunCount) {
-					throw new RuntimeException(String.format("%s failure for test '%s': expectedRunCount:<%d>, actualRunCount:<%d>",
-						getClass().getSimpleName(), this.testName, expectedRunCount, actualRunCount.get()));
+					throw new RuntimeException(String.format("%s failure for test '%s': expectedRunCount:<%d>, actualRunCount:<%d>", getClass().getSimpleName(), this.testName, expectedRunCount, actualRunCount.get()));
 				}
 			}
 			return Thread.currentThread().getName();

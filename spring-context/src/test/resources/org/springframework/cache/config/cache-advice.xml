@@ -114,7 +114,7 @@
 
 	<bean id="keyGenerator" class="org.springframework.context.testfixture.cache.SomeKeyGenerator"/>
 
-    <bean id="customKeyGenerator" class="org.springframework.context.testfixture.cache.SomeCustomKeyGenerator"/>
+	<bean id="customKeyGenerator" class="org.springframework.context.testfixture.cache.SomeCustomKeyGenerator"/>
 
 	<bean id="customCacheManager" class="org.springframework.cache.support.SimpleCacheManager">
 		<property name="caches">

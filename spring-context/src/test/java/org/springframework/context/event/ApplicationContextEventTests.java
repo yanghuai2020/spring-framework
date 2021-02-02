@@ -73,28 +73,23 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 
 	@Test
 	public void multicastSimpleEvent() {
-		multicastEvent(true, ApplicationListener.class,
-				new ContextRefreshedEvent(new StaticApplicationContext()), null);
-		multicastEvent(true, ApplicationListener.class,
-				new ContextClosedEvent(new StaticApplicationContext()), null);
+		multicastEvent(true, ApplicationListener.class, new ContextRefreshedEvent(new StaticApplicationContext()), null);
+		multicastEvent(true, ApplicationListener.class, new ContextClosedEvent(new StaticApplicationContext()), null);
 	}
 
 	@Test
 	public void multicastGenericEvent() {
-		multicastEvent(true, StringEventListener.class, createGenericTestEvent("test"),
-				ResolvableType.forClassWithGenerics(GenericTestEvent.class, String.class));
+		multicastEvent(true, StringEventListener.class, createGenericTestEvent("test"), ResolvableType.forClassWithGenerics(GenericTestEvent.class, String.class));
 	}
 
 	@Test
 	public void multicastGenericEventWrongType() {
-		multicastEvent(false, StringEventListener.class, createGenericTestEvent(123L),
-				ResolvableType.forClassWithGenerics(GenericTestEvent.class, Long.class));
+		multicastEvent(false, StringEventListener.class, createGenericTestEvent(123L), ResolvableType.forClassWithGenerics(GenericTestEvent.class, Long.class));
 	}
 
 	@Test
 	public void multicastGenericEventWildcardSubType() {
-		multicastEvent(false, StringEventListener.class, createGenericTestEvent("test"),
-				getGenericApplicationEventType("wildcardEvent"));
+		multicastEvent(false, StringEventListener.class, createGenericTestEvent("test"), getGenericApplicationEventType("wildcardEvent"));
 	}
 
 	@Test
@@ -118,16 +113,13 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 	}
 
 	private void multicastEvent(boolean match, Class<?> listenerType, ApplicationEvent event, ResolvableType eventType) {
-		@SuppressWarnings("unchecked")
-		ApplicationListener<ApplicationEvent> listener =
-				(ApplicationListener<ApplicationEvent>) mock(listenerType);
+		@SuppressWarnings("unchecked") ApplicationListener<ApplicationEvent> listener = (ApplicationListener<ApplicationEvent>) mock(listenerType);
 		SimpleApplicationEventMulticaster smc = new SimpleApplicationEventMulticaster();
 		smc.addApplicationListener(listener);
 
 		if (eventType != null) {
 			smc.multicastEvent(event, eventType);
-		}
-		else {
+		} else {
 			smc.multicastEvent(event);
 		}
 		int invocation = match ? 1 : 0;
@@ -136,8 +128,7 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 
 	@Test
 	public void simpleApplicationEventMulticasterWithTaskExecutor() {
-		@SuppressWarnings("unchecked")
-		ApplicationListener<ApplicationEvent> listener = mock(ApplicationListener.class);
+		@SuppressWarnings("unchecked") ApplicationListener<ApplicationEvent> listener = mock(ApplicationListener.class);
 		ApplicationEvent evt = new ContextClosedEvent(new StaticApplicationContext());
 
 		SimpleApplicationEventMulticaster smc = new SimpleApplicationEventMulticaster();
@@ -156,8 +147,7 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 
 	@Test
 	public void simpleApplicationEventMulticasterWithException() {
-		@SuppressWarnings("unchecked")
-		ApplicationListener<ApplicationEvent> listener = mock(ApplicationListener.class);
+		@SuppressWarnings("unchecked") ApplicationListener<ApplicationEvent> listener = mock(ApplicationListener.class);
 		ApplicationEvent evt = new ContextClosedEvent(new StaticApplicationContext());
 
 		SimpleApplicationEventMulticaster smc = new SimpleApplicationEventMulticaster();
@@ -165,15 +155,12 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 
 		RuntimeException thrown = new RuntimeException();
 		willThrow(thrown).given(listener).onApplicationEvent(evt);
-		assertThatExceptionOfType(RuntimeException.class).isThrownBy(() ->
-				smc.multicastEvent(evt))
-			.satisfies(ex -> assertThat(ex).isSameAs(thrown));
+		assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> smc.multicastEvent(evt)).satisfies(ex -> assertThat(ex).isSameAs(thrown));
 	}
 
 	@Test
 	public void simpleApplicationEventMulticasterWithErrorHandler() {
-		@SuppressWarnings("unchecked")
-		ApplicationListener<ApplicationEvent> listener = mock(ApplicationListener.class);
+		@SuppressWarnings("unchecked") ApplicationListener<ApplicationEvent> listener = mock(ApplicationListener.class);
 		ApplicationEvent evt = new ContextClosedEvent(new StaticApplicationContext());
 
 		SimpleApplicationEventMulticaster smc = new SimpleApplicationEventMulticaster();
@@ -346,9 +333,7 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 		context.publishEvent(event1);
 		assertThat(listener1.seenEvents.contains(event1)).isTrue();
 
-		SimpleApplicationEventMulticaster multicaster = context.getBean(
-				AbstractApplicationContext.APPLICATION_EVENT_MULTICASTER_BEAN_NAME,
-				SimpleApplicationEventMulticaster.class);
+		SimpleApplicationEventMulticaster multicaster = context.getBean(AbstractApplicationContext.APPLICATION_EVENT_MULTICASTER_BEAN_NAME, SimpleApplicationEventMulticaster.class);
 		assertThat(multicaster.getApplicationListeners().isEmpty()).isFalse();
 
 		context.close();
@@ -475,8 +460,7 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 		StaticApplicationContext context = new StaticApplicationContext();
 		SimpleApplicationEventMulticaster multicaster = new SimpleApplicationEventMulticaster();
 		multicaster.setErrorHandler(ReflectionUtils::rethrowRuntimeException);
-		context.getBeanFactory().registerSingleton(
-				StaticApplicationContext.APPLICATION_EVENT_MULTICASTER_BEAN_NAME, multicaster);
+		context.getBeanFactory().registerSingleton(StaticApplicationContext.APPLICATION_EVENT_MULTICASTER_BEAN_NAME, multicaster);
 		ApplicationListener<MyEvent> listener = seenEvents::add;
 		context.addApplicationListener(listener);
 		context.refresh();
@@ -496,8 +480,7 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 	@Test
 	public void lambdaAsListenerWithJava8StyleClassCastMessage() {
 		StaticApplicationContext context = new StaticApplicationContext();
-		ApplicationListener<ApplicationEvent> listener =
-				event -> { throw new ClassCastException(event.getClass().getName()); };
+		ApplicationListener<ApplicationEvent> listener = event -> { throw new ClassCastException(event.getClass().getName()); };
 		context.addApplicationListener(listener);
 		context.refresh();
 
@@ -508,8 +491,7 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 	@Test
 	public void lambdaAsListenerWithJava9StyleClassCastMessage() {
 		StaticApplicationContext context = new StaticApplicationContext();
-		ApplicationListener<ApplicationEvent> listener =
-				event -> { throw new ClassCastException("spring.context/" + event.getClass().getName()); };
+		ApplicationListener<ApplicationEvent> listener = event -> { throw new ClassCastException("spring.context/" + event.getClass().getName()); };
 		context.addApplicationListener(listener);
 		context.refresh();
 
@@ -597,8 +579,7 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 	}
 
 
-	public interface MyOrderedListenerIfc<E extends ApplicationEvent> extends ApplicationListener<E>, Ordered {
-	}
+	public interface MyOrderedListenerIfc<E extends ApplicationEvent> extends ApplicationListener<E>, Ordered {}
 
 
 	public static abstract class MyOrderedListenerBase implements MyOrderedListenerIfc<MyEvent> {

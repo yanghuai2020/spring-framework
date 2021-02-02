@@ -69,9 +69,7 @@ public class ImportedConfigurationClassEnhancementTests {
 		Config config = ctx.getBean(Config.class);
 		TestBean testBean1 = config.autowiredConfig.testBean();
 		TestBean testBean2 = config.autowiredConfig.testBean();
-		assertThat(testBean1)
-				.as("got two distinct instances of testBean when singleton scoping was expected")
-				.isSameAs(testBean2);
+		assertThat(testBean1).as("got two distinct instances of testBean when singleton scoping was expected").isSameAs(testBean2);
 	}
 
 
@@ -83,34 +81,34 @@ public class ImportedConfigurationClassEnhancementTests {
 	}
 
 
-
 	@Configuration
 	static class ConfigToBeAutowired {
 
-		public @Bean TestBean testBean() {
+		public @Bean
+		TestBean testBean() {
 			return new TestBean();
 		}
 	}
 
 	static class Config {
 
-		@Autowired ConfigToBeAutowired autowiredConfig;
+		@Autowired
+		ConfigToBeAutowired autowiredConfig;
 	}
 
 	@Import(ConfigToBeAutowired.class)
 	@Configuration
-	static class ConfigThatDoesImport extends Config {
-	}
+	static class ConfigThatDoesImport extends Config {}
 
 	@Configuration
-	static class ConfigThatDoesNotImport extends Config {
-	}
+	static class ConfigThatDoesNotImport extends Config {}
 
 	@Configuration
 	@Import(TestBean.class)
 	static class ConfigThatImportsNonConfigClass {
 
-		@Autowired TestBean testBean;
+		@Autowired
+		TestBean testBean;
 	}
 
 }

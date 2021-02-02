@@ -42,7 +42,7 @@ import org.springframework.util.StringUtils;
  * <pre class="code">
  * &lt;bean id=&quot;author&quot; class=&quot;..TestBean&quot; c:name=&quot;Enescu&quot; c:work-ref=&quot;compositions&quot;/&gt;
  * </pre>
- *
+ * <p>
  * Here the '{@code c:name}' corresponds directly to the '{@code name}
  * ' argument declared on the constructor of class '{@code TestBean}'. The
  * '{@code c:work-ref}' attributes corresponds to the '{@code work}'
@@ -54,8 +54,8 @@ import org.springframework.util.StringUtils;
  * the container which, by default, does type introspection.
  *
  * @author Costin Leau
- * @since 3.1
  * @see SimplePropertyNamespaceHandler
+ * @since 3.1
  */
 public class SimpleConstructorNamespaceHandler implements NamespaceHandler {
 
@@ -71,8 +71,7 @@ public class SimpleConstructorNamespaceHandler implements NamespaceHandler {
 	@Override
 	@Nullable
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
-		parserContext.getReaderContext().error(
-				"Class [" + getClass().getName() + "] does not support custom elements.", element);
+		parserContext.getReaderContext().error("Class [" + getClass().getName() + "] does not support custom elements.", element);
 		return null;
 	}
 
@@ -108,20 +107,15 @@ public class SimpleConstructorNamespaceHandler implements NamespaceHandler {
 					int index = -1;
 					try {
 						index = Integer.parseInt(arg);
-					}
-					catch (NumberFormatException ex) {
-						parserContext.getReaderContext().error(
-								"Constructor argument '" + argName + "' specifies an invalid integer", attr);
+					} catch (NumberFormatException ex) {
+						parserContext.getReaderContext().error("Constructor argument '" + argName + "' specifies an invalid integer", attr);
 					}
 					if (index < 0) {
-						parserContext.getReaderContext().error(
-								"Constructor argument '" + argName + "' specifies a negative index", attr);
+						parserContext.getReaderContext().error("Constructor argument '" + argName + "' specifies a negative index", attr);
 					}
 
 					if (cvs.hasIndexedArgumentValue(index)) {
-						parserContext.getReaderContext().error(
-								"Constructor argument '" + argName + "' with index "+ index+" already defined using <constructor-arg>." +
-								" Only one approach may be used per argument.", attr);
+						parserContext.getReaderContext().error("Constructor argument '" + argName + "' with index " + index + " already defined using <constructor-arg>." + " Only one approach may be used per argument.", attr);
 					}
 
 					cvs.addIndexedArgumentValue(index, valueHolder);
@@ -131,9 +125,7 @@ public class SimpleConstructorNamespaceHandler implements NamespaceHandler {
 			else {
 				String name = Conventions.attributeNameToPropertyName(argName);
 				if (containsArgWithName(name, cvs)) {
-					parserContext.getReaderContext().error(
-							"Constructor argument '" + argName + "' already defined using <constructor-arg>." +
-							" Only one approach may be used per argument.", attr);
+					parserContext.getReaderContext().error("Constructor argument '" + argName + "' already defined using <constructor-arg>." + " Only one approach may be used per argument.", attr);
 				}
 				valueHolder.setName(Conventions.attributeNameToPropertyName(argName));
 				cvs.addGenericArgumentValue(valueHolder);
@@ -143,8 +135,7 @@ public class SimpleConstructorNamespaceHandler implements NamespaceHandler {
 	}
 
 	private boolean containsArgWithName(String name, ConstructorArgumentValues cvs) {
-		return (checkName(name, cvs.getGenericArgumentValues()) ||
-				checkName(name, cvs.getIndexedArgumentValues().values()));
+		return (checkName(name, cvs.getGenericArgumentValues()) || checkName(name, cvs.getIndexedArgumentValues().values()));
 	}
 
 	private boolean checkName(String name, Collection<ValueHolder> values) {

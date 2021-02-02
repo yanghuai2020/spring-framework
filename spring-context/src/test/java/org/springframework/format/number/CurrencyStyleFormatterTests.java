@@ -46,8 +46,7 @@ public class CurrencyStyleFormatterTests {
 
 	@Test
 	public void parseBogusValue() throws ParseException {
-		assertThatExceptionOfType(ParseException.class).isThrownBy(() ->
-				formatter.parse("bogus", Locale.US));
+		assertThatExceptionOfType(ParseException.class).isThrownBy(() -> formatter.parse("bogus", Locale.US));
 	}
 
 	@Test
@@ -63,8 +62,7 @@ public class CurrencyStyleFormatterTests {
 
 	@Test
 	public void parseValueNotLenientFailure() throws ParseException {
-		assertThatExceptionOfType(ParseException.class).isThrownBy(() ->
-				formatter.parse("$23.56bogus", Locale.US));
+		assertThatExceptionOfType(ParseException.class).isThrownBy(() -> formatter.parse("$23.56bogus", Locale.US));
 	}
 
 }

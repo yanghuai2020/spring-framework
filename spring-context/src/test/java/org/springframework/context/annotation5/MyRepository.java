@@ -33,5 +33,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Primary
 @Lazy
-public @interface MyRepository {
-}
+public @interface MyRepository {}

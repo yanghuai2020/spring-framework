@@ -43,7 +43,6 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
  *
  * @author Juergen Hoeller
  * @author Phillip Webb
- * @since 4.0
  * @see #setDateStyle
  * @see #setTimeStyle
  * @see #setDateTimeStyle
@@ -51,6 +50,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
  * @see org.springframework.format.FormatterRegistrar#registerFormatters
  * @see org.springframework.format.datetime.DateFormatterRegistrar
  * @see org.springframework.format.datetime.joda.DateTimeFormatterFactoryBean
+ * @since 4.0
  */
 public class DateTimeFormatterRegistrar implements FormatterRegistrar {
 
@@ -116,6 +116,7 @@ public class DateTimeFormatterRegistrar implements FormatterRegistrar {
 	 * <p>This formatter will be used for the {@link LocalDate} type.
 	 * When specified, the {@link #setDateStyle dateStyle} and
 	 * {@link #setUseIsoFormat useIsoFormat} properties will be ignored.
+	 *
 	 * @param formatter the formatter to use
 	 * @see #setTimeFormatter
 	 * @see #setDateTimeFormatter
@@ -129,6 +130,7 @@ public class DateTimeFormatterRegistrar implements FormatterRegistrar {
 	 * <p>This formatter will be used for the {@link LocalTime} and {@link OffsetTime}
 	 * types. When specified, the {@link #setTimeStyle timeStyle} and
 	 * {@link #setUseIsoFormat useIsoFormat} properties will be ignored.
+	 *
 	 * @param formatter the formatter to use
 	 * @see #setDateFormatter
 	 * @see #setDateTimeFormatter
@@ -143,6 +145,7 @@ public class DateTimeFormatterRegistrar implements FormatterRegistrar {
 	 * and {@link OffsetDateTime} types. When specified, the
 	 * {@link #setDateTimeStyle dateTimeStyle} and
 	 * {@link #setUseIsoFormat useIsoFormat} properties will be ignored.
+	 *
 	 * @param formatter the formatter to use
 	 * @see #setDateFormatter
 	 * @see #setTimeFormatter
@@ -162,32 +165,17 @@ public class DateTimeFormatterRegistrar implements FormatterRegistrar {
 
 		// Efficient ISO_LOCAL_* variants for printing since they are twice as fast...
 
-		registry.addFormatterForFieldType(LocalDate.class,
-				new TemporalAccessorPrinter(
-						df == DateTimeFormatter.ISO_DATE ? DateTimeFormatter.ISO_LOCAL_DATE : df),
-				new TemporalAccessorParser(LocalDate.class, df));
+		registry.addFormatterForFieldType(LocalDate.class, new TemporalAccessorPrinter(df == DateTimeFormatter.ISO_DATE ? DateTimeFormatter.ISO_LOCAL_DATE : df), new TemporalAccessorParser(LocalDate.class, df));
 
-		registry.addFormatterForFieldType(LocalTime.class,
-				new TemporalAccessorPrinter(
-						tf == DateTimeFormatter.ISO_TIME ? DateTimeFormatter.ISO_LOCAL_TIME : tf),
-				new TemporalAccessorParser(LocalTime.class, tf));
+		registry.addFormatterForFieldType(LocalTime.class, new TemporalAccessorPrinter(tf == DateTimeFormatter.ISO_TIME ? DateTimeFormatter.ISO_LOCAL_TIME : tf), new TemporalAccessorParser(LocalTime.class, tf));
 
-		registry.addFormatterForFieldType(LocalDateTime.class,
-				new TemporalAccessorPrinter(
-						dtf == DateTimeFormatter.ISO_DATE_TIME ? DateTimeFormatter.ISO_LOCAL_DATE_TIME : dtf),
-				new TemporalAccessorParser(LocalDateTime.class, dtf));
+		registry.addFormatterForFieldType(LocalDateTime.class, new TemporalAccessorPrinter(dtf == DateTimeFormatter.ISO_DATE_TIME ? DateTimeFormatter.ISO_LOCAL_DATE_TIME : dtf), new TemporalAccessorParser(LocalDateTime.class, dtf));
 
-		registry.addFormatterForFieldType(ZonedDateTime.class,
-				new TemporalAccessorPrinter(dtf),
-				new TemporalAccessorParser(ZonedDateTime.class, dtf));
+		registry.addFormatterForFieldType(ZonedDateTime.class, new TemporalAccessorPrinter(dtf), new TemporalAccessorParser(ZonedDateTime.class, dtf));
 
-		registry.addFormatterForFieldType(OffsetDateTime.class,
-				new TemporalAccessorPrinter(dtf),
-				new TemporalAccessorParser(OffsetDateTime.class, dtf));
+		registry.addFormatterForFieldType(OffsetDateTime.class, new TemporalAccessorPrinter(dtf), new TemporalAccessorParser(OffsetDateTime.class, dtf));
 
-		registry.addFormatterForFieldType(OffsetTime.class,
-				new TemporalAccessorPrinter(tf),
-				new TemporalAccessorParser(OffsetTime.class, tf));
+		registry.addFormatterForFieldType(OffsetTime.class, new TemporalAccessorPrinter(tf), new TemporalAccessorParser(OffsetTime.class, tf));
 
 		registry.addFormatterForFieldType(Instant.class, new InstantFormatter());
 		registry.addFormatterForFieldType(Period.class, new PeriodFormatter());
@@ -211,9 +199,12 @@ public class DateTimeFormatterRegistrar implements FormatterRegistrar {
 
 	private DateTimeFormatter getFallbackFormatter(Type type) {
 		switch (type) {
-			case DATE: return DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
-			case TIME: return DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
-			default: return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
+			case DATE:
+				return DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+			case TIME:
+				return DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+			default:
+				return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
 		}
 	}
 

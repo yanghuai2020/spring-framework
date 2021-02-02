@@ -171,8 +171,7 @@ public class ImportTests {
 	@Test
 	public void testImportAnnotationWithMultipleArgumentsResultingInOverriddenBeanDefinition() {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-		beanFactory.registerBeanDefinition("config", new RootBeanDefinition(
-				WithMultipleArgumentsThatWillCauseDuplication.class));
+		beanFactory.registerBeanDefinition("config", new RootBeanDefinition(WithMultipleArgumentsThatWillCauseDuplication.class));
 		ConfigurationClassPostProcessor pp = new ConfigurationClassPostProcessor();
 		pp.postProcessBeanFactory(beanFactory);
 		assertThat(beanFactory.getBeanDefinitionCount()).isEqualTo(4);
@@ -181,8 +180,7 @@ public class ImportTests {
 
 	@Configuration
 	@Import({Foo1.class, Foo2.class})
-	static class WithMultipleArgumentsThatWillCauseDuplication {
-	}
+	static class WithMultipleArgumentsThatWillCauseDuplication {}
 
 	@Configuration
 	static class Foo1 {
@@ -321,9 +319,9 @@ public class ImportTests {
 
 	@Configuration
 	@Import(NonConfigAnnotated.class)
-	static class ConfigAnnotated { }
+	static class ConfigAnnotated {}
 
-	static class NonConfigAnnotated { }
+	static class NonConfigAnnotated {}
 
 	// ------------------------------------------------------------------------
 
@@ -343,11 +341,11 @@ public class ImportTests {
 	}
 
 	@Configuration("config-a")
-	static class A { }
+	static class A {}
 
 	@Configuration("config-b")
 	@Import(A.class)
-	static class B { }
+	static class B {}
 
 	@Test
 	public void testProcessImports() {

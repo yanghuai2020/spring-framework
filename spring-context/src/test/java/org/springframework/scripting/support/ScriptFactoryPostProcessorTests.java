@@ -49,33 +49,15 @@ public class ScriptFactoryPostProcessorTests {
 
 	private static final String PROCESSOR_BEAN_NAME = "processor";
 
-	private static final String CHANGED_SCRIPT = "package org.springframework.scripting.groovy\n" +
-			"import org.springframework.scripting.Messenger\n" +
-			"class GroovyMessenger implements Messenger {\n" +
-			"  private String message = \"Bingo\"\n" +
-			"  public String getMessage() {\n" +
+	private static final String CHANGED_SCRIPT = "package org.springframework.scripting.groovy\n" + "import org.springframework.scripting.Messenger\n" + "class GroovyMessenger implements Messenger {\n" + "  private String message = \"Bingo\"\n" + "  public String getMessage() {\n" +
 			// quote the returned message (this is the change)...
-			"    return \"'\"  + this.message + \"'\"\n" +
-			"  }\n" +
-			"  public void setMessage(String message) {\n" +
-			"    this.message = message\n" +
-			"  }\n" +
-			"}";
+			"    return \"'\"  + this.message + \"'\"\n" + "  }\n" + "  public void setMessage(String message) {\n" + "    this.message = message\n" + "  }\n" + "}";
 
 	private static final String EXPECTED_CHANGED_MESSAGE_TEXT = "'" + MESSAGE_TEXT + "'";
 
 	private static final int DEFAULT_SECONDS_TO_PAUSE = 1;
 
-	private static final String DELEGATING_SCRIPT = "inline:package org.springframework.scripting;\n" +
-			"class DelegatingMessenger implements Messenger {\n" +
-			"  private Messenger wrappedMessenger;\n" +
-			"  public String getMessage() {\n" +
-			"    return this.wrappedMessenger.getMessage()\n" +
-			"  }\n" +
-			"  public void setMessenger(Messenger wrappedMessenger) {\n" +
-			"    this.wrappedMessenger = wrappedMessenger\n" +
-			"  }\n" +
-			"}";
+	private static final String DELEGATING_SCRIPT = "inline:package org.springframework.scripting;\n" + "class DelegatingMessenger implements Messenger {\n" + "  private Messenger wrappedMessenger;\n" + "  public String getMessage() {\n" + "    return this.wrappedMessenger.getMessage()\n" + "  }\n" + "  public void setMessenger(Messenger wrappedMessenger) {\n" + "    this.wrappedMessenger = wrappedMessenger\n" + "  }\n" + "}";
 
 
 	@Test
@@ -85,8 +67,7 @@ public class ScriptFactoryPostProcessorTests {
 
 	@Test
 	public void testThrowsExceptionIfGivenNonAbstractBeanFactoryImplementation() throws Exception {
-		assertThatIllegalStateException().isThrownBy(() ->
-				new ScriptFactoryPostProcessor().setBeanFactory(mock(BeanFactory.class)));
+		assertThatIllegalStateException().isThrownBy(() -> new ScriptFactoryPostProcessor().setBeanFactory(mock(BeanFactory.class)));
 	}
 
 	@Test
@@ -202,9 +183,7 @@ public class ScriptFactoryPostProcessorTests {
 		// needs The Sundays compiler; must NOT throw any exception here...
 		source.setScript("I keep hoping you are the same as me, and I'll send you letters and come to your house for tea");
 		Messenger refreshedMessenger = (Messenger) ctx.getBean(MESSENGER_BEAN_NAME);
-		assertThatExceptionOfType(FatalBeanException.class).isThrownBy(() ->
-				refreshedMessenger.getMessage())
-			.matches(ex -> ex.contains(ScriptCompilationException.class));
+		assertThatExceptionOfType(FatalBeanException.class).isThrownBy(() -> refreshedMessenger.getMessage()).matches(ex -> ex.contains(ScriptCompilationException.class));
 	}
 
 	@Test
@@ -243,16 +222,7 @@ public class ScriptFactoryPostProcessorTests {
 
 	private static BeanDefinition createScriptedGroovyBean() {
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(GroovyScriptFactory.class);
-		builder.addConstructorArgValue("inline:package org.springframework.scripting;\n" +
-				"class GroovyMessenger implements Messenger {\n" +
-				"  private String message = \"Bingo\"\n" +
-				"  public String getMessage() {\n" +
-				"    return this.message\n" +
-				"  }\n" +
-				"  public void setMessage(String message) {\n" +
-				"    this.message = message\n" +
-				"  }\n" +
-				"}");
+		builder.addConstructorArgValue("inline:package org.springframework.scripting;\n" + "class GroovyMessenger implements Messenger {\n" + "  private String message = \"Bingo\"\n" + "  public String getMessage() {\n" + "    return this.message\n" + "  }\n" + "  public void setMessage(String message) {\n" + "    this.message = message\n" + "  }\n" + "}");
 		builder.addPropertyValue("message", MESSAGE_TEXT);
 		return builder.getBeanDefinition();
 	}
@@ -260,8 +230,7 @@ public class ScriptFactoryPostProcessorTests {
 	private static void pauseToLetRefreshDelayKickIn(int secondsToPause) {
 		try {
 			Thread.sleep(secondsToPause * 1000);
-		}
-		catch (InterruptedException ignored) {
+		} catch (InterruptedException ignored) {
 		}
 	}
 

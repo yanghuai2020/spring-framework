@@ -157,9 +157,7 @@ public class SimpleRemoteStatelessSessionProxyFactoryBeanTests extends SimpleRem
 
 		MyBusinessMethods mbm = (MyBusinessMethods) fb.getObject();
 		assertThat(Proxy.isProxyClass(mbm.getClass())).isTrue();
-		assertThatExceptionOfType(RemoteException.class)
-			.isThrownBy(mbm::getValue)
-			.isSameAs(rex);
+		assertThatExceptionOfType(RemoteException.class).isThrownBy(mbm::getValue).isSameAs(rex);
 		verify(myEjb).remove();
 	}
 
@@ -224,9 +222,7 @@ public class SimpleRemoteStatelessSessionProxyFactoryBeanTests extends SimpleRem
 
 		MyLocalBusinessMethods mbm = (MyLocalBusinessMethods) fb.getObject();
 		assertThat(Proxy.isProxyClass(mbm.getClass())).isTrue();
-		assertThatExceptionOfType(RemoteAccessException.class).isThrownBy(
-				mbm::getValue)
-			.withCause(cex);
+		assertThatExceptionOfType(RemoteAccessException.class).isThrownBy(mbm::getValue).withCause(cex);
 	}
 
 	@Test
@@ -255,9 +251,7 @@ public class SimpleRemoteStatelessSessionProxyFactoryBeanTests extends SimpleRem
 		// Check it's a singleton
 		assertThat(fb.isSingleton()).isTrue();
 
-		assertThatIllegalArgumentException().isThrownBy(
-				fb::afterPropertiesSet)
-			.withMessageContaining("businessInterface");
+		assertThatIllegalArgumentException().isThrownBy(fb::afterPropertiesSet).withMessageContaining("businessInterface");
 
 		// Expect no methods on home
 		verifyNoInteractions(home);
@@ -270,19 +264,18 @@ public class SimpleRemoteStatelessSessionProxyFactoryBeanTests extends SimpleRem
 	}
 
 
-	protected interface MyBusinessMethods  {
+	protected interface MyBusinessMethods {
 
 		int getValue() throws RemoteException;
 	}
 
 
-	protected interface MyLocalBusinessMethods  {
+	protected interface MyLocalBusinessMethods {
 
 		int getValue();
 	}
 
 
-	protected interface MyEjb extends EJBObject, MyBusinessMethods {
-	}
+	protected interface MyEjb extends EJBObject, MyBusinessMethods {}
 
 }

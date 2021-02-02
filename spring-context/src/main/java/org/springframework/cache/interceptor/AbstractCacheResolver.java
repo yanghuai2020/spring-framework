@@ -43,6 +43,7 @@ public abstract class AbstractCacheResolver implements CacheResolver, Initializi
 
 	/**
 	 * Construct a new {@code AbstractCacheResolver}.
+	 *
 	 * @see #setCacheManager
 	 */
 	protected AbstractCacheResolver() {
@@ -50,6 +51,7 @@ public abstract class AbstractCacheResolver implements CacheResolver, Initializi
 
 	/**
 	 * Construct a new {@code AbstractCacheResolver} for the given {@link CacheManager}.
+	 *
 	 * @param cacheManager the CacheManager to use
 	 */
 	protected AbstractCacheResolver(CacheManager cacheManager) {
@@ -73,7 +75,7 @@ public abstract class AbstractCacheResolver implements CacheResolver, Initializi
 	}
 
 	@Override
-	public void afterPropertiesSet()  {
+	public void afterPropertiesSet() {
 		Assert.notNull(this.cacheManager, "CacheManager is required");
 	}
 
@@ -88,8 +90,7 @@ public abstract class AbstractCacheResolver implements CacheResolver, Initializi
 		for (String cacheName : cacheNames) {
 			Cache cache = getCacheManager().getCache(cacheName);
 			if (cache == null) {
-				throw new IllegalArgumentException("Cannot find cache named '" +
-						cacheName + "' for " + context.getOperation());
+				throw new IllegalArgumentException("Cannot find cache named '" + cacheName + "' for " + context.getOperation());
 			}
 			result.add(cache);
 		}
@@ -100,6 +101,7 @@ public abstract class AbstractCacheResolver implements CacheResolver, Initializi
 	 * Provide the name of the cache(s) to resolve against the current cache manager.
 	 * <p>It is acceptable to return {@code null} to indicate that no cache could
 	 * be resolved for this invocation.
+	 *
 	 * @param context the context of the particular invocation
 	 * @return the cache name(s) to resolve, or {@code null} if no cache should be resolved
 	 */

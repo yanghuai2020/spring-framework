@@ -90,8 +90,7 @@ public class UtilNamespaceHandler extends NamespaceHandlerSupport {
 			}
 			int dotIndex = path.indexOf('.');
 			if (dotIndex == -1) {
-				parserContext.getReaderContext().error(
-						"Attribute 'path' must follow pattern 'beanName.propertyName'", element);
+				parserContext.getReaderContext().error("Attribute 'path' must follow pattern 'beanName.propertyName'", element);
 				return;
 			}
 			String beanName = path.substring(0, dotIndex);
@@ -205,11 +204,9 @@ public class UtilNamespaceHandler extends NamespaceHandlerSupport {
 				builder.addPropertyValue("locations", locations);
 			}
 
-			builder.addPropertyValue("ignoreResourceNotFound",
-					Boolean.valueOf(element.getAttribute("ignore-resource-not-found")));
+			builder.addPropertyValue("ignoreResourceNotFound", Boolean.valueOf(element.getAttribute("ignore-resource-not-found")));
 
-			builder.addPropertyValue("localOverride",
-					Boolean.valueOf(element.getAttribute("local-override")));
+			builder.addPropertyValue("localOverride", Boolean.valueOf(element.getAttribute("local-override")));
 
 			String scope = element.getAttribute(SCOPE_ATTRIBUTE);
 			if (StringUtils.hasLength(scope)) {

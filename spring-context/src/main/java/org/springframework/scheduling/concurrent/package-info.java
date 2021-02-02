@@ -5,8 +5,7 @@
  * context. Provides support for the native {@code java.util.concurrent}
  * interfaces as well as the Spring {@code TaskExecutor} mechanism.
  */
-@NonNullApi
-@NonNullFields
+@NonNullApi @NonNullFields
 package org.springframework.scheduling.concurrent;
 
 import org.springframework.lang.NonNullApi;

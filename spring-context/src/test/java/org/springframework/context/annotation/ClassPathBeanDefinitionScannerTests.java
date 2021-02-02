@@ -132,9 +132,7 @@ public class ClassPathBeanDefinitionScannerTests {
 	@Test
 	public void testWithIndex() {
 		GenericApplicationContext context = new GenericApplicationContext();
-		context.setClassLoader(CandidateComponentsTestClassLoader.index(
-				ClassPathScanningCandidateComponentProviderTests.class.getClassLoader(),
-				new ClassPathResource("spring.components", FooServiceImpl.class)));
+		context.setClassLoader(CandidateComponentsTestClassLoader.index(ClassPathScanningCandidateComponentProviderTests.class.getClassLoader(), new ClassPathResource("spring.components", FooServiceImpl.class)));
 
 		ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(context);
 		int beanCount = scanner.scan(BASE_PACKAGE);
@@ -151,9 +149,7 @@ public class ClassPathBeanDefinitionScannerTests {
 	@Test
 	public void testDoubleScanWithIndex() {
 		GenericApplicationContext context = new GenericApplicationContext();
-		context.setClassLoader(CandidateComponentsTestClassLoader.index(
-				ClassPathScanningCandidateComponentProviderTests.class.getClassLoader(),
-				new ClassPathResource("spring.components", FooServiceImpl.class)));
+		context.setClassLoader(CandidateComponentsTestClassLoader.index(ClassPathScanningCandidateComponentProviderTests.class.getClassLoader(), new ClassPathResource("spring.components", FooServiceImpl.class)));
 
 		ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(context);
 		int beanCount = scanner.scan(BASE_PACKAGE);
@@ -207,10 +203,7 @@ public class ClassPathBeanDefinitionScannerTests {
 		ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(context);
 		scanner.setIncludeAnnotationConfig(false);
 		scanner.scan("org.springframework.context.annotation3");
-		assertThatIllegalStateException().isThrownBy(() ->
-				scanner.scan(BASE_PACKAGE))
-			.withMessageContaining("stubFooDao")
-			.withMessageContaining(StubFooDao.class.getName());
+		assertThatIllegalStateException().isThrownBy(() -> scanner.scan(BASE_PACKAGE)).withMessageContaining("stubFooDao").withMessageContaining(StubFooDao.class.getName());
 	}
 
 	@Test
@@ -267,11 +260,7 @@ public class ClassPathBeanDefinitionScannerTests {
 		ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(context);
 		scanner.setIncludeAnnotationConfig(false);
 		scanner.scan("org.springframework.context.annotation2");
-		assertThatIllegalStateException().isThrownBy(() ->
-				scanner.scan(BASE_PACKAGE))
-			.withMessageContaining("myNamedDao")
-			.withMessageContaining(NamedStubDao.class.getName())
-			.withMessageContaining(NamedStubDao2.class.getName());
+		assertThatIllegalStateException().isThrownBy(() -> scanner.scan(BASE_PACKAGE)).withMessageContaining("myNamedDao").withMessageContaining(NamedStubDao.class.getName()).withMessageContaining(NamedStubDao2.class.getName());
 	}
 
 	@Test
@@ -490,8 +479,7 @@ public class ClassPathBeanDefinitionScannerTests {
 
 		try {
 			context.getBean("fooService");
-		}
-		catch (BeanCreationException expected) {
+		} catch (BeanCreationException expected) {
 			assertThat(expected.contains(BeanInstantiationException.class)).isTrue();
 			// @Lookup method not substituted
 		}
@@ -521,9 +509,7 @@ public class ClassPathBeanDefinitionScannerTests {
 		scanner.setAutowireCandidatePatterns("*NoSuchDao");
 		scanner.scan(BASE_PACKAGE);
 		context.refresh();
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				context.getBean("fooService"))
-			.satisfies(ex -> assertThat(ex.getMostSpecificCause()).isInstanceOf(NoSuchBeanDefinitionException.class));
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> context.getBean("fooService")).satisfies(ex -> assertThat(ex.getMostSpecificCause()).isInstanceOf(NoSuchBeanDefinitionException.class));
 	}
 
 
@@ -538,7 +524,6 @@ public class ClassPathBeanDefinitionScannerTests {
 
 
 	@Component("toBeIgnored")
-	public class NonStaticInnerClass {
-	}
+	public class NonStaticInnerClass {}
 
 }

@@ -73,18 +73,16 @@ public class CandidateComponentsIndex {
 
 	/**
 	 * Return the candidate types that are associated with the specified stereotype.
+	 *
 	 * @param basePackage the package to check for candidates
-	 * @param stereotype the stereotype to use
+	 * @param stereotype  the stereotype to use
 	 * @return the candidate types associated with the specified {@code stereotype}
 	 * or an empty set if none has been found for the specified {@code basePackage}
 	 */
 	public Set<String> getCandidateTypes(String basePackage, String stereotype) {
 		List<Entry> candidates = this.index.get(stereotype);
 		if (candidates != null) {
-			return candidates.parallelStream()
-					.filter(t -> t.match(basePackage))
-					.map(t -> t.type)
-					.collect(Collectors.toSet());
+			return candidates.parallelStream().filter(t -> t.match(basePackage)).map(t -> t.type).collect(Collectors.toSet());
 		}
 		return Collections.emptySet();
 	}
@@ -104,8 +102,7 @@ public class CandidateComponentsIndex {
 		public boolean match(String basePackage) {
 			if (pathMatcher.isPattern(basePackage)) {
 				return pathMatcher.match(basePackage, this.packageName);
-			}
-			else {
+			} else {
 				return this.type.startsWith(basePackage);
 			}
 		}

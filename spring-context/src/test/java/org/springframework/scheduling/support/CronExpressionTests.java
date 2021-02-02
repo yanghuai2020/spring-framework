@@ -198,8 +198,7 @@ class CronExpressionTests {
 		CronExpression expression = CronExpression.parse("* * * 10 * *");
 
 		LocalDateTime last = LocalDateTime.now().withDayOfMonth(11);
-		LocalDateTime expected =
-				last.plusMonths(1).withDayOfMonth(10).withHour(0).withMinute(0).withSecond(0).withNano(0);
+		LocalDateTime expected = last.plusMonths(1).withDayOfMonth(10).withHour(0).withMinute(0).withSecond(0).withNano(0);
 		assertThat(expression.next(last)).isEqualTo(expected);
 	}
 

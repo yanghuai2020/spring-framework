@@ -74,15 +74,13 @@ public class ImportWithConditionTests {
 
 	@Configuration
 	@Import(BeanProvidingConfiguration.class)
-	protected static class UnconditionalConfiguration {
-	}
+	protected static class UnconditionalConfiguration {}
 
 
 	@Configuration
 	@Conditional(NeverMatchingCondition.class)
 	@Import(BeanProvidingConfiguration.class)
-	protected static class ConditionalConfiguration {
-	}
+	protected static class ConditionalConfiguration {}
 
 
 	@Configuration
@@ -95,8 +93,7 @@ public class ImportWithConditionTests {
 	}
 
 
-	private static final class BeanOne {
-	}
+	private static final class BeanOne {}
 
 
 	private static final class NeverMatchingCondition implements ConfigurationCondition {

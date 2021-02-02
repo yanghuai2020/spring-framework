@@ -64,9 +64,7 @@ final class GenericTypeAwarePropertyDescriptor extends PropertyDescriptor {
 	private final Class<?> propertyEditorClass;
 
 
-	public GenericTypeAwarePropertyDescriptor(Class<?> beanClass, String propertyName,
-			@Nullable Method readMethod, @Nullable Method writeMethod,
-			@Nullable Class<?> propertyEditorClass) throws IntrospectionException {
+	public GenericTypeAwarePropertyDescriptor(Class<?> beanClass, String propertyName, @Nullable Method readMethod, @Nullable Method writeMethod, @Nullable Class<?> propertyEditorClass) throws IntrospectionException {
 
 		super(propertyName, null, null);
 		this.beanClass = beanClass;
@@ -77,8 +75,7 @@ final class GenericTypeAwarePropertyDescriptor extends PropertyDescriptor {
 			// Fallback: Original JavaBeans introspection might not have found matching setter
 			// method due to lack of bridge method resolution, in case of the getter using a
 			// covariant return type whereas the setter is defined for the concrete property type.
-			Method candidate = ClassUtils.getMethodIfAvailable(
-					this.beanClass, "set" + StringUtils.capitalize(getName()), (Class<?>[]) null);
+			Method candidate = ClassUtils.getMethodIfAvailable(this.beanClass, "set" + StringUtils.capitalize(getName()), (Class<?>[]) null);
 			if (candidate != null && candidate.getParameterCount() == 1) {
 				writeMethodToUse = candidate;
 			}
@@ -93,9 +90,7 @@ final class GenericTypeAwarePropertyDescriptor extends PropertyDescriptor {
 				// by the JDK's JavaBeans Introspector...
 				Set<Method> ambiguousCandidates = new HashSet<>();
 				for (Method method : beanClass.getMethods()) {
-					if (method.getName().equals(writeMethodToUse.getName()) &&
-							!method.equals(writeMethodToUse) && !method.isBridge() &&
-							method.getParameterCount() == writeMethodToUse.getParameterCount()) {
+					if (method.getName().equals(writeMethodToUse.getName()) && !method.equals(writeMethodToUse) && !method.isBridge() && method.getParameterCount() == writeMethodToUse.getParameterCount()) {
 						ambiguousCandidates.add(method);
 					}
 				}
@@ -108,8 +103,7 @@ final class GenericTypeAwarePropertyDescriptor extends PropertyDescriptor {
 
 		if (this.readMethod != null) {
 			this.propertyType = GenericTypeResolver.resolveReturnType(this.readMethod, this.beanClass);
-		}
-		else if (this.writeMethodParameter != null) {
+		} else if (this.writeMethodParameter != null) {
 			this.propertyType = this.writeMethodParameter.getParameterType();
 		}
 
@@ -138,9 +132,7 @@ final class GenericTypeAwarePropertyDescriptor extends PropertyDescriptor {
 		Set<Method> ambiguousCandidates = this.ambiguousWriteMethods;
 		if (ambiguousCandidates != null) {
 			this.ambiguousWriteMethods = null;
-			LogFactory.getLog(GenericTypeAwarePropertyDescriptor.class).warn("Invalid JavaBean property '" +
-					getName() + "' being accessed! Ambiguous write methods found next to actually used [" +
-					this.writeMethod + "]: " + ambiguousCandidates);
+			LogFactory.getLog(GenericTypeAwarePropertyDescriptor.class).warn("Invalid JavaBean property '" + getName() + "' being accessed! Ambiguous write methods found next to actually used [" + this.writeMethod + "]: " + ambiguousCandidates);
 		}
 		return this.writeMethod;
 	}

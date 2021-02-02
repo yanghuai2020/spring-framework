@@ -39,10 +39,7 @@ public class EnvironmentAccessorIntegrationTests {
 	@Test
 	public void braceAccess() {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
-		bf.registerBeanDefinition("testBean",
-				genericBeanDefinition(TestBean.class)
-					.addPropertyValue("name", "#{environment['my.name']}")
-					.getBeanDefinition());
+		bf.registerBeanDefinition("testBean", genericBeanDefinition(TestBean.class).addPropertyValue("name", "#{environment['my.name']}").getBeanDefinition());
 
 		GenericApplicationContext ctx = new GenericApplicationContext(bf);
 		ctx.getEnvironment().getPropertySources().addFirst(new MockPropertySource().withProperty("my.name", "myBean"));

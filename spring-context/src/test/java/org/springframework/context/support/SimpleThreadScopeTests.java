@@ -32,8 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class SimpleThreadScopeTests {
 
-	private final ApplicationContext applicationContext =
-			new ClassPathXmlApplicationContext("simpleThreadScopeTests.xml", getClass());
+	private final ApplicationContext applicationContext = new ClassPathXmlApplicationContext("simpleThreadScopeTests.xml", getClass());
 
 
 	@Test
@@ -56,10 +55,7 @@ class SimpleThreadScopeTests {
 		thread1.start();
 		thread2.start();
 		// Assert
-		Awaitility.await()
-					.atMost(500, TimeUnit.MILLISECONDS)
-					.pollInterval(10, TimeUnit.MILLISECONDS)
-					.until(() -> (beans[0] != null) && (beans[1] != null));
+		Awaitility.await().atMost(500, TimeUnit.MILLISECONDS).pollInterval(10, TimeUnit.MILLISECONDS).until(() -> (beans[0] != null) && (beans[1] != null));
 		assertThat(beans[1]).isNotSameAs(beans[0]);
 	}
 

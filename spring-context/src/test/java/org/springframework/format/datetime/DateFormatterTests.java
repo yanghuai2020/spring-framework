@@ -34,8 +34,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 
-
-
 /**
  * Tests for {@link DateFormatter}.
  *
@@ -112,8 +110,7 @@ public class DateFormatterTests {
 		formatter.setIso(ISO.DATE);
 		Date date = getDate(2009, Calendar.JUNE, 1, 14, 23, 5, 3);
 		assertThat(formatter.print(date, Locale.US)).isEqualTo("2009-06-01");
-		assertThat(formatter.parse("2009-6-01", Locale.US))
-				.isEqualTo(getDate(2009, Calendar.JUNE, 1));
+		assertThat(formatter.parse("2009-6-01", Locale.US)).isEqualTo(getDate(2009, Calendar.JUNE, 1));
 	}
 
 	@Test
@@ -123,8 +120,7 @@ public class DateFormatterTests {
 		formatter.setIso(ISO.TIME);
 		Date date = getDate(2009, Calendar.JANUARY, 1, 14, 23, 5, 3);
 		assertThat(formatter.print(date, Locale.US)).isEqualTo("14:23:05.003Z");
-		assertThat(formatter.parse("14:23:05.003Z", Locale.US))
-				.isEqualTo(getDate(1970, Calendar.JANUARY, 1, 14, 23, 5, 3));
+		assertThat(formatter.parse("14:23:05.003Z", Locale.US)).isEqualTo(getDate(1970, Calendar.JANUARY, 1, 14, 23, 5, 3));
 	}
 
 	@Test
@@ -139,7 +135,7 @@ public class DateFormatterTests {
 
 	@Test
 	public void shouldSupportJodaStylePatterns() throws Exception {
-		String[] chars = { "S", "M", "-" };
+		String[] chars = {"S", "M", "-"};
 		for (String d : chars) {
 			for (String t : chars) {
 				String style = d + t;
@@ -147,8 +143,7 @@ public class DateFormatterTests {
 					Date date = getDate(2009, Calendar.JUNE, 10, 14, 23, 0, 0);
 					if (t.equals("-")) {
 						date = getDate(2009, Calendar.JUNE, 10);
-					}
-					else if (d.equals("-")) {
+					} else if (d.equals("-")) {
 						date = getDate(1970, Calendar.JANUARY, 1, 14, 23, 0, 0);
 					}
 					testJodaStylePatterns(style, Locale.US, date);
@@ -163,21 +158,15 @@ public class DateFormatterTests {
 		formatter.setStylePattern(style);
 		DateTimeFormatter jodaFormatter = DateTimeFormat.forStyle(style).withLocale(locale).withZone(DateTimeZone.UTC);
 		String jodaPrinted = jodaFormatter.print(date.getTime());
-		assertThat(formatter.print(date, locale))
-				.as("Unable to print style pattern " + style)
-				.isEqualTo(jodaPrinted);
-		assertThat(formatter.parse(jodaPrinted, locale))
-				.as("Unable to parse style pattern " + style)
-				.isEqualTo(date);
+		assertThat(formatter.print(date, locale)).as("Unable to print style pattern " + style).isEqualTo(jodaPrinted);
+		assertThat(formatter.parse(jodaPrinted, locale)).as("Unable to parse style pattern " + style).isEqualTo(date);
 	}
 
 	@Test
 	public void shouldThrowOnUnsupportedStylePattern() throws Exception {
 		DateFormatter formatter = new DateFormatter();
 		formatter.setStylePattern("OO");
-		assertThatIllegalStateException().isThrownBy(() ->
-				formatter.parse("2009", Locale.US))
-			.withMessageContaining("Unsupported style pattern 'OO'");
+		assertThatIllegalStateException().isThrownBy(() -> formatter.parse("2009", Locale.US)).withMessageContaining("Unsupported style pattern 'OO'");
 	}
 
 	@Test

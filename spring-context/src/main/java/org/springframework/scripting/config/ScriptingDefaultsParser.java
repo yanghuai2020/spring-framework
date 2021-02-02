@@ -39,8 +39,7 @@ class ScriptingDefaultsParser implements BeanDefinitionParser {
 
 	@Override
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
-		BeanDefinition bd =
-				LangNamespaceUtils.registerScriptFactoryPostProcessorIfNecessary(parserContext.getRegistry());
+		BeanDefinition bd = LangNamespaceUtils.registerScriptFactoryPostProcessorIfNecessary(parserContext.getRegistry());
 		String refreshCheckDelay = element.getAttribute(REFRESH_CHECK_DELAY_ATTRIBUTE);
 		if (StringUtils.hasText(refreshCheckDelay)) {
 			bd.getPropertyValues().add("defaultRefreshCheckDelay", Long.valueOf(refreshCheckDelay));

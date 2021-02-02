@@ -117,8 +117,7 @@ class InstantFormatterTests {
 
 		@Override
 		Stream<?> provideArguments() {
-			return randomInstantStream(min, max)
-					.map(DateTimeFormatter.RFC_1123_DATE_TIME.withZone(systemDefault())::format);
+			return randomInstantStream(min, max).map(DateTimeFormatter.RFC_1123_DATE_TIME.withZone(systemDefault())::format);
 		}
 	}
 

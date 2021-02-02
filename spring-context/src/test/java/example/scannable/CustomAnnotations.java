@@ -28,7 +28,6 @@ public class CustomAnnotations {
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@PrivateAnnotation("special")
-	public @interface SpecialAnnotation {
-	}
+	public @interface SpecialAnnotation {}
 
 }

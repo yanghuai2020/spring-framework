@@ -37,13 +37,11 @@ public class BeanNameAutoProxyCreatorInitTests {
 
 	@Test
 	public void testIgnoreAdvisorThatIsCurrentlyInCreation() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
 		TestBean bean = (TestBean) ctx.getBean("bean");
 		bean.setName("foo");
 		assertThat(bean.getName()).isEqualTo("foo");
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				bean.setName(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> bean.setName(null));
 	}
 
 }

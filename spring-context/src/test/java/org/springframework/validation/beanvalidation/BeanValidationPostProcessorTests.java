@@ -45,10 +45,7 @@ public class BeanValidationPostProcessorTests {
 		ac.registerBeanDefinition("bvpp", new RootBeanDefinition(BeanValidationPostProcessor.class));
 		ac.registerBeanDefinition("capp", new RootBeanDefinition(CommonAnnotationBeanPostProcessor.class));
 		ac.registerBeanDefinition("bean", new RootBeanDefinition(NotNullConstrainedBean.class));
-		assertThatExceptionOfType(BeanCreationException.class)
-			.isThrownBy(ac::refresh)
-			.havingRootCause()
-			.withMessageContainingAll("testBean", "invalid");
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(ac::refresh).havingRootCause().withMessageContainingAll("testBean", "invalid");
 		ac.close();
 	}
 
@@ -98,10 +95,7 @@ public class BeanValidationPostProcessorTests {
 		bd.getPropertyValues().add("testBean", new TestBean());
 		bd.getPropertyValues().add("stringValue", "s");
 		ac.registerBeanDefinition("bean", bd);
-		assertThatExceptionOfType(BeanCreationException.class)
-			.isThrownBy(() -> ac.refresh())
-			.havingRootCause()
-			.withMessageContainingAll("stringValue", "invalid");
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> ac.refresh()).havingRootCause().withMessageContainingAll("stringValue", "invalid");
 		ac.close();
 	}
 

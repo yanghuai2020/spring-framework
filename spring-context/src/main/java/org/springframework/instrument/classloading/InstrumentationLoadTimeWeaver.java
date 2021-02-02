@@ -46,14 +46,12 @@ import org.springframework.util.ClassUtils;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @since 2.0
  * @see InstrumentationSavingAgent
+ * @since 2.0
  */
 public class InstrumentationLoadTimeWeaver implements LoadTimeWeaver {
 
-	private static final boolean AGENT_CLASS_PRESENT = ClassUtils.isPresent(
-			"org.springframework.instrument.InstrumentationSavingAgent",
-			InstrumentationLoadTimeWeaver.class.getClassLoader());
+	private static final boolean AGENT_CLASS_PRESENT = ClassUtils.isPresent("org.springframework.instrument.InstrumentationSavingAgent", InstrumentationLoadTimeWeaver.class.getClassLoader());
 
 
 	@Nullable
@@ -74,6 +72,7 @@ public class InstrumentationLoadTimeWeaver implements LoadTimeWeaver {
 
 	/**
 	 * Create a new InstrumentationLoadTimeWeaver for the given ClassLoader.
+	 *
 	 * @param classLoader the ClassLoader that registered transformers are supposed to apply to
 	 */
 	public InstrumentationLoadTimeWeaver(@Nullable ClassLoader classLoader) {
@@ -85,11 +84,9 @@ public class InstrumentationLoadTimeWeaver implements LoadTimeWeaver {
 	@Override
 	public void addTransformer(ClassFileTransformer transformer) {
 		Assert.notNull(transformer, "Transformer must not be null");
-		FilteringClassFileTransformer actualTransformer =
-				new FilteringClassFileTransformer(transformer, this.classLoader);
+		FilteringClassFileTransformer actualTransformer = new FilteringClassFileTransformer(transformer, this.classLoader);
 		synchronized (this.transformers) {
-			Assert.state(this.instrumentation != null,
-					"Must start with Java agent to use InstrumentationLoadTimeWeaver. See Spring documentation.");
+			Assert.state(this.instrumentation != null, "Must start with Java agent to use InstrumentationLoadTimeWeaver. See Spring documentation.");
 			this.instrumentation.addTransformer(actualTransformer);
 			this.transformers.add(actualTransformer);
 		}
@@ -131,6 +128,7 @@ public class InstrumentationLoadTimeWeaver implements LoadTimeWeaver {
 
 	/**
 	 * Check whether an Instrumentation instance is available for the current VM.
+	 *
 	 * @see #getInstrumentation()
 	 */
 	public static boolean isInstrumentationAvailable() {
@@ -139,6 +137,7 @@ public class InstrumentationLoadTimeWeaver implements LoadTimeWeaver {
 
 	/**
 	 * Obtain the Instrumentation instance for the current VM, if available.
+	 *
 	 * @return the Instrumentation instance, or {@code null} if none found
 	 * @see #isInstrumentationAvailable()
 	 */
@@ -146,8 +145,7 @@ public class InstrumentationLoadTimeWeaver implements LoadTimeWeaver {
 	private static Instrumentation getInstrumentation() {
 		if (AGENT_CLASS_PRESENT) {
 			return InstrumentationAccessor.getInstrumentation();
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
@@ -174,8 +172,7 @@ public class InstrumentationLoadTimeWeaver implements LoadTimeWeaver {
 		@Nullable
 		private final ClassLoader targetClassLoader;
 
-		public FilteringClassFileTransformer(
-				ClassFileTransformer targetTransformer, @Nullable ClassLoader targetClassLoader) {
+		public FilteringClassFileTransformer(ClassFileTransformer targetTransformer, @Nullable ClassLoader targetClassLoader) {
 
 			this.targetTransformer = targetTransformer;
 			this.targetClassLoader = targetClassLoader;
@@ -183,14 +180,12 @@ public class InstrumentationLoadTimeWeaver implements LoadTimeWeaver {
 
 		@Override
 		@Nullable
-		public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
-				ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
+		public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
 
 			if (this.targetClassLoader != loader) {
 				return null;
 			}
-			return this.targetTransformer.transform(
-					loader, className, classBeingRedefined, protectionDomain, classfileBuffer);
+			return this.targetTransformer.transform(loader, className, classBeingRedefined, protectionDomain, classfileBuffer);
 		}
 
 		@Override

@@ -85,8 +85,7 @@ public class SimpleNamingContext implements Context {
 	 * Create a new naming context with the given naming root,
 	 * the given name/object map, and the JNDI environment entries.
 	 */
-	public SimpleNamingContext(
-			String root, Hashtable<String, Object> boundObjects, @Nullable Hashtable<String, Object> env) {
+	public SimpleNamingContext(String root, Hashtable<String, Object> boundObjects, @Nullable Hashtable<String, Object> env) {
 
 		this.root = root;
 		this.boundObjects = boundObjects;
@@ -118,6 +117,7 @@ public class SimpleNamingContext implements Context {
 	 * Look up the object with the given name.
 	 * <p>Note: Not intended for direct use by applications.
 	 * Will be used by any standard InitialContext JNDI lookups.
+	 *
 	 * @throws javax.naming.NameNotFoundException if the object could not be found
 	 */
 	@Override
@@ -139,9 +139,7 @@ public class SimpleNamingContext implements Context {
 					return new SimpleNamingContext(name, this.boundObjects, this.environment);
 				}
 			}
-			throw new NameNotFoundException(
-					"Name [" + this.root + lookupName + "] not bound; " + this.boundObjects.size() + " bindings: [" +
-					StringUtils.collectionToDelimitedString(this.boundObjects.keySet(), ",") + "]");
+			throw new NameNotFoundException("Name [" + this.root + lookupName + "] not bound; " + this.boundObjects.size() + " bindings: [" + StringUtils.collectionToDelimitedString(this.boundObjects.keySet(), ",") + "]");
 		}
 		return found;
 	}
@@ -156,6 +154,7 @@ public class SimpleNamingContext implements Context {
 	 * Note: Not intended for direct use by applications
 	 * if setting up a JVM-level JNDI environment.
 	 * Use SimpleNamingContextBuilder to set up JNDI bindings then.
+	 *
 	 * @see org.springframework.context.testfixture.jndi.SimpleNamingContextBuilder#bind
 	 */
 	@Override
@@ -315,13 +314,11 @@ public class SimpleNamingContext implements Context {
 				if (boundName.startsWith(root)) {
 					int startIndex = root.length();
 					int endIndex = boundName.indexOf('/', startIndex);
-					String strippedName =
-							(endIndex != -1 ? boundName.substring(startIndex, endIndex) : boundName.substring(startIndex));
+					String strippedName = (endIndex != -1 ? boundName.substring(startIndex, endIndex) : boundName.substring(startIndex));
 					if (!contents.containsKey(strippedName)) {
 						try {
 							contents.put(strippedName, createObject(strippedName, context.lookup(proot + strippedName)));
-						}
-						catch (NameNotFoundException ex) {
+						} catch (NameNotFoundException ex) {
 							// cannot happen
 						}
 					}

@@ -50,8 +50,7 @@ public class MethodBasedEvaluationContext extends StandardEvaluationContext {
 	private boolean argumentsLoaded = false;
 
 
-	public MethodBasedEvaluationContext(Object rootObject, Method method, Object[] arguments,
-			ParameterNameDiscoverer parameterNameDiscoverer) {
+	public MethodBasedEvaluationContext(Object rootObject, Method method, Object[] arguments, ParameterNameDiscoverer parameterNameDiscoverer) {
 
 		super(rootObject);
 		this.method = method;
@@ -94,8 +93,7 @@ public class MethodBasedEvaluationContext extends StandardEvaluationContext {
 			if (argsCount > paramCount && i == paramCount - 1) {
 				// Expose remaining arguments as vararg array for last parameter
 				value = Arrays.copyOfRange(this.arguments, i, argsCount);
-			}
-			else if (argsCount > i) {
+			} else if (argsCount > i) {
 				// Actual argument found - otherwise left as null
 				value = this.arguments[i];
 			}

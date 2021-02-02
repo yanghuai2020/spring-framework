@@ -39,7 +39,7 @@ public class MapAccessor implements CompilablePropertyAccessor {
 
 	@Override
 	public Class<?>[] getSpecificTargetClasses() {
-		return new Class<?>[] {Map.class};
+		return new Class<?>[]{Map.class};
 	}
 
 	@Override
@@ -65,8 +65,7 @@ public class MapAccessor implements CompilablePropertyAccessor {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void write(EvaluationContext context, @Nullable Object target, String name, @Nullable Object newValue)
-			throws AccessException {
+	public void write(EvaluationContext context, @Nullable Object target, String name, @Nullable Object newValue) throws AccessException {
 
 		Assert.state(target instanceof Map, "Target must be a Map");
 		Map<Object, Object> map = (Map<Object, Object>) target;
@@ -93,7 +92,7 @@ public class MapAccessor implements CompilablePropertyAccessor {
 			CodeFlow.insertCheckCast(mv, "Ljava/util/Map");
 		}
 		mv.visitLdcInsn(propertyName);
-		mv.visitMethodInsn(INVOKEINTERFACE, "java/util/Map", "get","(Ljava/lang/Object;)Ljava/lang/Object;",true);
+		mv.visitMethodInsn(INVOKEINTERFACE, "java/util/Map", "get", "(Ljava/lang/Object;)Ljava/lang/Object;", true);
 	}
 
 

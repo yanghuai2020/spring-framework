@@ -115,8 +115,7 @@ public class AnnotationDrivenEventListenerTests {
 
 	@Test
 	public void simpleEventXmlConfig() {
-		this.context = new ClassPathXmlApplicationContext(
-				"org/springframework/context/event/simple-event-configuration.xml");
+		this.context = new ClassPathXmlApplicationContext("org/springframework/context/event/simple-event-configuration.xml");
 
 		TestEvent event = new TestEvent(this, "test");
 		TestEventListener listener = this.context.getBean(TestEventListener.class);
@@ -158,16 +157,10 @@ public class AnnotationDrivenEventListenerTests {
 
 	@Test
 	public void methodSignatureNoEvent() {
-		@SuppressWarnings("resource")
-		AnnotationConfigApplicationContext failingContext =
-				new AnnotationConfigApplicationContext();
-		failingContext.register(BasicConfiguration.class,
-				InvalidMethodSignatureEventListener.class);
+		@SuppressWarnings("resource") AnnotationConfigApplicationContext failingContext = new AnnotationConfigApplicationContext();
+		failingContext.register(BasicConfiguration.class, InvalidMethodSignatureEventListener.class);
 
-		assertThatExceptionOfType(BeanInitializationException.class).isThrownBy(() ->
-				failingContext.refresh())
-			.withMessageContaining(InvalidMethodSignatureEventListener.class.getName())
-			.withMessageContaining("cannotBeCalled");
+		assertThatExceptionOfType(BeanInitializationException.class).isThrownBy(() -> failingContext.refresh()).withMessageContaining(InvalidMethodSignatureEventListener.class.getName()).withMessageContaining("cannotBeCalled");
 	}
 
 	@Test
@@ -364,9 +357,7 @@ public class AnnotationDrivenEventListenerTests {
 
 	@Test
 	public void privateMethodOnCglibProxyFails() {
-		assertThatExceptionOfType(BeanInitializationException.class).isThrownBy(() ->
-				load(CglibProxyWithPrivateMethod.class))
-			.withCauseInstanceOf(IllegalStateException.class);
+		assertThatExceptionOfType(BeanInitializationException.class).isThrownBy(() -> load(CglibProxyWithPrivateMethod.class)).withCauseInstanceOf(IllegalStateException.class);
 	}
 
 	@Test
@@ -393,9 +384,7 @@ public class AnnotationDrivenEventListenerTests {
 		this.eventCollector.assertTotalEventsCount(1);
 
 		customScope.active = false;
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				this.context.publishEvent(new TestEvent()))
-			.withCauseInstanceOf(IllegalStateException.class);
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> this.context.publishEvent(new TestEvent())).withCauseInstanceOf(IllegalStateException.class);
 	}
 
 	@Test
@@ -449,9 +438,7 @@ public class AnnotationDrivenEventListenerTests {
 		TestEvent event = new TestEvent(this, "fail");
 		ExceptionEventListener listener = this.context.getBean(ExceptionEventListener.class);
 		this.eventCollector.assertNoEventReceived(listener);
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.context.publishEvent(event))
-			.withMessage("Test exception");
+		assertThatIllegalStateException().isThrownBy(() -> this.context.publishEvent(event)).withMessage("Test exception");
 		this.eventCollector.assertEvent(listener, event);
 		this.eventCollector.assertTotalEventsCount(1);
 	}
@@ -616,7 +603,8 @@ public class AnnotationDrivenEventListenerTests {
 		assertThat(listener.order).contains("first", "second", "third");
 	}
 
-	@Test @Disabled  // SPR-15122
+	@Test
+	@Disabled  // SPR-15122
 	public void listenersReceiveEarlyEvents() {
 		load(EventOnPostConstruct.class, OrderedTestListener.class);
 		OrderedTestListener listener = this.context.getBean(OrderedTestListener.class);
@@ -714,8 +702,7 @@ public class AnnotationDrivenEventListenerTests {
 	@EventListener
 	@Target(ElementType.METHOD)
 	@Retention(RetentionPolicy.RUNTIME)
-	@interface FooListener {
-	}
+	@interface FooListener {}
 
 
 	@Component
@@ -756,13 +743,11 @@ public class AnnotationDrivenEventListenerTests {
 			collectEvent(event);
 			if (event.content == null) {
 				return null;
-			}
-			else if (event.content instanceof String) {
+			} else if (event.content instanceof String) {
 				String s = (String) event.content;
 				if (s.equals("String")) {
 					return event.content;
-				}
-				else {
+				} else {
 					return new TestEvent(this, event.getId(), s);
 				}
 			}
@@ -816,15 +801,13 @@ public class AnnotationDrivenEventListenerTests {
 	@Configuration
 	@Import(BasicConfiguration.class)
 	@EnableAsync(proxyTargetClass = true)
-	static class AsyncConfiguration {
-	}
+	static class AsyncConfiguration {}
 
 
 	@Configuration
 	@Import(BasicConfiguration.class)
 	@EnableAsync(proxyTargetClass = false)
-	static class AsyncConfigurationWithInterfaces {
-	}
+	static class AsyncConfigurationWithInterfaces {}
 
 
 	interface SimpleService extends Identifiable {
@@ -962,13 +945,11 @@ public class AnnotationDrivenEventListenerTests {
 	}
 
 
-
 	@EventListener
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface ConditionalEvent {
 
-		@AliasFor(annotation = EventListener.class, attribute = "condition")
-		String value();
+		@AliasFor(annotation = EventListener.class, attribute = "condition") String value();
 	}
 
 

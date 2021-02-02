@@ -69,8 +69,7 @@ public abstract class AbstractMBeanServerTests {
 		this.server = MBeanServerFactory.createMBeanServer();
 		try {
 			onSetUp();
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			releaseServer();
 			throw ex;
 		}
@@ -85,8 +84,7 @@ public abstract class AbstractMBeanServerTests {
 	private void releaseServer() throws Exception {
 		try {
 			MBeanServerFactory.releaseMBeanServer(getServer());
-		}
-		catch (IllegalArgumentException ex) {
+		} catch (IllegalArgumentException ex) {
 			if (!ex.getMessage().contains("not in list")) {
 				throw ex;
 			}
@@ -137,14 +135,12 @@ public abstract class AbstractMBeanServerTests {
 		}
 
 		@Override
-		public void handleBeforeEachMethodExecutionException(ExtensionContext context, Throwable throwable)
-				throws Throwable {
+		public void handleBeforeEachMethodExecutionException(ExtensionContext context, Throwable throwable) throws Throwable {
 			handleBindException(throwable);
 		}
 
 		@Override
-		public void handleAfterEachMethodExecutionException(ExtensionContext context, Throwable throwable)
-				throws Throwable {
+		public void handleAfterEachMethodExecutionException(ExtensionContext context, Throwable throwable) throws Throwable {
 			handleBindException(throwable);
 		}
 

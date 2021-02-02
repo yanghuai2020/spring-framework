@@ -68,8 +68,7 @@ public class ComponentScanParserTests {
 			assertThat(context.containsBean("stubFooDao")).isTrue();
 			assertThat(context.containsBean("scopedProxyTestBean")).isFalse();
 			context.close();
-		}
-		finally {
+		} finally {
 			System.clearProperty("basePackage");
 			System.clearProperty("scanInclude");
 			System.clearProperty("scanExclude");
@@ -134,8 +133,7 @@ public class ComponentScanParserTests {
 			context.close();
 		}
 		{ // ensure the same works for AbstractRefreshableApplicationContext impls too
-			ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(new String[] { xmlLocation },
-				false);
+			ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(new String[]{xmlLocation}, false);
 			context.getEnvironment().setActiveProfiles(ProfileAnnotatedComponent.PROFILE_NAME);
 			context.refresh();
 			assertThat(context.containsBean(ProfileAnnotatedComponent.BEAN_NAME)).isTrue();
@@ -146,8 +144,7 @@ public class ComponentScanParserTests {
 
 	@Target({ElementType.TYPE, ElementType.FIELD})
 	@Retention(RetentionPolicy.RUNTIME)
-	public @interface CustomAnnotation {
-	}
+	public @interface CustomAnnotation {}
 
 
 	/**
@@ -171,8 +168,7 @@ public class ComponentScanParserTests {
 	 * classes in this package named *Custom*.
 	 */
 	@CustomAnnotation
-	public static class KustomAnnotationDependencyBean {
-	}
+	public static class KustomAnnotationDependencyBean {}
 
 
 	public static class CustomTypeFilter implements TypeFilter {

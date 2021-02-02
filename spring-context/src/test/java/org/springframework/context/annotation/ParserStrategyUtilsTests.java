@@ -105,25 +105,18 @@ public class ParserStrategyUtilsTests {
 
 	@Test
 	public void instantiateClassWhenHasMutlipleConstructorsAndNotDefaultThrowsException() {
-		assertThatExceptionOfType(BeanInstantiationException.class).isThrownBy(() ->
-				instantiateClass(MultipleConstructorsWithNoDefault.class));
+		assertThatExceptionOfType(BeanInstantiationException.class).isThrownBy(() -> instantiateClass(MultipleConstructorsWithNoDefault.class));
 	}
 
 	@Test
 	public void instantiateClassWhenHasUnsupportedParameterThrowsException() {
-		assertThatExceptionOfType(BeanInstantiationException.class).isThrownBy(() ->
-				instantiateClass(InvalidConstructorParameterType.class))
-			.withCauseInstanceOf(IllegalStateException.class)
-			.withMessageContaining("No suitable constructor found");
+		assertThatExceptionOfType(BeanInstantiationException.class).isThrownBy(() -> instantiateClass(InvalidConstructorParameterType.class)).withCauseInstanceOf(IllegalStateException.class).withMessageContaining("No suitable constructor found");
 	}
 
 	@Test
 	public void instantiateClassHasSubclassParameterThrowsException() {
 		// To keep the algorithm simple we don't support subtypes
-		assertThatExceptionOfType(BeanInstantiationException.class).isThrownBy(() ->
-				instantiateClass(InvalidConstructorParameterSubType.class))
-			.withCauseInstanceOf(IllegalStateException.class)
-			.withMessageContaining("No suitable constructor found");
+		assertThatExceptionOfType(BeanInstantiationException.class).isThrownBy(() -> instantiateClass(InvalidConstructorParameterSubType.class)).withCauseInstanceOf(IllegalStateException.class).withMessageContaining("No suitable constructor found");
 	}
 
 	@Test
@@ -142,12 +135,10 @@ public class ParserStrategyUtilsTests {
 	}
 
 	private <T> T instantiateClass(Class<T> clazz) {
-		return ParserStrategyUtils.instantiateClass(clazz, clazz, this.environment,
-				this.resourceLoader, this.registry);
+		return ParserStrategyUtils.instantiateClass(clazz, clazz, this.environment, this.resourceLoader, this.registry);
 	}
 
-	static class NoArgsConstructor implements BeanClassLoaderAware,
-			BeanFactoryAware, EnvironmentAware, ResourceLoaderAware {
+	static class NoArgsConstructor implements BeanClassLoaderAware, BeanFactoryAware, EnvironmentAware, ResourceLoaderAware {
 
 		Environment setEnvironment;
 
@@ -192,8 +183,7 @@ public class ParserStrategyUtilsTests {
 
 		final ResourceLoader resourceLoader;
 
-		ArgsConstructor(Environment environment, BeanFactory beanFactory,
-				ClassLoader beanClassLoader, ResourceLoader resourceLoader) {
+		ArgsConstructor(Environment environment, BeanFactory beanFactory, ClassLoader beanClassLoader, ResourceLoader resourceLoader) {
 			this.environment = environment;
 			this.beanFactory = beanFactory;
 			this.beanClassLoader = beanClassLoader;
@@ -212,8 +202,7 @@ public class ParserStrategyUtilsTests {
 
 		final ResourceLoader resourceLoader;
 
-		ArgsConstructorAndAware(Environment environment, BeanFactory beanFactory,
-				ClassLoader beanClassLoader, ResourceLoader resourceLoader) {
+		ArgsConstructorAndAware(Environment environment, BeanFactory beanFactory, ClassLoader beanClassLoader, ResourceLoader resourceLoader) {
 			this.environment = environment;
 			this.beanFactory = beanFactory;
 			this.beanClassLoader = beanClassLoader;

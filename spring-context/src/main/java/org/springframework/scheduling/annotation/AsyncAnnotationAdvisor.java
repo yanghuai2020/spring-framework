@@ -48,9 +48,9 @@ import org.springframework.util.function.SingletonSupplier;
  * {@link #setAsyncAnnotationType "asyncAnnotationType"} property.
  *
  * @author Juergen Hoeller
- * @since 3.0
  * @see Async
  * @see AnnotationAsyncExecutionInterceptor
+ * @since 3.0
  */
 @SuppressWarnings("serial")
 public class AsyncAnnotationAdvisor extends AbstractPointcutAdvisor implements BeanFactoryAware {
@@ -69,39 +69,37 @@ public class AsyncAnnotationAdvisor extends AbstractPointcutAdvisor implements B
 
 	/**
 	 * Create a new {@code AsyncAnnotationAdvisor} for the given task executor.
-	 * @param executor the task executor to use for asynchronous methods
-	 * (can be {@code null} to trigger default executor resolution)
+	 *
+	 * @param executor         the task executor to use for asynchronous methods
+	 *                         (can be {@code null} to trigger default executor resolution)
 	 * @param exceptionHandler the {@link AsyncUncaughtExceptionHandler} to use to
-	 * handle unexpected exception thrown by asynchronous method executions
+	 *                         handle unexpected exception thrown by asynchronous method executions
 	 * @see AnnotationAsyncExecutionInterceptor#getDefaultExecutor(BeanFactory)
 	 */
 	@SuppressWarnings("unchecked")
-	public AsyncAnnotationAdvisor(
-			@Nullable Executor executor, @Nullable AsyncUncaughtExceptionHandler exceptionHandler) {
+	public AsyncAnnotationAdvisor(@Nullable Executor executor, @Nullable AsyncUncaughtExceptionHandler exceptionHandler) {
 
 		this(SingletonSupplier.ofNullable(executor), SingletonSupplier.ofNullable(exceptionHandler));
 	}
 
 	/**
 	 * Create a new {@code AsyncAnnotationAdvisor} for the given task executor.
-	 * @param executor the task executor to use for asynchronous methods
-	 * (can be {@code null} to trigger default executor resolution)
+	 *
+	 * @param executor         the task executor to use for asynchronous methods
+	 *                         (can be {@code null} to trigger default executor resolution)
 	 * @param exceptionHandler the {@link AsyncUncaughtExceptionHandler} to use to
-	 * handle unexpected exception thrown by asynchronous method executions
-	 * @since 5.1
+	 *                         handle unexpected exception thrown by asynchronous method executions
 	 * @see AnnotationAsyncExecutionInterceptor#getDefaultExecutor(BeanFactory)
+	 * @since 5.1
 	 */
 	@SuppressWarnings("unchecked")
-	public AsyncAnnotationAdvisor(
-			@Nullable Supplier<Executor> executor, @Nullable Supplier<AsyncUncaughtExceptionHandler> exceptionHandler) {
+	public AsyncAnnotationAdvisor(@Nullable Supplier<Executor> executor, @Nullable Supplier<AsyncUncaughtExceptionHandler> exceptionHandler) {
 
 		Set<Class<? extends Annotation>> asyncAnnotationTypes = new LinkedHashSet<>(2);
 		asyncAnnotationTypes.add(Async.class);
 		try {
-			asyncAnnotationTypes.add((Class<? extends Annotation>)
-					ClassUtils.forName("javax.ejb.Asynchronous", AsyncAnnotationAdvisor.class.getClassLoader()));
-		}
-		catch (ClassNotFoundException ex) {
+			asyncAnnotationTypes.add((Class<? extends Annotation>) ClassUtils.forName("javax.ejb.Asynchronous", AsyncAnnotationAdvisor.class.getClassLoader()));
+		} catch (ClassNotFoundException ex) {
 			// If EJB 3.1 API not present, simply ignore.
 		}
 		this.advice = buildAdvice(executor, exceptionHandler);
@@ -116,6 +114,7 @@ public class AsyncAnnotationAdvisor extends AbstractPointcutAdvisor implements B
 	 * <p>This setter property exists so that developers can provide their own
 	 * (non-Spring-specific) annotation type to indicate that a method is to
 	 * be executed asynchronously.
+	 *
 	 * @param asyncAnnotationType the desired annotation type
 	 */
 	public void setAsyncAnnotationType(Class<? extends Annotation> asyncAnnotationType) {
@@ -147,8 +146,7 @@ public class AsyncAnnotationAdvisor extends AbstractPointcutAdvisor implements B
 	}
 
 
-	protected Advice buildAdvice(
-			@Nullable Supplier<Executor> executor, @Nullable Supplier<AsyncUncaughtExceptionHandler> exceptionHandler) {
+	protected Advice buildAdvice(@Nullable Supplier<Executor> executor, @Nullable Supplier<AsyncUncaughtExceptionHandler> exceptionHandler) {
 
 		AnnotationAsyncExecutionInterceptor interceptor = new AnnotationAsyncExecutionInterceptor(null);
 		interceptor.configure(executor, exceptionHandler);
@@ -157,6 +155,7 @@ public class AsyncAnnotationAdvisor extends AbstractPointcutAdvisor implements B
 
 	/**
 	 * Calculate a pointcut for the given async annotation types, if any.
+	 *
 	 * @param asyncAnnotationTypes the async annotation types to introspect
 	 * @return the applicable Pointcut object, or {@code null} if none
 	 */
@@ -167,8 +166,7 @@ public class AsyncAnnotationAdvisor extends AbstractPointcutAdvisor implements B
 			Pointcut mpc = new AnnotationMatchingPointcut(null, asyncAnnotationType, true);
 			if (result == null) {
 				result = new ComposablePointcut(cpc);
-			}
-			else {
+			} else {
 				result.union(cpc);
 			}
 			result = result.union(mpc);

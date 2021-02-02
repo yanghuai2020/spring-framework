@@ -58,8 +58,7 @@ public class DefaultLifecycleProcessorTests {
 		Object contextLifecycleProcessor = new DirectFieldAccessor(context).getPropertyValue("lifecycleProcessor");
 		assertThat(contextLifecycleProcessor).isNotNull();
 		assertThat(contextLifecycleProcessor).isSameAs(bean);
-		assertThat(new DirectFieldAccessor(contextLifecycleProcessor).getPropertyValue(
-				"timeoutPerShutdownPhase")).isEqualTo(1000L);
+		assertThat(new DirectFieldAccessor(contextLifecycleProcessor).getPropertyValue("timeoutPerShutdownPhase")).isEqualTo(1000L);
 	}
 
 	@Test
@@ -565,8 +564,7 @@ public class DefaultLifecycleProcessorTests {
 
 
 	private static int getPhase(Lifecycle lifecycle) {
-		return (lifecycle instanceof SmartLifecycle) ?
-				((SmartLifecycle) lifecycle).getPhase() : 0;
+		return (lifecycle instanceof SmartLifecycle) ? ((SmartLifecycle) lifecycle).getPhase() : 0;
 	}
 
 
@@ -587,7 +585,7 @@ public class DefaultLifecycleProcessorTests {
 			return new TestLifecycleBean(null, stoppedBeans);
 		}
 
-		private TestLifecycleBean(CopyOnWriteArrayList<Lifecycle> startedBeans,  CopyOnWriteArrayList<Lifecycle> stoppedBeans) {
+		private TestLifecycleBean(CopyOnWriteArrayList<Lifecycle> startedBeans, CopyOnWriteArrayList<Lifecycle> stoppedBeans) {
 			this.startedBeans = startedBeans;
 			this.stoppedBeans = stoppedBeans;
 		}
@@ -660,11 +658,9 @@ public class DefaultLifecycleProcessorTests {
 			new Thread(() -> {
 				try {
 					Thread.sleep(delay);
-				}
-				catch (InterruptedException e) {
+				} catch (InterruptedException e) {
 					// ignore
-				}
-				finally {
+				} finally {
 					callback.run();
 				}
 			}).start();

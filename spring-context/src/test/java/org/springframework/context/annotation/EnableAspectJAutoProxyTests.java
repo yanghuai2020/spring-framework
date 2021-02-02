@@ -83,8 +83,7 @@ public class EnableAspectJAutoProxyTests {
 
 	@Test
 	public void withAnnotationOnArgumentAndJdkProxy() {
-		ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(
-				ConfigWithJdkProxy.class, SampleService.class, LoggingAspect.class);
+		ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(ConfigWithJdkProxy.class, SampleService.class, LoggingAspect.class);
 
 		SampleService sampleService = ctx.getBean(SampleService.class);
 		sampleService.execute(new SampleDto());
@@ -95,8 +94,7 @@ public class EnableAspectJAutoProxyTests {
 
 	@Test
 	public void withAnnotationOnArgumentAndCglibProxy() {
-		ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(
-				ConfigWithCglibProxy.class, SampleService.class, LoggingAspect.class);
+		ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(ConfigWithCglibProxy.class, SampleService.class, LoggingAspect.class);
 
 		SampleService sampleService = ctx.getBean(SampleService.class);
 		sampleService.execute(new SampleDto());
@@ -108,14 +106,12 @@ public class EnableAspectJAutoProxyTests {
 
 	@ComponentScan("example.scannable")
 	@EnableAspectJAutoProxy
-	static class ConfigWithJdkProxy {
-	}
+	static class ConfigWithJdkProxy {}
 
 
 	@ComponentScan("example.scannable")
 	@EnableAspectJAutoProxy(proxyTargetClass = true)
-	static class ConfigWithCglibProxy {
-	}
+	static class ConfigWithCglibProxy {}
 
 
 	@ComponentScan("example.scannable")
@@ -130,6 +126,7 @@ public class EnableAspectJAutoProxyTests {
 					assertThat(AopContext.currentProxy()).isNotNull();
 					return super.foo(id);
 				}
+
 				@Override
 				protected FooDao fooDao() {
 					return context.getBean(FooDao.class);
@@ -140,17 +137,14 @@ public class EnableAspectJAutoProxyTests {
 
 
 	@Retention(RetentionPolicy.RUNTIME)
-	public @interface Loggable {
-	}
+	public @interface Loggable {}
 
 
 	@Loggable
-	public static class SampleDto {
-	}
+	public static class SampleDto {}
 
 
-	public static class SampleInputBean {
-	}
+	public static class SampleInputBean {}
 
 
 	public static class SampleService {

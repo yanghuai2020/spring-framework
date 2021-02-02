@@ -35,8 +35,7 @@ import org.springframework.util.StringUtils;
  * @author Juergen Hoeller
  * @since 3.0
  */
-public class TaskExecutorFactoryBean implements
-		FactoryBean<TaskExecutor>, BeanNameAware, InitializingBean, DisposableBean {
+public class TaskExecutorFactoryBean implements FactoryBean<TaskExecutor>, BeanNameAware, InitializingBean, DisposableBean {
 
 	@Nullable
 	private String poolSize;
@@ -109,8 +108,7 @@ public class TaskExecutorFactoryBean implements
 					corePoolSize = Integer.parseInt(this.poolSize.substring(0, separatorIndex));
 					maxPoolSize = Integer.parseInt(this.poolSize.substring(separatorIndex + 1));
 					if (corePoolSize > maxPoolSize) {
-						throw new IllegalArgumentException(
-								"Lower bound of pool-size range must not exceed the upper bound");
+						throw new IllegalArgumentException("Lower bound of pool-size range must not exceed the upper bound");
 					}
 					if (this.queueCapacity == null) {
 						// No queue-capacity provided, so unbounded
@@ -119,25 +117,20 @@ public class TaskExecutorFactoryBean implements
 							// but allow core threads to timeout...
 							executor.setAllowCoreThreadTimeOut(true);
 							corePoolSize = maxPoolSize;
-						}
-						else {
+						} else {
 							// Non-zero lower bound implies a core-max size range...
-							throw new IllegalArgumentException(
-									"A non-zero lower bound for the size range requires a queue-capacity value");
+							throw new IllegalArgumentException("A non-zero lower bound for the size range requires a queue-capacity value");
 						}
 					}
-				}
-				else {
+				} else {
 					int value = Integer.parseInt(this.poolSize);
 					corePoolSize = value;
 					maxPoolSize = value;
 				}
 				executor.setCorePoolSize(corePoolSize);
 				executor.setMaxPoolSize(maxPoolSize);
-			}
-			catch (NumberFormatException ex) {
-				throw new IllegalArgumentException("Invalid pool-size value [" + this.poolSize + "]: only single " +
-						"maximum integer (e.g. \"5\") and minimum-maximum range (e.g. \"3-5\") are supported", ex);
+			} catch (NumberFormatException ex) {
+				throw new IllegalArgumentException("Invalid pool-size value [" + this.poolSize + "]: only single " + "maximum integer (e.g. \"5\") and minimum-maximum range (e.g. \"3-5\") are supported", ex);
 			}
 		}
 	}

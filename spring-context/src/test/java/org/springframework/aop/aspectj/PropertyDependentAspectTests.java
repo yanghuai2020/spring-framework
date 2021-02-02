@@ -40,8 +40,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PropertyDependentAspectTests {
 
 	@Test
-	public void propertyDependentAspectWithPropertyDeclaredBeforeAdvice()
-			throws Exception {
+	public void propertyDependentAspectWithPropertyDeclaredBeforeAdvice() throws Exception {
 		checkXmlAspect(getClass().getSimpleName() + "-before.xml");
 	}
 
@@ -51,14 +50,12 @@ public class PropertyDependentAspectTests {
 	}
 
 	@Test
-	public void propertyDependentAtAspectJAspectWithPropertyDeclaredBeforeAdvice()
-			throws Exception {
+	public void propertyDependentAtAspectJAspectWithPropertyDeclaredBeforeAdvice() throws Exception {
 		checkAtAspectJAspect(getClass().getSimpleName() + "-atAspectJ-before.xml");
 	}
 
 	@Test
-	public void propertyDependentAtAspectJAspectWithPropertyDeclaredAfterAdvice()
-			throws Exception {
+	public void propertyDependentAtAspectJAspectWithPropertyDeclaredAfterAdvice() throws Exception {
 		checkAtAspectJAspect(getClass().getSimpleName() + "-atAspectJ-after.xml");
 	}
 
@@ -69,7 +66,7 @@ public class PropertyDependentAspectTests {
 		assertThat(condition).as("Proxy didn't get created").isTrue();
 
 		counter.increment();
-		JoinPointMonitorAspect callCountingAspect = (JoinPointMonitorAspect)context.getBean("monitoringAspect");
+		JoinPointMonitorAspect callCountingAspect = (JoinPointMonitorAspect) context.getBean("monitoringAspect");
 		assertThat(callCountingAspect.beforeExecutions).as("Advise didn't get executed").isEqualTo(1);
 		assertThat(callCountingAspect.aroundExecutions).as("Advise didn't get executed").isEqualTo(1);
 	}
@@ -81,7 +78,7 @@ public class PropertyDependentAspectTests {
 		assertThat(condition).as("Proxy didn't get created").isTrue();
 
 		counter.increment();
-		JoinPointMonitorAtAspectJAspect callCountingAspect = (JoinPointMonitorAtAspectJAspect)context.getBean("monitoringAspect");
+		JoinPointMonitorAtAspectJAspect callCountingAspect = (JoinPointMonitorAtAspectJAspect) context.getBean("monitoringAspect");
 		assertThat(callCountingAspect.beforeExecutions).as("Advise didn't get executed").isEqualTo(1);
 		assertThat(callCountingAspect.aroundExecutions).as("Advise didn't get executed").isEqualTo(1);
 	}

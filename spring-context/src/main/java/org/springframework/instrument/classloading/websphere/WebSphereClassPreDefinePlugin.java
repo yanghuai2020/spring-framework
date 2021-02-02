@@ -40,8 +40,9 @@ class WebSphereClassPreDefinePlugin implements InvocationHandler {
 
 	/**
 	 * Create a new {@link WebSphereClassPreDefinePlugin}.
+	 *
 	 * @param transformer the {@link ClassFileTransformer} to be adapted
-	 * (must not be {@code null})
+	 *                    (must not be {@code null})
 	 */
 	public WebSphereClassPreDefinePlugin(ClassFileTransformer transformer) {
 		this.transformer = transformer;
@@ -52,8 +53,7 @@ class WebSphereClassPreDefinePlugin implements InvocationHandler {
 			String dummyClass = Dummy.class.getName().replace('.', '/');
 			byte[] bytes = FileCopyUtils.copyToByteArray(classLoader.getResourceAsStream(dummyClass + ".class"));
 			transformer.transform(classLoader, dummyClass, null, null, bytes);
-		}
-		catch (Throwable ex) {
+		} catch (Throwable ex) {
 			throw new IllegalArgumentException("Cannot load transformer", ex);
 		}
 	}
@@ -75,8 +75,7 @@ class WebSphereClassPreDefinePlugin implements InvocationHandler {
 		}
 	}
 
-	protected byte[] transform(String className, byte[] classfileBuffer, CodeSource codeSource, ClassLoader classLoader)
-			throws Exception {
+	protected byte[] transform(String className, byte[] classfileBuffer, CodeSource codeSource, ClassLoader classLoader) throws Exception {
 
 		// NB: WebSphere passes className as "." without class while the transformer expects a VM "/" format
 		byte[] result = this.transformer.transform(classLoader, className.replace('.', '/'), null, null, classfileBuffer);
@@ -89,7 +88,6 @@ class WebSphereClassPreDefinePlugin implements InvocationHandler {
 	}
 
 
-	private static class Dummy {
-	}
+	private static class Dummy {}
 
 }

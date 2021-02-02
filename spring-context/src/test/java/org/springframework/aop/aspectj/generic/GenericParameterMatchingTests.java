@@ -44,8 +44,7 @@ public class GenericParameterMatchingTests {
 	@SuppressWarnings("unchecked")
 	@org.junit.jupiter.api.BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
 
 		counterAspect = (CounterAspect) ctx.getBean("counterAspect");
 		counterAspect.reset();
@@ -107,13 +106,16 @@ public class GenericParameterMatchingTests {
 		}
 
 		@Pointcut("execution(* org.springframework.aop.aspectj.generic.GenericParameterMatchingTests.GenericInterface.save(..))")
-		public void genericInterfaceGenericArgExecution() {}
+		public void genericInterfaceGenericArgExecution() {
+		}
 
 		@Pointcut("execution(* org.springframework.aop.aspectj.generic.GenericParameterMatchingTests.GenericInterface.saveAll(..))")
-		public void GenericInterfaceGenericCollectionArgExecution() {}
+		public void GenericInterfaceGenericCollectionArgExecution() {
+		}
 
 		@Pointcut("execution(* org.springframework.aop.aspectj.generic.GenericParameterMatchingTests.GenericInterface+.saveAll(..))")
-		public void genericInterfaceSubtypeGenericCollectionArgExecution() {}
+		public void genericInterfaceSubtypeGenericCollectionArgExecution() {
+		}
 
 		@Before("genericInterfaceGenericArgExecution()")
 		public void incrementGenericInterfaceGenericArgExecution() {

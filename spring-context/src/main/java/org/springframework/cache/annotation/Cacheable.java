@@ -49,8 +49,8 @@ import org.springframework.core.annotation.AliasFor;
  * @author Phillip Webb
  * @author Stephane Nicoll
  * @author Sam Brannen
- * @since 3.1
  * @see CacheConfig
+ * @since 3.1
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
@@ -61,19 +61,18 @@ public @interface Cacheable {
 	/**
 	 * Alias for {@link #cacheNames}.
 	 */
-	@AliasFor("cacheNames")
-	String[] value() default {};
+	@AliasFor("cacheNames") String[] value() default {};
 
 	/**
 	 * Names of the caches in which method invocation results are stored.
 	 * <p>Names may be used to determine the target cache (or caches), matching
 	 * the qualifier value or bean name of a specific bean definition.
-	 * @since 4.2
+	 *
 	 * @see #value
 	 * @see CacheConfig#cacheNames
+	 * @since 4.2
 	 */
-	@AliasFor("value")
-	String[] cacheNames() default {};
+	@AliasFor("value") String[] cacheNames() default {};
 
 	/**
 	 * Spring Expression Language (SpEL) expression for computing the key dynamically.
@@ -98,6 +97,7 @@ public @interface Cacheable {
 	 * The bean name of the custom {@link org.springframework.cache.interceptor.KeyGenerator}
 	 * to use.
 	 * <p>Mutually exclusive with the {@link #key} attribute.
+	 *
 	 * @see CacheConfig#keyGenerator
 	 */
 	String keyGenerator() default "";
@@ -107,6 +107,7 @@ public @interface Cacheable {
 	 * create a default {@link org.springframework.cache.interceptor.CacheResolver} if none
 	 * is set already.
 	 * <p>Mutually exclusive with the {@link #cacheResolver}  attribute.
+	 *
 	 * @see org.springframework.cache.interceptor.SimpleCacheResolver
 	 * @see CacheConfig#cacheManager
 	 */
@@ -115,6 +116,7 @@ public @interface Cacheable {
 	/**
 	 * The bean name of the custom {@link org.springframework.cache.interceptor.CacheResolver}
 	 * to use.
+	 *
 	 * @see CacheConfig#cacheResolver
 	 */
 	String cacheResolver() default "";
@@ -158,6 +160,7 @@ public @interface Cacheable {
 	 * can be accessed via {@code #root.args[1]}, {@code #p1} or {@code #a1}. Arguments
 	 * can also be accessed by name if that information is available.</li>
 	 * </ul>
+	 *
 	 * @since 3.2
 	 */
 	String unless() default "";
@@ -174,8 +177,9 @@ public @interface Cacheable {
 	 * This is effectively a hint and the actual cache provider that you are
 	 * using may not support it in a synchronized fashion. Check your provider
 	 * documentation for more details on the actual semantics.
-	 * @since 4.3
+	 *
 	 * @see org.springframework.cache.Cache#get(Object, Callable)
+	 * @since 4.3
 	 */
 	boolean sync() default false;
 

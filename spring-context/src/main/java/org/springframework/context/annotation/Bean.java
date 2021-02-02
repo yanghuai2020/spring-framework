@@ -76,7 +76,7 @@ import org.springframework.core.annotation.AliasFor;
  *         return obj;
  *     }
  * </pre>
- *
+ * <p>
  * The semantics of the above-mentioned annotations match their use at the component
  * class level: {@code @Profile} allows for selective inclusion of certain beans.
  * {@code @Scope} changes the bean's scope from singleton to the specified scope.
@@ -189,7 +189,7 @@ import org.springframework.core.annotation.AliasFor;
  *         // instantiate, configure and return pspc ...
  *     }
  * </pre>
- *
+ * <p>
  * By marking this method as {@code static}, it can be invoked without causing instantiation of its
  * declaring {@code @Configuration} class, thus avoiding the above-mentioned lifecycle conflicts.
  * Note however that {@code static} {@code @Bean} methods will not be enhanced for scoping and AOP
@@ -203,7 +203,6 @@ import org.springframework.core.annotation.AliasFor;
  * @author Chris Beams
  * @author Juergen Hoeller
  * @author Sam Brannen
- * @since 3.0
  * @see Configuration
  * @see Scope
  * @see DependsOn
@@ -212,6 +211,7 @@ import org.springframework.core.annotation.AliasFor;
  * @see org.springframework.stereotype.Component
  * @see org.springframework.beans.factory.annotation.Autowired
  * @see org.springframework.beans.factory.annotation.Value
+ * @since 3.0
  */
 @Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -222,11 +222,11 @@ public @interface Bean {
 	 * Alias for {@link #name}.
 	 * <p>Intended to be used when no other attributes are needed, for example:
 	 * {@code @Bean("customBeanName")}.
-	 * @since 4.3.3
+	 *
 	 * @see #name
+	 * @since 4.3.3
 	 */
-	@AliasFor("name")
-	String[] value() default {};
+	@AliasFor("name") String[] value() default {};
 
 	/**
 	 * The name of this bean, or if several names, a primary bean name plus aliases.
@@ -234,10 +234,10 @@ public @interface Bean {
 	 * If specified, the method name is ignored.
 	 * <p>The bean name and aliases may also be configured via the {@link #value}
 	 * attribute if no other attributes are declared.
+	 *
 	 * @see #value
 	 */
-	@AliasFor("value")
-	String[] name() default {};
+	@AliasFor("value") String[] name() default {};
 
 	/**
 	 * Are dependencies to be injected via convention-based autowiring by name or type?
@@ -246,18 +246,19 @@ public @interface Bean {
 	 * <p>The default mode does allow for annotation-driven autowiring. "no" refers to
 	 * externally driven autowiring only, not affecting any autowiring demands that the
 	 * bean class itself expresses through annotations.
+	 *
 	 * @see Autowire#BY_NAME
 	 * @see Autowire#BY_TYPE
 	 * @deprecated as of 5.1, since {@code @Bean} factory method argument resolution and
 	 * {@code @Autowired} processing supersede name/type-based bean property injection
 	 */
-	@Deprecated
-	Autowire autowire() default Autowire.NO;
+	@Deprecated Autowire autowire() default Autowire.NO;
 
 	/**
 	 * Is this bean a candidate for getting autowired into some other bean?
 	 * <p>Default is {@code true}; set this to {@code false} for internal delegates
 	 * that are not meant to get in the way of beans of the same type in other places.
+	 *
 	 * @since 5.1
 	 */
 	boolean autowireCandidate() default true;
@@ -267,6 +268,7 @@ public @interface Bean {
 	 * Not commonly used, given that the method may be called programmatically directly
 	 * within the body of a Bean-annotated method.
 	 * <p>The default value is {@code ""}, indicating no init method to be called.
+	 *
 	 * @see org.springframework.beans.factory.InitializingBean
 	 * @see org.springframework.context.ConfigurableApplicationContext#refresh()
 	 */
@@ -296,6 +298,7 @@ public @interface Bean {
 	 * <p>Note: Only invoked on beans whose lifecycle is under the full control of the
 	 * factory, which is always the case for singletons but not guaranteed for any
 	 * other scope.
+	 *
 	 * @see org.springframework.beans.factory.DisposableBean
 	 * @see org.springframework.context.ConfigurableApplicationContext#close()
 	 */

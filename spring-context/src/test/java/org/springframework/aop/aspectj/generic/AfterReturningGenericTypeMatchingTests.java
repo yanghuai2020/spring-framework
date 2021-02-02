@@ -49,8 +49,7 @@ public class AfterReturningGenericTypeMatchingTests {
 
 	@BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
 
 		counterAspect = (CounterAspect) ctx.getBean("counterAspect");
 		counterAspect.reset();

@@ -35,8 +35,7 @@ import org.springframework.util.StringUtils;
  */
 abstract class CronField {
 
-	private static final String[] MONTHS = new String[]{"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP",
-			"OCT", "NOV", "DEC"};
+	private static final String[] MONTHS = new String[]{"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"};
 
 	private static final String[] DAYS = new String[]{"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
 
@@ -81,13 +80,11 @@ abstract class CronField {
 	public static CronField parseDaysOfMonth(String value) {
 		if (!QuartzCronField.isQuartzDaysOfMonthField(value)) {
 			return BitsCronField.parseDaysOfMonth(value);
-		}
-		else {
+		} else {
 			return parseList(value, Type.DAY_OF_MONTH, (field, type) -> {
 				if (QuartzCronField.isQuartzDaysOfMonthField(field)) {
 					return QuartzCronField.parseDaysOfMonth(field);
-				}
-				else {
+				} else {
 					return BitsCronField.parseDaysOfMonth(field);
 				}
 			});
@@ -109,13 +106,11 @@ abstract class CronField {
 		value = replaceOrdinals(value, DAYS);
 		if (!QuartzCronField.isQuartzDaysOfWeekField(value)) {
 			return BitsCronField.parseDaysOfWeek(value);
-		}
-		else {
+		} else {
 			return parseList(value, Type.DAY_OF_WEEK, (field, type) -> {
 				if (QuartzCronField.isQuartzDaysOfWeekField(field)) {
 					return QuartzCronField.parseDaysOfWeek(field);
-				}
-				else {
+				} else {
 					return BitsCronField.parseDaysOfWeek(field);
 				}
 			});
@@ -146,6 +141,7 @@ abstract class CronField {
 	/**
 	 * Get the next or same {@link Temporal} in the sequence matching this
 	 * cron field.
+	 *
 	 * @param temporal the seed value
 	 * @return the next or same temporal matching the pattern
 	 */
@@ -163,13 +159,7 @@ abstract class CronField {
 	 * day-of-month, month, day-of-week.
 	 */
 	protected enum Type {
-		NANO(ChronoField.NANO_OF_SECOND),
-		SECOND(ChronoField.SECOND_OF_MINUTE, ChronoField.NANO_OF_SECOND),
-		MINUTE(ChronoField.MINUTE_OF_HOUR, ChronoField.SECOND_OF_MINUTE, ChronoField.NANO_OF_SECOND),
-		HOUR(ChronoField.HOUR_OF_DAY, ChronoField.MINUTE_OF_HOUR, ChronoField.SECOND_OF_MINUTE, ChronoField.NANO_OF_SECOND),
-		DAY_OF_MONTH(ChronoField.DAY_OF_MONTH, ChronoField.HOUR_OF_DAY, ChronoField.MINUTE_OF_HOUR, ChronoField.SECOND_OF_MINUTE, ChronoField.NANO_OF_SECOND),
-		MONTH(ChronoField.MONTH_OF_YEAR, ChronoField.DAY_OF_MONTH, ChronoField.HOUR_OF_DAY, ChronoField.MINUTE_OF_HOUR, ChronoField.SECOND_OF_MINUTE, ChronoField.NANO_OF_SECOND),
-		DAY_OF_WEEK(ChronoField.DAY_OF_WEEK, ChronoField.HOUR_OF_DAY, ChronoField.MINUTE_OF_HOUR, ChronoField.SECOND_OF_MINUTE, ChronoField.NANO_OF_SECOND);
+		NANO(ChronoField.NANO_OF_SECOND), SECOND(ChronoField.SECOND_OF_MINUTE, ChronoField.NANO_OF_SECOND), MINUTE(ChronoField.MINUTE_OF_HOUR, ChronoField.SECOND_OF_MINUTE, ChronoField.NANO_OF_SECOND), HOUR(ChronoField.HOUR_OF_DAY, ChronoField.MINUTE_OF_HOUR, ChronoField.SECOND_OF_MINUTE, ChronoField.NANO_OF_SECOND), DAY_OF_MONTH(ChronoField.DAY_OF_MONTH, ChronoField.HOUR_OF_DAY, ChronoField.MINUTE_OF_HOUR, ChronoField.SECOND_OF_MINUTE, ChronoField.NANO_OF_SECOND), MONTH(ChronoField.MONTH_OF_YEAR, ChronoField.DAY_OF_MONTH, ChronoField.HOUR_OF_DAY, ChronoField.MINUTE_OF_HOUR, ChronoField.SECOND_OF_MINUTE, ChronoField.NANO_OF_SECOND), DAY_OF_WEEK(ChronoField.DAY_OF_WEEK, ChronoField.HOUR_OF_DAY, ChronoField.MINUTE_OF_HOUR, ChronoField.SECOND_OF_MINUTE, ChronoField.NANO_OF_SECOND);
 
 
 		private final ChronoField field;
@@ -185,6 +175,7 @@ abstract class CronField {
 
 		/**
 		 * Return the value of this type for the given temporal.
+		 *
 		 * @return the value of this type
 		 */
 		public int get(Temporal date) {
@@ -194,6 +185,7 @@ abstract class CronField {
 		/**
 		 * Return the general range of this type. For instance, this methods
 		 * will return 0-31 for {@link #MONTH}.
+		 *
 		 * @return the range of this field
 		 */
 		public ValueRange range() {
@@ -203,6 +195,7 @@ abstract class CronField {
 		/**
 		 * Check whether the given value is valid, i.e. whether it falls in
 		 * {@linkplain #range() range}.
+		 *
 		 * @param value the value to check
 		 * @return the value that was passed in
 		 * @throws IllegalArgumentException if the given value is invalid
@@ -210,12 +203,10 @@ abstract class CronField {
 		public int checkValidValue(int value) {
 			if (this == DAY_OF_WEEK && value == 0) {
 				return value;
-			}
-			else {
+			} else {
 				try {
 					return this.field.checkValidIntValue(value);
-				}
-				catch (DateTimeException ex) {
+				} catch (DateTimeException ex) {
 					throw new IllegalArgumentException(ex.getMessage(), ex);
 				}
 			}
@@ -228,9 +219,10 @@ abstract class CronField {
 		 * but this is not the case for {@link #DAY_OF_MONTH}. For instance,
 		 * if {@code goal} is 31, and {@code temporal} is April 16th,
 		 * this method returns May 1st, because April 31st does not exist.
+		 *
 		 * @param temporal the temporal to elapse
-		 * @param goal the goal value
-		 * @param <T> the type of temporal
+		 * @param goal     the goal value
+		 * @param <T>      the type of temporal
 		 * @return the elapsed temporal, typically with {@code goal} as value
 		 * for this type.
 		 */
@@ -238,8 +230,7 @@ abstract class CronField {
 			int current = get(temporal);
 			if (current < goal) {
 				return this.field.getBaseUnit().addTo(temporal, goal - current);
-			}
-			else {
+			} else {
 				ValueRange range = temporal.range(this.field);
 				long amount = goal + range.getMaximum() - current + 1 - range.getMinimum();
 				return this.field.getBaseUnit().addTo(temporal, amount);
@@ -251,8 +242,9 @@ abstract class CronField {
 		 * order field. Calling this method is equivalent to calling
 		 * {@link #elapseUntil(Temporal, int)} with goal set to the
 		 * minimum value of this field's range.
+		 *
 		 * @param temporal the temporal to roll forward
-		 * @param <T> the type of temporal
+		 * @param <T>      the type of temporal
 		 * @return the rolled forward temporal
 		 */
 		public <T extends Temporal & Comparable<? super T>> T rollForward(T temporal) {
@@ -266,8 +258,9 @@ abstract class CronField {
 		 * Reset this and all lower order fields of the given temporal to their
 		 * minimum value. For instance for {@link #MINUTE}, this method
 		 * resets nanos, seconds, <strong>and</strong> minutes to 0.
+		 *
 		 * @param temporal the temporal to reset
-		 * @param <T> the type of temporal
+		 * @param <T>      the type of temporal
 		 * @return the reset temporal
 		 */
 		public <T extends Temporal> T reset(T temporal) {

@@ -47,7 +47,6 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
  * @author Keith Donald
  * @author Juergen Hoeller
  * @author Phillip Webb
- * @since 3.1
  * @see #setDateStyle
  * @see #setTimeStyle
  * @see #setDateTimeStyle
@@ -55,6 +54,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
  * @see FormatterRegistrar#registerFormatters
  * @see org.springframework.format.datetime.DateFormatterRegistrar
  * @see DateTimeFormatterFactoryBean
+ * @since 3.1
  * @deprecated as of 5.3, in favor of standard JSR-310 support
  */
 @Deprecated
@@ -124,10 +124,11 @@ public class JodaTimeFormatterRegistrar implements FormatterRegistrar {
 	 * <p>This formatter will be used for the {@link LocalDate} type. When specified
 	 * the {@link #setDateStyle(String) dateStyle} and
 	 * {@link #setUseIsoFormat(boolean) useIsoFormat} properties will be ignored.
+	 *
 	 * @param formatter the formatter to use
-	 * @since 3.2
 	 * @see #setTimeFormatter
 	 * @see #setDateTimeFormatter
+	 * @since 3.2
 	 */
 	public void setDateFormatter(DateTimeFormatter formatter) {
 		this.formatters.put(Type.DATE, formatter);
@@ -138,10 +139,11 @@ public class JodaTimeFormatterRegistrar implements FormatterRegistrar {
 	 * <p>This formatter will be used for the {@link LocalTime} type. When specified
 	 * the {@link #setTimeStyle(String) timeStyle} and
 	 * {@link #setUseIsoFormat(boolean) useIsoFormat} properties will be ignored.
+	 *
 	 * @param formatter the formatter to use
-	 * @since 3.2
 	 * @see #setDateFormatter
 	 * @see #setDateTimeFormatter
+	 * @since 3.2
 	 */
 	public void setTimeFormatter(DateTimeFormatter formatter) {
 		this.formatters.put(Type.TIME, formatter);
@@ -153,10 +155,11 @@ public class JodaTimeFormatterRegistrar implements FormatterRegistrar {
 	 * {@link Date} and {@link Calendar} types. When specified
 	 * the {@link #setDateTimeStyle(String) dateTimeStyle} and
 	 * {@link #setUseIsoFormat(boolean) useIsoFormat} properties will be ignored.
+	 *
 	 * @param formatter the formatter to use
-	 * @since 3.2
 	 * @see #setDateFormatter
 	 * @see #setTimeFormatter
+	 * @since 3.2
 	 */
 	public void setDateTimeFormatter(DateTimeFormatter formatter) {
 		this.formatters.put(Type.DATE_TIME, formatter);
@@ -171,33 +174,18 @@ public class JodaTimeFormatterRegistrar implements FormatterRegistrar {
 		DateTimeFormatter timeFormatter = getFormatter(Type.TIME);
 		DateTimeFormatter dateTimeFormatter = getFormatter(Type.DATE_TIME);
 
-		addFormatterForFields(registry,
-				new ReadablePartialPrinter(dateFormatter),
-				new LocalDateParser(dateFormatter),
-				LocalDate.class);
+		addFormatterForFields(registry, new ReadablePartialPrinter(dateFormatter), new LocalDateParser(dateFormatter), LocalDate.class);
 
-		addFormatterForFields(registry,
-				new ReadablePartialPrinter(timeFormatter),
-				new LocalTimeParser(timeFormatter),
-				LocalTime.class);
+		addFormatterForFields(registry, new ReadablePartialPrinter(timeFormatter), new LocalTimeParser(timeFormatter), LocalTime.class);
 
-		addFormatterForFields(registry,
-				new ReadablePartialPrinter(dateTimeFormatter),
-				new LocalDateTimeParser(dateTimeFormatter),
-				LocalDateTime.class);
+		addFormatterForFields(registry, new ReadablePartialPrinter(dateTimeFormatter), new LocalDateTimeParser(dateTimeFormatter), LocalDateTime.class);
 
-		addFormatterForFields(registry,
-				new ReadableInstantPrinter(dateTimeFormatter),
-				new DateTimeParser(dateTimeFormatter),
-				ReadableInstant.class);
+		addFormatterForFields(registry, new ReadableInstantPrinter(dateTimeFormatter), new DateTimeParser(dateTimeFormatter), ReadableInstant.class);
 
 		// In order to retain backwards compatibility we only register Date/Calendar
 		// types when a user defined formatter is specified (see SPR-10105)
 		if (this.formatters.containsKey(Type.DATE_TIME)) {
-			addFormatterForFields(registry,
-					new ReadableInstantPrinter(dateTimeFormatter),
-					new DateTimeParser(dateTimeFormatter),
-					Date.class, Calendar.class);
+			addFormatterForFields(registry, new ReadableInstantPrinter(dateTimeFormatter), new DateTimeParser(dateTimeFormatter), Date.class, Calendar.class);
 		}
 
 		registry.addFormatterForFieldType(Period.class, new PeriodFormatter());
@@ -219,14 +207,16 @@ public class JodaTimeFormatterRegistrar implements FormatterRegistrar {
 
 	private DateTimeFormatter getFallbackFormatter(Type type) {
 		switch (type) {
-			case DATE: return DateTimeFormat.shortDate();
-			case TIME: return DateTimeFormat.shortTime();
-			default: return DateTimeFormat.shortDateTime();
+			case DATE:
+				return DateTimeFormat.shortDate();
+			case TIME:
+				return DateTimeFormat.shortTime();
+			default:
+				return DateTimeFormat.shortDateTime();
 		}
 	}
 
-	private void addFormatterForFields(FormatterRegistry registry, Printer<?> printer,
-			Parser<?> parser, Class<?>... fieldTypes) {
+	private void addFormatterForFields(FormatterRegistry registry, Printer<?> printer, Parser<?> parser, Class<?>... fieldTypes) {
 
 		for (Class<?> fieldType : fieldTypes) {
 			registry.addFormatterForFieldType(fieldType, printer, parser);

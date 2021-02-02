@@ -40,11 +40,12 @@ public abstract class StandardScriptUtils {
 	 * Retrieve a {@link ScriptEngine} from the given {@link ScriptEngineManager}
 	 * by name, delegating to {@link ScriptEngineManager#getEngineByName} but
 	 * throwing a descriptive exception if not found or if initialization failed.
+	 *
 	 * @param scriptEngineManager the ScriptEngineManager to use
-	 * @param engineName the name of the engine
+	 * @param engineName          the name of the engine
 	 * @return a corresponding ScriptEngine (never {@code null})
 	 * @throws IllegalArgumentException if no matching engine has been found
-	 * @throws IllegalStateException if the desired engine failed to initialize
+	 * @throws IllegalStateException    if the desired engine failed to initialize
 	 */
 	public static ScriptEngine retrieveEngineByName(ScriptEngineManager scriptEngineManager, String engineName) {
 		ScriptEngine engine = scriptEngineManager.getEngineByName(engineName);
@@ -59,16 +60,13 @@ public abstract class StandardScriptUtils {
 					try {
 						engine = engineFactory.getScriptEngine();
 						engine.setBindings(scriptEngineManager.getBindings(), ScriptContext.GLOBAL_SCOPE);
-					}
-					catch (Throwable ex) {
-						throw new IllegalStateException("Script engine with name '" + engineName +
-								"' failed to initialize", ex);
+					} catch (Throwable ex) {
+						throw new IllegalStateException("Script engine with name '" + engineName + "' failed to initialize", ex);
 					}
 				}
 				engineNames.addAll(factoryNames);
 			}
-			throw new IllegalArgumentException("Script engine with name '" + engineName +
-					"' not found; registered engine names: " + engineNames);
+			throw new IllegalArgumentException("Script engine with name '" + engineName + "' not found; registered engine names: " + engineNames);
 		}
 		return engine;
 	}

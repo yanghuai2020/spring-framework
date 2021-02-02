@@ -33,9 +33,9 @@ import org.springframework.remoting.support.RemoteInvocationBasedExporter;
  * on all service methods. However, in and out parameters still have to be serializable.
  *
  * @author Juergen Hoeller
- * @since 1.2.5
  * @see RmiServiceExporter
  * @see JndiRmiServiceExporter
+ * @since 1.2.5
  * @deprecated as of 5.3 (phasing out serialization-based remoting)
  */
 @Deprecated
@@ -44,18 +44,17 @@ public abstract class RmiBasedExporter extends RemoteInvocationBasedExporter {
 	/**
 	 * Determine the object to export: either the service object itself
 	 * or a RmiInvocationWrapper in case of a non-RMI service object.
+	 *
 	 * @return the RMI object to export
 	 * @see #setService
 	 * @see #setServiceInterface
 	 */
 	protected Remote getObjectToExport() {
 		// determine remote object
-		if (getService() instanceof Remote &&
-				(getServiceInterface() == null || Remote.class.isAssignableFrom(getServiceInterface()))) {
+		if (getService() instanceof Remote && (getServiceInterface() == null || Remote.class.isAssignableFrom(getServiceInterface()))) {
 			// conventional RMI service
 			return (Remote) getService();
-		}
-		else {
+		} else {
 			// RMI invoker
 			if (logger.isDebugEnabled()) {
 				logger.debug("RMI service [" + getService() + "] is an RMI invoker");
@@ -69,8 +68,7 @@ public abstract class RmiBasedExporter extends RemoteInvocationBasedExporter {
 	 * Simply delegates to the corresponding superclass method.
 	 */
 	@Override
-	protected Object invoke(RemoteInvocation invocation, Object targetObject)
-			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+	protected Object invoke(RemoteInvocation invocation, Object targetObject) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
 		return super.invoke(invocation, targetObject);
 	}

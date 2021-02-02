@@ -119,8 +119,7 @@ public class ComponentScanParserBeanDefinitionDefaultsTests {
 		GenericApplicationContext context = new GenericApplicationContext();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(context);
 		reader.loadBeanDefinitions(LOCATION_PREFIX + "defaultAutowireByTypeTests.xml");
-		assertThatExceptionOfType(UnsatisfiedDependencyException.class).isThrownBy(
-				context::refresh);
+		assertThatExceptionOfType(UnsatisfiedDependencyException.class).isThrownBy(context::refresh);
 	}
 
 	@Test

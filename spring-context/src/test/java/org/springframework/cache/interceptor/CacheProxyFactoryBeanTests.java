@@ -39,8 +39,7 @@ public class CacheProxyFactoryBeanTests {
 
 	@Test
 	public void configurationClassWithCacheProxyFactoryBean() {
-		try (AnnotationConfigApplicationContext applicationContext =
-				new AnnotationConfigApplicationContext(CacheProxyFactoryBeanConfiguration.class)) {
+		try (AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(CacheProxyFactoryBeanConfiguration.class)) {
 			Greeter greeter = applicationContext.getBean("greeter", Greeter.class);
 			assertThat(greeter).isNotNull();
 			assertThat(greeter.isCacheMiss()).isFalse();

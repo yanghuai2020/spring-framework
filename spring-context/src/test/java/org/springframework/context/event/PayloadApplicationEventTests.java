@@ -74,8 +74,7 @@ public class PayloadApplicationEventTests {
 	}
 
 
-	public interface Auditable {
-	}
+	public interface Auditable {}
 
 
 	@SuppressWarnings("serial")

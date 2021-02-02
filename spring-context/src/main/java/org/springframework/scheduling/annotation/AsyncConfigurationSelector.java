@@ -27,14 +27,13 @@ import org.springframework.lang.Nullable;
  *
  * @author Chris Beams
  * @author Juergen Hoeller
- * @since 3.1
  * @see EnableAsync
  * @see ProxyAsyncConfiguration
+ * @since 3.1
  */
 public class AsyncConfigurationSelector extends AdviceModeImportSelector<EnableAsync> {
 
-	private static final String ASYNC_EXECUTION_ASPECT_CONFIGURATION_CLASS_NAME =
-			"org.springframework.scheduling.aspectj.AspectJAsyncConfiguration";
+	private static final String ASYNC_EXECUTION_ASPECT_CONFIGURATION_CLASS_NAME = "org.springframework.scheduling.aspectj.AspectJAsyncConfiguration";
 
 
 	/**
@@ -47,9 +46,9 @@ public class AsyncConfigurationSelector extends AdviceModeImportSelector<EnableA
 	public String[] selectImports(AdviceMode adviceMode) {
 		switch (adviceMode) {
 			case PROXY:
-				return new String[] {ProxyAsyncConfiguration.class.getName()};
+				return new String[]{ProxyAsyncConfiguration.class.getName()};
 			case ASPECTJ:
-				return new String[] {ASYNC_EXECUTION_ASPECT_CONFIGURATION_CLASS_NAME};
+				return new String[]{ASYNC_EXECUTION_ASPECT_CONFIGURATION_CLASS_NAME};
 			default:
 				return null;
 		}

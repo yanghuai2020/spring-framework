@@ -49,59 +49,49 @@ abstract class ParserStrategyUtils {
 	 * have {@link BeanClassLoaderAware}, {@link BeanFactoryAware},
 	 * {@link EnvironmentAware}, and {@link ResourceLoaderAware} contracts
 	 * invoked if they are implemented by the given object.
+	 *
 	 * @since 5.2
 	 */
 	@SuppressWarnings("unchecked")
-	static <T> T instantiateClass(Class<?> clazz, Class<T> assignableTo, Environment environment,
-			ResourceLoader resourceLoader, BeanDefinitionRegistry registry) {
+	static <T> T instantiateClass(Class<?> clazz, Class<T> assignableTo, Environment environment, ResourceLoader resourceLoader, BeanDefinitionRegistry registry) {
 
 		Assert.notNull(clazz, "Class must not be null");
 		Assert.isAssignable(assignableTo, clazz);
 		if (clazz.isInterface()) {
 			throw new BeanInstantiationException(clazz, "Specified class is an interface");
 		}
-		ClassLoader classLoader = (registry instanceof ConfigurableBeanFactory ?
-				((ConfigurableBeanFactory) registry).getBeanClassLoader() : resourceLoader.getClassLoader());
+		ClassLoader classLoader = (registry instanceof ConfigurableBeanFactory ? ((ConfigurableBeanFactory) registry).getBeanClassLoader() : resourceLoader.getClassLoader());
 		T instance = (T) createInstance(clazz, environment, resourceLoader, registry, classLoader);
 		ParserStrategyUtils.invokeAwareMethods(instance, environment, resourceLoader, registry, classLoader);
 		return instance;
 	}
 
-	private static Object createInstance(Class<?> clazz, Environment environment,
-			ResourceLoader resourceLoader, BeanDefinitionRegistry registry,
-			@Nullable ClassLoader classLoader) {
+	private static Object createInstance(Class<?> clazz, Environment environment, ResourceLoader resourceLoader, BeanDefinitionRegistry registry, @Nullable ClassLoader classLoader) {
 
 		Constructor<?>[] constructors = clazz.getDeclaredConstructors();
 		if (constructors.length == 1 && constructors[0].getParameterCount() > 0) {
 			try {
 				Constructor<?> constructor = constructors[0];
-				Object[] args = resolveArgs(constructor.getParameterTypes(),
-						environment, resourceLoader, registry, classLoader);
+				Object[] args = resolveArgs(constructor.getParameterTypes(), environment, resourceLoader, registry, classLoader);
 				return BeanUtils.instantiateClass(constructor, args);
-			}
-			catch (Exception ex) {
+			} catch (Exception ex) {
 				throw new BeanInstantiationException(clazz, "No suitable constructor found", ex);
 			}
 		}
 		return BeanUtils.instantiateClass(clazz);
 	}
 
-	private static Object[] resolveArgs(Class<?>[] parameterTypes,
-			Environment environment, ResourceLoader resourceLoader,
-			BeanDefinitionRegistry registry, @Nullable ClassLoader classLoader) {
+	private static Object[] resolveArgs(Class<?>[] parameterTypes, Environment environment, ResourceLoader resourceLoader, BeanDefinitionRegistry registry, @Nullable ClassLoader classLoader) {
 
-			Object[] parameters = new Object[parameterTypes.length];
-			for (int i = 0; i < parameterTypes.length; i++) {
-				parameters[i] = resolveParameter(parameterTypes[i], environment,
-						resourceLoader, registry, classLoader);
-			}
-			return parameters;
+		Object[] parameters = new Object[parameterTypes.length];
+		for (int i = 0; i < parameterTypes.length; i++) {
+			parameters[i] = resolveParameter(parameterTypes[i], environment, resourceLoader, registry, classLoader);
+		}
+		return parameters;
 	}
 
 	@Nullable
-	private static Object resolveParameter(Class<?> parameterType,
-			Environment environment, ResourceLoader resourceLoader,
-			BeanDefinitionRegistry registry, @Nullable ClassLoader classLoader) {
+	private static Object resolveParameter(Class<?> parameterType, Environment environment, ResourceLoader resourceLoader, BeanDefinitionRegistry registry, @Nullable ClassLoader classLoader) {
 
 		if (parameterType == Environment.class) {
 			return environment;
@@ -118,8 +108,7 @@ abstract class ParserStrategyUtils {
 		throw new IllegalStateException("Illegal method parameter type: " + parameterType.getName());
 	}
 
-	private static void invokeAwareMethods(Object parserStrategyBean, Environment environment,
-			ResourceLoader resourceLoader, BeanDefinitionRegistry registry, @Nullable ClassLoader classLoader) {
+	private static void invokeAwareMethods(Object parserStrategyBean, Environment environment, ResourceLoader resourceLoader, BeanDefinitionRegistry registry, @Nullable ClassLoader classLoader) {
 
 		if (parserStrategyBean instanceof Aware) {
 			if (parserStrategyBean instanceof BeanClassLoaderAware && classLoader != null) {

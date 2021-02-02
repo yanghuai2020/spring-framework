@@ -37,8 +37,7 @@ import org.springframework.util.StringUtils;
  * @author Juergen Hoeller
  * @since 3.1
  */
-public class ConcurrentMapCacheFactoryBean
-		implements FactoryBean<ConcurrentMapCache>, BeanNameAware, InitializingBean {
+public class ConcurrentMapCacheFactoryBean implements FactoryBean<ConcurrentMapCache>, BeanNameAware, InitializingBean {
 
 	private String name = "";
 
@@ -86,8 +85,7 @@ public class ConcurrentMapCacheFactoryBean
 
 	@Override
 	public void afterPropertiesSet() {
-		this.cache = (this.store != null ? new ConcurrentMapCache(this.name, this.store, this.allowNullValues) :
-				new ConcurrentMapCache(this.name, this.allowNullValues));
+		this.cache = (this.store != null ? new ConcurrentMapCache(this.name, this.store, this.allowNullValues) : new ConcurrentMapCache(this.name, this.allowNullValues));
 	}
 
 

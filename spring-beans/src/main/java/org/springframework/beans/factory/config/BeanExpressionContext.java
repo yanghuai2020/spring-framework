@@ -50,19 +50,16 @@ public class BeanExpressionContext {
 
 
 	public boolean containsObject(String key) {
-		return (this.beanFactory.containsBean(key) ||
-				(this.scope != null && this.scope.resolveContextualObject(key) != null));
+		return (this.beanFactory.containsBean(key) || (this.scope != null && this.scope.resolveContextualObject(key) != null));
 	}
 
 	@Nullable
 	public Object getObject(String key) {
 		if (this.beanFactory.containsBean(key)) {
 			return this.beanFactory.getBean(key);
-		}
-		else if (this.scope != null) {
+		} else if (this.scope != null) {
 			return this.scope.resolveContextualObject(key);
-		}
-		else {
+		} else {
 			return null;
 		}
 	}

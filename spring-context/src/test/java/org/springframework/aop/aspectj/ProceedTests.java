@@ -44,8 +44,7 @@ public class ProceedTests {
 
 	@BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
 		testBean = (SimpleBean) ctx.getBean("testBean");
 		firstTestAspect = (ProceedTestingAspect) ctx.getBean("firstTestAspect");
 		secondTestAspect = (ProceedTestingAspect) ctx.getBean("secondTestAspect");
@@ -86,12 +85,19 @@ public class ProceedTests {
 interface SimpleBean {
 
 	void setName(String name);
+
 	String getName();
+
 	void setAge(int age);
+
 	int getAge();
+
 	void setMyFloat(float f);
+
 	float getMyFloat();
+
 	void setSex(String sex);
+
 	String getSex();
 }
 
@@ -152,12 +158,17 @@ class ProceedTestingAspect implements Ordered {
 	private float lastBeforeFloatValue;
 	private int order;
 
-	public void setOrder(int order) { this.order = order; }
+	public void setOrder(int order) {
+		this.order = order;
+	}
+
 	@Override
-	public int getOrder() { return this.order; }
+	public int getOrder() {
+		return this.order;
+	}
 
 	public Object capitalize(ProceedingJoinPoint pjp, String value) throws Throwable {
-		return pjp.proceed(new Object[] {value.toUpperCase()});
+		return pjp.proceed(new Object[]{value.toUpperCase()});
 	}
 
 	public Object doubleOrQuits(ProceedingJoinPoint pjp) throws Throwable {
@@ -168,24 +179,19 @@ class ProceedTestingAspect implements Ordered {
 
 	public Object addOne(ProceedingJoinPoint pjp, Float value) throws Throwable {
 		float fv = value.floatValue();
-		return pjp.proceed(new Object[] {new Float(fv + 1.0F)});
+		return pjp.proceed(new Object[]{new Float(fv + 1.0F)});
 	}
 
 	public void captureStringArgument(JoinPoint tjp, String arg) {
 		if (!tjp.getArgs()[0].equals(arg)) {
-			throw new IllegalStateException(
-					"argument is '" + arg + "', " +
-					"but args array has '" + tjp.getArgs()[0] + "'"
-					);
+			throw new IllegalStateException("argument is '" + arg + "', " + "but args array has '" + tjp.getArgs()[0] + "'");
 		}
 		this.lastBeforeStringValue = arg;
 	}
 
 	public Object captureStringArgumentInAround(ProceedingJoinPoint pjp, String arg) throws Throwable {
 		if (!pjp.getArgs()[0].equals(arg)) {
-			throw new IllegalStateException(
-					"argument is '" + arg + "', " +
-					"but args array has '" + pjp.getArgs()[0] + "'");
+			throw new IllegalStateException("argument is '" + arg + "', " + "but args array has '" + pjp.getArgs()[0] + "'");
 		}
 		this.lastAroundStringValue = arg;
 		return pjp.proceed();
@@ -194,10 +200,7 @@ class ProceedTestingAspect implements Ordered {
 	public void captureFloatArgument(JoinPoint tjp, float arg) {
 		float tjpArg = ((Float) tjp.getArgs()[0]).floatValue();
 		if (Math.abs(tjpArg - arg) > 0.000001) {
-			throw new IllegalStateException(
-					"argument is '" + arg + "', " +
-					"but args array has '" + tjpArg + "'"
-					);
+			throw new IllegalStateException("argument is '" + arg + "', " + "but args array has '" + tjpArg + "'");
 		}
 		this.lastBeforeFloatValue = arg;
 	}

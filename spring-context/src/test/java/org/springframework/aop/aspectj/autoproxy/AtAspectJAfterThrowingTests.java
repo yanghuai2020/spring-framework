@@ -37,8 +37,7 @@ public class AtAspectJAfterThrowingTests {
 
 	@Test
 	public void testAccessThrowable() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
 
 		ITestBean bean = (ITestBean) ctx.getBean("testBean");
 		ExceptionHandlingAspect aspect = (ExceptionHandlingAspect) ctx.getBean("aspect");
@@ -47,8 +46,7 @@ public class AtAspectJAfterThrowingTests {
 		IOException exceptionThrown = null;
 		try {
 			bean.unreliableFileOperation();
-		}
-		catch (IOException ex) {
+		} catch (IOException ex) {
 			exceptionThrown = ex;
 		}
 

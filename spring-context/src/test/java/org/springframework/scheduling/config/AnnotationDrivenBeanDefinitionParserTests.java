@@ -33,8 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class AnnotationDrivenBeanDefinitionParserTests {
 
-	private ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(
-			"annotationDrivenContext.xml", AnnotationDrivenBeanDefinitionParserTests.class);
+	private ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("annotationDrivenContext.xml", AnnotationDrivenBeanDefinitionParserTests.class);
 
 
 	@AfterEach

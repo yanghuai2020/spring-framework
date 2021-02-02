@@ -51,15 +51,14 @@ public class BeanExpressionContextAccessor implements PropertyAccessor {
 	}
 
 	@Override
-	public void write(EvaluationContext context, @Nullable Object target, String name, @Nullable Object newValue)
-			throws AccessException {
+	public void write(EvaluationContext context, @Nullable Object target, String name, @Nullable Object newValue) throws AccessException {
 
 		throw new AccessException("Beans in a BeanFactory are read-only");
 	}
 
 	@Override
 	public Class<?>[] getSpecificTargetClasses() {
-		return new Class<?>[] {BeanExpressionContext.class};
+		return new Class<?>[]{BeanExpressionContext.class};
 	}
 
 }

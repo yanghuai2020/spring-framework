@@ -47,26 +47,22 @@ public class CronSequenceGeneratorTests {
 
 	@Test
 	public void with0Increment() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new CronSequenceGenerator("*/0 * * * * *").next(new Date(2012, 6, 1, 9, 0)));
+		assertThatIllegalArgumentException().isThrownBy(() -> new CronSequenceGenerator("*/0 * * * * *").next(new Date(2012, 6, 1, 9, 0)));
 	}
 
 	@Test
 	public void withNegativeIncrement() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new CronSequenceGenerator("*/-1 * * * * *").next(new Date(2012, 6, 1, 9, 0)));
+		assertThatIllegalArgumentException().isThrownBy(() -> new CronSequenceGenerator("*/-1 * * * * *").next(new Date(2012, 6, 1, 9, 0)));
 	}
 
 	@Test
 	public void withInvertedMinuteRange() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new CronSequenceGenerator("* 6-5 * * * *").next(new Date(2012, 6, 1, 9, 0)));
+		assertThatIllegalArgumentException().isThrownBy(() -> new CronSequenceGenerator("* 6-5 * * * *").next(new Date(2012, 6, 1, 9, 0)));
 	}
 
 	@Test
 	public void withInvertedHourRange() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new CronSequenceGenerator("* * 6-5 * * *").next(new Date(2012, 6, 1, 9, 0)));
+		assertThatIllegalArgumentException().isThrownBy(() -> new CronSequenceGenerator("* * 6-5 * * *").next(new Date(2012, 6, 1, 9, 0)));
 	}
 
 	@Test

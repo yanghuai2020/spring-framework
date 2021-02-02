@@ -56,8 +56,7 @@ public class JdkDynamicProxyTests extends AbstractAopProxyTests implements Seria
 
 	@Test
 	public void testNullConfig() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new JdkDynamicAopProxy(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new JdkDynamicAopProxy(null));
 	}
 
 	@Test
@@ -157,8 +156,7 @@ public class JdkDynamicProxyTests extends AbstractAopProxyTests implements Seria
 	}
 
 
-	public interface Bar {
-	}
+	public interface Bar {}
 
 
 	public static class FooBar implements Foo, Bar {
@@ -198,10 +196,13 @@ public class JdkDynamicProxyTests extends AbstractAopProxyTests implements Seria
 
 		@Override
 		public boolean equals(Object o) {
-			if (this == o) return true;
-			if (o == null || getClass() != o.getClass()) return false;
+			if (this == o)
+				return true;
+			if (o == null || getClass() != o.getClass())
+				return false;
 			Person person = (Person) o;
-			if (!name.equals(person.name)) return false;
+			if (!name.equals(person.name))
+				return false;
 			return true;
 		}
 
@@ -229,8 +230,7 @@ public class JdkDynamicProxyTests extends AbstractAopProxyTests implements Seria
 	}
 
 
-	public interface MyInterface {
-	}
+	public interface MyInterface {}
 
 
 	public enum MyEnum implements MyInterface {

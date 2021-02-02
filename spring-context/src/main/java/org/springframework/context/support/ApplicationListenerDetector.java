@@ -77,14 +77,10 @@ class ApplicationListenerDetector implements DestructionAwareBeanPostProcessor, 
 			if (Boolean.TRUE.equals(flag)) {
 				// singleton bean (top-level or inner): register on the fly
 				this.applicationContext.addApplicationListener((ApplicationListener<?>) bean);
-			}
-			else if (Boolean.FALSE.equals(flag)) {
+			} else if (Boolean.FALSE.equals(flag)) {
 				if (logger.isWarnEnabled() && !this.applicationContext.containsBean(beanName)) {
 					// inner bean with other scope - can't reliably process events
-					logger.warn("Inner bean '" + beanName + "' implements ApplicationListener interface " +
-							"but is not reachable for event multicasting by its containing ApplicationContext " +
-							"because it does not have singleton scope. Only top-level listener beans are allowed " +
-							"to be of non-singleton scope.");
+					logger.warn("Inner bean '" + beanName + "' implements ApplicationListener interface " + "but is not reachable for event multicasting by its containing ApplicationContext " + "because it does not have singleton scope. Only top-level listener beans are allowed " + "to be of non-singleton scope.");
 				}
 				this.singletonNames.remove(beanName);
 			}
@@ -99,8 +95,7 @@ class ApplicationListenerDetector implements DestructionAwareBeanPostProcessor, 
 				ApplicationEventMulticaster multicaster = this.applicationContext.getApplicationEventMulticaster();
 				multicaster.removeApplicationListener((ApplicationListener<?>) bean);
 				multicaster.removeApplicationListenerBean(beanName);
-			}
-			catch (IllegalStateException ex) {
+			} catch (IllegalStateException ex) {
 				// ApplicationEventMulticaster not initialized yet - no need to remove a listener
 			}
 		}
@@ -114,8 +109,7 @@ class ApplicationListenerDetector implements DestructionAwareBeanPostProcessor, 
 
 	@Override
 	public boolean equals(@Nullable Object other) {
-		return (this == other || (other instanceof ApplicationListenerDetector &&
-				this.applicationContext == ((ApplicationListenerDetector) other).applicationContext));
+		return (this == other || (other instanceof ApplicationListenerDetector && this.applicationContext == ((ApplicationListenerDetector) other).applicationContext));
 	}
 
 	@Override

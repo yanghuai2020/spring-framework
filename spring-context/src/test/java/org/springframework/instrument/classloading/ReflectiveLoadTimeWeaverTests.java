@@ -35,14 +35,12 @@ public class ReflectiveLoadTimeWeaverTests {
 
 	@Test
 	public void testCtorWithNullClassLoader() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new ReflectiveLoadTimeWeaver(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new ReflectiveLoadTimeWeaver(null));
 	}
 
 	@Test
 	public void testCtorWithClassLoaderThatDoesNotExposeAnAddTransformerMethod() {
-		assertThatIllegalStateException().isThrownBy(() ->
-				new ReflectiveLoadTimeWeaver(getClass().getClassLoader()));
+		assertThatIllegalStateException().isThrownBy(() -> new ReflectiveLoadTimeWeaver(getClass().getClassLoader()));
 	}
 
 	@Test
@@ -60,8 +58,7 @@ public class ReflectiveLoadTimeWeaverTests {
 
 	@Test
 	public void testAddTransformerWithNullTransformer() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new ReflectiveLoadTimeWeaver(new JustAddTransformerClassLoader()).addTransformer(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new ReflectiveLoadTimeWeaver(new JustAddTransformerClassLoader()).addTransformer(null));
 	}
 
 	@Test

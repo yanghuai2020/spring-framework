@@ -36,20 +36,17 @@ public class StaticScriptSourceTests {
 
 	@Test
 	public void createWithNullScript() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new StaticScriptSource(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new StaticScriptSource(null));
 	}
 
 	@Test
 	public void createWithEmptyScript() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new StaticScriptSource(""));
+		assertThatIllegalArgumentException().isThrownBy(() -> new StaticScriptSource(""));
 	}
 
 	@Test
 	public void createWithWhitespaceOnlyScript() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new StaticScriptSource("   \n\n\t  \t\n"));
+		assertThatIllegalArgumentException().isThrownBy(() -> new StaticScriptSource("   \n\n\t  \t\n"));
 	}
 
 	@Test

@@ -98,8 +98,7 @@ public class AnnotationScopeMetadataResolverTests {
 
 	@Test
 	public void customRequestScopeWithAttribute() {
-		AnnotatedBeanDefinition bd = new AnnotatedGenericBeanDefinition(
-			AnnotatedWithCustomRequestScopeWithAttributeOverride.class);
+		AnnotatedBeanDefinition bd = new AnnotatedGenericBeanDefinition(AnnotatedWithCustomRequestScopeWithAttributeOverride.class);
 		ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(bd);
 		assertThat(scopeMetadata).as("resolveScopeMetadata(..) must *never* return null.").isNotNull();
 		assertThat(scopeMetadata.getScopeName()).isEqualTo("request");
@@ -119,21 +118,18 @@ public class AnnotationScopeMetadataResolverTests {
 
 	@Test
 	public void ctorWithNullScopedProxyMode() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new AnnotationScopeMetadataResolver(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new AnnotationScopeMetadataResolver(null));
 	}
 
 	@Test
 	public void setScopeAnnotationTypeWithNullType() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				scopeMetadataResolver.setScopeAnnotationType(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> scopeMetadataResolver.setScopeAnnotationType(null));
 	}
 
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Scope("request")
-	@interface CustomRequestScope {
-	}
+	@interface CustomRequestScope {}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Scope("request")
@@ -143,23 +139,18 @@ public class AnnotationScopeMetadataResolverTests {
 	}
 
 	@Scope("singleton")
-	private static class AnnotatedWithSingletonScope {
-	}
+	private static class AnnotatedWithSingletonScope {}
 
 	@Scope("prototype")
-	private static class AnnotatedWithPrototypeScope {
-	}
+	private static class AnnotatedWithPrototypeScope {}
 
 	@Scope(scopeName = "request", proxyMode = TARGET_CLASS)
-	private static class AnnotatedWithScopedProxy {
-	}
+	private static class AnnotatedWithScopedProxy {}
 
 	@CustomRequestScope
-	private static class AnnotatedWithCustomRequestScope {
-	}
+	private static class AnnotatedWithCustomRequestScope {}
 
 	@CustomRequestScopeWithAttributeOverride(proxyMode = TARGET_CLASS)
-	private static class AnnotatedWithCustomRequestScopeWithAttributeOverride {
-	}
+	private static class AnnotatedWithCustomRequestScopeWithAttributeOverride {}
 
 }

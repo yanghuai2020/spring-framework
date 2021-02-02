@@ -44,8 +44,7 @@ public class ThisAndTargetSelectionOnlyPointcutsAtAspectJTests {
 
 	@org.junit.jupiter.api.BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
 		testBean = (TestInterface) ctx.getBean("testBean");
 		testAnnotatedClassBean = (TestInterface) ctx.getBean("testAnnotatedClassBean");
 		testAnnotatedMethodBean = (TestInterface) ctx.getBean("testAnnotatedMethodBean");
@@ -182,20 +181,17 @@ public class ThisAndTargetSelectionOnlyPointcutsAtAspectJTests {
 			targetAsInterfaceCounter++;
 		}
 
-		@Before("this(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestImpl) " +
-				"&& target(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestImpl)")
+		@Before("this(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestImpl) " + "&& target(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestImpl)")
 		public void incrementThisAsClassAndTargetAsClassCounter() {
 			thisAsClassAndTargetAsClassCounter++;
 		}
 
-		@Before("this(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestInterface) " +
-				"&& target(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestInterface)")
+		@Before("this(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestInterface) " + "&& target(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestInterface)")
 		public void incrementThisAsInterfaceAndTargetAsInterfaceCounter() {
 			thisAsInterfaceAndTargetAsInterfaceCounter++;
 		}
 
-		@Before("this(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestInterface) " +
-				"&& target(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestImpl)")
+		@Before("this(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestInterface) " + "&& target(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestImpl)")
 		public void incrementThisAsInterfaceAndTargetAsClassCounter() {
 			thisAsInterfaceAndTargetAsClassCounter++;
 		}

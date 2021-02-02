@@ -60,8 +60,7 @@ public abstract class TaskUtils {
 	 * propagated by default since those errors may be expected through the
 	 * returned {@link Future}. In both cases, the errors will be logged.
 	 */
-	public static DelegatingErrorHandlingRunnable decorateTaskWithErrorHandler(
-			Runnable task, @Nullable ErrorHandler errorHandler, boolean isRepeatingTask) {
+	public static DelegatingErrorHandlingRunnable decorateTaskWithErrorHandler(Runnable task, @Nullable ErrorHandler errorHandler, boolean isRepeatingTask) {
 
 		if (task instanceof DelegatingErrorHandlingRunnable) {
 			return (DelegatingErrorHandlingRunnable) task;
@@ -83,8 +82,8 @@ public abstract class TaskUtils {
 
 	/**
 	 * An {@link ErrorHandler} implementation that logs the Throwable at error
- 	 * level. It does not perform any additional error handling. This can be
- 	 * useful when suppression of errors is the intended behavior.
+	 * level. It does not perform any additional error handling. This can be
+	 * useful when suppression of errors is the intended behavior.
 	 */
 	private static class LoggingErrorHandler implements ErrorHandler {
 

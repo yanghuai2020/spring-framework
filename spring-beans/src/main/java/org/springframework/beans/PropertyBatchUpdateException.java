@@ -40,12 +40,15 @@ import org.springframework.util.ObjectUtils;
 @SuppressWarnings("serial")
 public class PropertyBatchUpdateException extends BeansException {
 
-	/** List of PropertyAccessException objects. */
+	/**
+	 * List of PropertyAccessException objects.
+	 */
 	private final PropertyAccessException[] propertyAccessExceptions;
 
 
 	/**
 	 * Create a new PropertyBatchUpdateException.
+	 *
 	 * @param propertyAccessExceptions the List of PropertyAccessExceptions
 	 */
 	public PropertyBatchUpdateException(PropertyAccessException[] propertyAccessExceptions) {
@@ -108,8 +111,7 @@ public class PropertyBatchUpdateException extends BeansException {
 	@Override
 	public void printStackTrace(PrintStream ps) {
 		synchronized (ps) {
-			ps.println(getClass().getName() + "; nested PropertyAccessException details (" +
-					getExceptionCount() + ") are:");
+			ps.println(getClass().getName() + "; nested PropertyAccessException details (" + getExceptionCount() + ") are:");
 			for (int i = 0; i < this.propertyAccessExceptions.length; i++) {
 				ps.println("PropertyAccessException " + (i + 1) + ":");
 				this.propertyAccessExceptions[i].printStackTrace(ps);
@@ -120,8 +122,7 @@ public class PropertyBatchUpdateException extends BeansException {
 	@Override
 	public void printStackTrace(PrintWriter pw) {
 		synchronized (pw) {
-			pw.println(getClass().getName() + "; nested PropertyAccessException details (" +
-					getExceptionCount() + ") are:");
+			pw.println(getClass().getName() + "; nested PropertyAccessException details (" + getExceptionCount() + ") are:");
 			for (int i = 0; i < this.propertyAccessExceptions.length; i++) {
 				pw.println("PropertyAccessException " + (i + 1) + ":");
 				this.propertyAccessExceptions[i].printStackTrace(pw);

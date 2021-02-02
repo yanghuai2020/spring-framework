@@ -60,14 +60,11 @@ public class Spr7816Tests {
 
 	}
 
-	public static class Building extends DomainEntity {
-	}
+	public static class Building extends DomainEntity {}
 
-	public static class Entrance extends DomainEntity {
-	}
+	public static class Entrance extends DomainEntity {}
 
-	public static class Dwelling extends DomainEntity {
-	}
+	public static class Dwelling extends DomainEntity {}
 
 	public abstract static class DomainEntity {
 

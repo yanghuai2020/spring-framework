@@ -37,9 +37,9 @@ import org.springframework.util.Assert;
  * javadoc for complete usage details.
  *
  * @author Chris Beams
- * @since 3.1
  * @see LoadTimeWeavingConfigurer
  * @see ConfigurableApplicationContext#LOAD_TIME_WEAVER_BEAN_NAME
+ * @since 3.1
  */
 @Configuration(proxyBeanMethods = false)
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
@@ -59,8 +59,7 @@ public class LoadTimeWeavingConfiguration implements ImportAware, BeanClassLoade
 	public void setImportMetadata(AnnotationMetadata importMetadata) {
 		this.enableLTW = AnnotationConfigUtils.attributesFor(importMetadata, EnableLoadTimeWeaving.class);
 		if (this.enableLTW == null) {
-			throw new IllegalArgumentException(
-					"@EnableLoadTimeWeaving is not present on importing class " + importMetadata.getClassName());
+			throw new IllegalArgumentException("@EnableLoadTimeWeaving is not present on importing class " + importMetadata.getClassName());
 		}
 	}
 

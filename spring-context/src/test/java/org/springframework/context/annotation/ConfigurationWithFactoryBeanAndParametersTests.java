@@ -52,8 +52,7 @@ public class ConfigurationWithFactoryBeanAndParametersTests {
 	}
 
 
-	static class Foo {
-	}
+	static class Foo {}
 
 
 	static class Bar {

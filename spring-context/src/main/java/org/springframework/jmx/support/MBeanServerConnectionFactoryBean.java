@@ -46,14 +46,13 @@ import org.springframework.util.CollectionUtils;
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
- * @since 1.2
  * @see MBeanServerFactoryBean
  * @see ConnectorServerFactoryBean
  * @see org.springframework.jmx.access.MBeanClientInterceptor#setServer
  * @see org.springframework.jmx.access.NotificationListenerRegistrar#setServer
+ * @since 1.2
  */
-public class MBeanServerConnectionFactoryBean
-		implements FactoryBean<MBeanServerConnection>, BeanClassLoaderAware, InitializingBean, DisposableBean {
+public class MBeanServerConnectionFactoryBean implements FactoryBean<MBeanServerConnection>, BeanClassLoaderAware, InitializingBean, DisposableBean {
 
 	@Nullable
 	private JMXServiceURL serviceUrl;
@@ -128,8 +127,7 @@ public class MBeanServerConnectionFactoryBean
 
 		if (this.connectOnStartup) {
 			connect();
-		}
-		else {
+		} else {
 			createLazyConnection();
 		}
 	}
@@ -151,10 +149,8 @@ public class MBeanServerConnectionFactoryBean
 		this.connectorTargetSource = new JMXConnectorLazyInitTargetSource();
 		TargetSource connectionTargetSource = new MBeanServerConnectionLazyInitTargetSource();
 
-		this.connector = (JMXConnector)
-				new ProxyFactory(JMXConnector.class, this.connectorTargetSource).getProxy(this.beanClassLoader);
-		this.connection = (MBeanServerConnection)
-				new ProxyFactory(MBeanServerConnection.class, connectionTargetSource).getProxy(this.beanClassLoader);
+		this.connector = (JMXConnector) new ProxyFactory(JMXConnector.class, this.connectorTargetSource).getProxy(this.beanClassLoader);
+		this.connection = (MBeanServerConnection) new ProxyFactory(MBeanServerConnection.class, connectionTargetSource).getProxy(this.beanClassLoader);
 	}
 
 
@@ -180,8 +176,7 @@ public class MBeanServerConnectionFactoryBean
 	 */
 	@Override
 	public void destroy() throws IOException {
-		if (this.connector != null &&
-				(this.connectorTargetSource == null || this.connectorTargetSource.isInitialized())) {
+		if (this.connector != null && (this.connectorTargetSource == null || this.connectorTargetSource.isInitialized())) {
 			this.connector.close();
 		}
 	}
@@ -190,6 +185,7 @@ public class MBeanServerConnectionFactoryBean
 	/**
 	 * Lazily creates a {@code JMXConnector} using the configured service URL
 	 * and environment properties.
+	 *
 	 * @see MBeanServerConnectionFactoryBean#setServiceUrl(String)
 	 * @see MBeanServerConnectionFactoryBean#setEnvironment(java.util.Properties)
 	 */

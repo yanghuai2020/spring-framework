@@ -38,8 +38,8 @@ import org.springframework.util.ObjectUtils;
  * as well as for generic argument matches by type.
  *
  * @author Juergen Hoeller
- * @since 09.11.2003
  * @see BeanDefinition#getConstructorArgumentValues
+ * @since 09.11.2003
  */
 public class ConstructorArgumentValues {
 
@@ -56,6 +56,7 @@ public class ConstructorArgumentValues {
 
 	/**
 	 * Deep copy constructor.
+	 *
 	 * @param original the ConstructorArgumentValues to copy
 	 */
 	public ConstructorArgumentValues(ConstructorArgumentValues original) {
@@ -72,18 +73,15 @@ public class ConstructorArgumentValues {
 	 */
 	public void addArgumentValues(@Nullable ConstructorArgumentValues other) {
 		if (other != null) {
-			other.indexedArgumentValues.forEach(
-				(index, argValue) -> addOrMergeIndexedArgumentValue(index, argValue.copy())
-			);
-			other.genericArgumentValues.stream()
-					.filter(valueHolder -> !this.genericArgumentValues.contains(valueHolder))
-					.forEach(valueHolder -> addOrMergeGenericArgumentValue(valueHolder.copy()));
+			other.indexedArgumentValues.forEach((index, argValue) -> addOrMergeIndexedArgumentValue(index, argValue.copy()));
+			other.genericArgumentValues.stream().filter(valueHolder -> !this.genericArgumentValues.contains(valueHolder)).forEach(valueHolder -> addOrMergeGenericArgumentValue(valueHolder.copy()));
 		}
 	}
 
 
 	/**
 	 * Add an argument value for the given index in the constructor argument list.
+	 *
 	 * @param index the index in the constructor argument list
 	 * @param value the argument value
 	 */
@@ -93,9 +91,10 @@ public class ConstructorArgumentValues {
 
 	/**
 	 * Add an argument value for the given index in the constructor argument list.
+	 *
 	 * @param index the index in the constructor argument list
 	 * @param value the argument value
-	 * @param type the type of the constructor argument
+	 * @param type  the type of the constructor argument
 	 */
 	public void addIndexedArgumentValue(int index, @Nullable Object value, String type) {
 		addIndexedArgumentValue(index, new ValueHolder(value, type));
@@ -103,7 +102,8 @@ public class ConstructorArgumentValues {
 
 	/**
 	 * Add an argument value for the given index in the constructor argument list.
-	 * @param index the index in the constructor argument list
+	 *
+	 * @param index    the index in the constructor argument list
 	 * @param newValue the argument value in the form of a ValueHolder
 	 */
 	public void addIndexedArgumentValue(int index, ValueHolder newValue) {
@@ -116,7 +116,8 @@ public class ConstructorArgumentValues {
 	 * Add an argument value for the given index in the constructor argument list,
 	 * merging the new value (typically a collection) with the current value
 	 * if demanded: see {@link org.springframework.beans.Mergeable}.
-	 * @param key the index in the constructor argument list
+	 *
+	 * @param key      the index in the constructor argument list
 	 * @param newValue the argument value in the form of a ValueHolder
 	 */
 	private void addOrMergeIndexedArgumentValue(Integer key, ValueHolder newValue) {
@@ -132,6 +133,7 @@ public class ConstructorArgumentValues {
 
 	/**
 	 * Check whether an argument value has been registered for the given index.
+	 *
 	 * @param index the index in the constructor argument list
 	 */
 	public boolean hasIndexedArgumentValue(int index) {
@@ -140,9 +142,10 @@ public class ConstructorArgumentValues {
 
 	/**
 	 * Get argument value for the given index in the constructor argument list.
-	 * @param index the index in the constructor argument list
+	 *
+	 * @param index        the index in the constructor argument list
 	 * @param requiredType the type to match (can be {@code null} to match
-	 * untyped values only)
+	 *                     untyped values only)
 	 * @return the ValueHolder for the argument, or {@code null} if none set
 	 */
 	@Nullable
@@ -152,22 +155,19 @@ public class ConstructorArgumentValues {
 
 	/**
 	 * Get argument value for the given index in the constructor argument list.
-	 * @param index the index in the constructor argument list
+	 *
+	 * @param index        the index in the constructor argument list
 	 * @param requiredType the type to match (can be {@code null} to match
-	 * untyped values only)
+	 *                     untyped values only)
 	 * @param requiredName the type to match (can be {@code null} to match
-	 * unnamed values only, or empty String to match any name)
+	 *                     unnamed values only, or empty String to match any name)
 	 * @return the ValueHolder for the argument, or {@code null} if none set
 	 */
 	@Nullable
 	public ValueHolder getIndexedArgumentValue(int index, @Nullable Class<?> requiredType, @Nullable String requiredName) {
 		Assert.isTrue(index >= 0, "Index must not be negative");
 		ValueHolder valueHolder = this.indexedArgumentValues.get(index);
-		if (valueHolder != null &&
-				(valueHolder.getType() == null || (requiredType != null &&
-						ClassUtils.matchesTypeName(requiredType, valueHolder.getType()))) &&
-				(valueHolder.getName() == null || (requiredName != null &&
-						(requiredName.isEmpty() || requiredName.equals(valueHolder.getName()))))) {
+		if (valueHolder != null && (valueHolder.getType() == null || (requiredType != null && ClassUtils.matchesTypeName(requiredType, valueHolder.getType()))) && (valueHolder.getName() == null || (requiredName != null && (requiredName.isEmpty() || requiredName.equals(valueHolder.getName()))))) {
 			return valueHolder;
 		}
 		return null;
@@ -175,6 +175,7 @@ public class ConstructorArgumentValues {
 
 	/**
 	 * Return the map of indexed argument values.
+	 *
 	 * @return unmodifiable Map with Integer index as key and ValueHolder as value
 	 * @see ValueHolder
 	 */
@@ -187,6 +188,7 @@ public class ConstructorArgumentValues {
 	 * Add a generic argument value to be matched by type.
 	 * <p>Note: A single generic argument value will just be used once,
 	 * rather than matched multiple times.
+	 *
 	 * @param value the argument value
 	 */
 	public void addGenericArgumentValue(Object value) {
@@ -197,8 +199,9 @@ public class ConstructorArgumentValues {
 	 * Add a generic argument value to be matched by type.
 	 * <p>Note: A single generic argument value will just be used once,
 	 * rather than matched multiple times.
+	 *
 	 * @param value the argument value
-	 * @param type the type of the constructor argument
+	 * @param type  the type of the constructor argument
 	 */
 	public void addGenericArgumentValue(Object value, String type) {
 		this.genericArgumentValues.add(new ValueHolder(value, type));
@@ -208,10 +211,11 @@ public class ConstructorArgumentValues {
 	 * Add a generic argument value to be matched by type or name (if available).
 	 * <p>Note: A single generic argument value will just be used once,
 	 * rather than matched multiple times.
+	 *
 	 * @param newValue the argument value in the form of a ValueHolder
-	 * <p>Note: Identical ValueHolder instances will only be registered once,
-	 * to allow for merging and re-merging of argument value definitions. Distinct
-	 * ValueHolder instances carrying the same content are of course allowed.
+	 *                 <p>Note: Identical ValueHolder instances will only be registered once,
+	 *                 to allow for merging and re-merging of argument value definitions. Distinct
+	 *                 ValueHolder instances carrying the same content are of course allowed.
 	 */
 	public void addGenericArgumentValue(ValueHolder newValue) {
 		Assert.notNull(newValue, "ValueHolder must not be null");
@@ -223,11 +227,12 @@ public class ConstructorArgumentValues {
 	/**
 	 * Add a generic argument value, merging the new value (typically a collection)
 	 * with the current value if demanded: see {@link org.springframework.beans.Mergeable}.
+	 *
 	 * @param newValue the argument value in the form of a ValueHolder
 	 */
 	private void addOrMergeGenericArgumentValue(ValueHolder newValue) {
 		if (newValue.getName() != null) {
-			for (Iterator<ValueHolder> it = this.genericArgumentValues.iterator(); it.hasNext();) {
+			for (Iterator<ValueHolder> it = this.genericArgumentValues.iterator(); it.hasNext(); ) {
 				ValueHolder currentValue = it.next();
 				if (newValue.getName().equals(currentValue.getName())) {
 					if (newValue.getValue() instanceof Mergeable) {
@@ -245,6 +250,7 @@ public class ConstructorArgumentValues {
 
 	/**
 	 * Look for a generic argument value that matches the given type.
+	 *
 	 * @param requiredType the type to match
 	 * @return the ValueHolder for the argument, or {@code null} if none set
 	 */
@@ -255,6 +261,7 @@ public class ConstructorArgumentValues {
 
 	/**
 	 * Look for a generic argument value that matches the given type.
+	 *
 	 * @param requiredType the type to match
 	 * @param requiredName the name to match
 	 * @return the ValueHolder for the argument, or {@code null} if none set
@@ -268,32 +275,29 @@ public class ConstructorArgumentValues {
 	 * Look for the next generic argument value that matches the given type,
 	 * ignoring argument values that have already been used in the current
 	 * resolution process.
-	 * @param requiredType the type to match (can be {@code null} to find
-	 * an arbitrary next generic argument value)
-	 * @param requiredName the name to match (can be {@code null} to not
-	 * match argument values by name, or empty String to match any name)
+	 *
+	 * @param requiredType     the type to match (can be {@code null} to find
+	 *                         an arbitrary next generic argument value)
+	 * @param requiredName     the name to match (can be {@code null} to not
+	 *                         match argument values by name, or empty String to match any name)
 	 * @param usedValueHolders a Set of ValueHolder objects that have already been used
-	 * in the current resolution process and should therefore not be returned again
+	 *                         in the current resolution process and should therefore not be returned again
 	 * @return the ValueHolder for the argument, or {@code null} if none found
 	 */
 	@Nullable
-	public ValueHolder getGenericArgumentValue(@Nullable Class<?> requiredType, @Nullable String requiredName,
-			@Nullable Set<ValueHolder> usedValueHolders) {
+	public ValueHolder getGenericArgumentValue(@Nullable Class<?> requiredType, @Nullable String requiredName, @Nullable Set<ValueHolder> usedValueHolders) {
 
 		for (ValueHolder valueHolder : this.genericArgumentValues) {
 			if (usedValueHolders != null && usedValueHolders.contains(valueHolder)) {
 				continue;
 			}
-			if (valueHolder.getName() != null && (requiredName == null ||
-					(!requiredName.isEmpty() && !requiredName.equals(valueHolder.getName())))) {
+			if (valueHolder.getName() != null && (requiredName == null || (!requiredName.isEmpty() && !requiredName.equals(valueHolder.getName())))) {
 				continue;
 			}
-			if (valueHolder.getType() != null && (requiredType == null ||
-					!ClassUtils.matchesTypeName(requiredType, valueHolder.getType()))) {
+			if (valueHolder.getType() != null && (requiredType == null || !ClassUtils.matchesTypeName(requiredType, valueHolder.getType()))) {
 				continue;
 			}
-			if (requiredType != null && valueHolder.getType() == null && valueHolder.getName() == null &&
-					!ClassUtils.isAssignableValue(requiredType, valueHolder.getValue())) {
+			if (requiredType != null && valueHolder.getType() == null && valueHolder.getName() == null && !ClassUtils.isAssignableValue(requiredType, valueHolder.getValue())) {
 				continue;
 			}
 			return valueHolder;
@@ -303,6 +307,7 @@ public class ConstructorArgumentValues {
 
 	/**
 	 * Return the list of generic argument values.
+	 *
 	 * @return unmodifiable List of ValueHolders
 	 * @see ValueHolder
 	 */
@@ -314,7 +319,8 @@ public class ConstructorArgumentValues {
 	/**
 	 * Look for an argument value that either corresponds to the given index
 	 * in the constructor argument list or generically matches by type.
-	 * @param index the index in the constructor argument list
+	 *
+	 * @param index        the index in the constructor argument list
 	 * @param requiredType the parameter type to match
 	 * @return the ValueHolder for the argument, or {@code null} if none set
 	 */
@@ -326,7 +332,8 @@ public class ConstructorArgumentValues {
 	/**
 	 * Look for an argument value that either corresponds to the given index
 	 * in the constructor argument list or generically matches by type.
-	 * @param index the index in the constructor argument list
+	 *
+	 * @param index        the index in the constructor argument list
 	 * @param requiredType the parameter type to match
 	 * @param requiredName the parameter name to match
 	 * @return the ValueHolder for the argument, or {@code null} if none set
@@ -339,15 +346,16 @@ public class ConstructorArgumentValues {
 	/**
 	 * Look for an argument value that either corresponds to the given index
 	 * in the constructor argument list or generically matches by type.
-	 * @param index the index in the constructor argument list
-	 * @param requiredType the parameter type to match (can be {@code null}
-	 * to find an untyped argument value)
-	 * @param requiredName the parameter name to match (can be {@code null}
-	 * to find an unnamed argument value, or empty String to match any name)
+	 *
+	 * @param index            the index in the constructor argument list
+	 * @param requiredType     the parameter type to match (can be {@code null}
+	 *                         to find an untyped argument value)
+	 * @param requiredName     the parameter name to match (can be {@code null}
+	 *                         to find an unnamed argument value, or empty String to match any name)
 	 * @param usedValueHolders a Set of ValueHolder objects that have already
-	 * been used in the current resolution process and should therefore not
-	 * be returned again (allowing to return the next generic argument match
-	 * in case of multiple generic argument values of the same type)
+	 *                         been used in the current resolution process and should therefore not
+	 *                         be returned again (allowing to return the next generic argument match
+	 *                         in case of multiple generic argument values of the same type)
 	 * @return the ValueHolder for the argument, or {@code null} if none set
 	 */
 	@Nullable
@@ -394,8 +402,7 @@ public class ConstructorArgumentValues {
 			return false;
 		}
 		ConstructorArgumentValues that = (ConstructorArgumentValues) other;
-		if (this.genericArgumentValues.size() != that.genericArgumentValues.size() ||
-				this.indexedArgumentValues.size() != that.indexedArgumentValues.size()) {
+		if (this.genericArgumentValues.size() != that.genericArgumentValues.size() || this.indexedArgumentValues.size() != that.indexedArgumentValues.size()) {
 			return false;
 		}
 		Iterator<ValueHolder> it1 = this.genericArgumentValues.iterator();
@@ -456,6 +463,7 @@ public class ConstructorArgumentValues {
 
 		/**
 		 * Create a new ValueHolder for the given value.
+		 *
 		 * @param value the argument value
 		 */
 		public ValueHolder(@Nullable Object value) {
@@ -464,8 +472,9 @@ public class ConstructorArgumentValues {
 
 		/**
 		 * Create a new ValueHolder for the given value and type.
+		 *
 		 * @param value the argument value
-		 * @param type the type of the constructor argument
+		 * @param type  the type of the constructor argument
 		 */
 		public ValueHolder(@Nullable Object value, @Nullable String type) {
 			this.value = value;
@@ -474,9 +483,10 @@ public class ConstructorArgumentValues {
 
 		/**
 		 * Create a new ValueHolder for the given value, type and name.
+		 *
 		 * @param value the argument value
-		 * @param type the type of the constructor argument
-		 * @param name the name of the constructor argument
+		 * @param type  the type of the constructor argument
+		 * @param name  the name of the constructor argument
 		 */
 		public ValueHolder(@Nullable Object value, @Nullable String type, @Nullable String name) {
 			this.value = value;
@@ -577,8 +587,7 @@ public class ConstructorArgumentValues {
 		 * same content to reside in the same Set.
 		 */
 		private boolean contentEquals(ValueHolder other) {
-			return (this == other ||
-					(ObjectUtils.nullSafeEquals(this.value, other.value) && ObjectUtils.nullSafeEquals(this.type, other.type)));
+			return (this == other || (ObjectUtils.nullSafeEquals(this.value, other.value) && ObjectUtils.nullSafeEquals(this.type, other.type)));
 		}
 
 		/**

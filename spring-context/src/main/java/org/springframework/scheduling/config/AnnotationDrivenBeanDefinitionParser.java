@@ -42,8 +42,7 @@ import org.springframework.util.StringUtils;
  */
 public class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 
-	private static final String ASYNC_EXECUTION_ASPECT_CLASS_NAME =
-			"org.springframework.scheduling.aspectj.AnnotationAsyncExecutionAspect";
+	private static final String ASYNC_EXECUTION_ASPECT_CLASS_NAME = "org.springframework.scheduling.aspectj.AnnotationAsyncExecutionAspect";
 
 
 	@Override
@@ -62,16 +61,12 @@ public class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParse
 		if ("aspectj".equals(mode)) {
 			// mode="aspectj"
 			registerAsyncExecutionAspect(element, parserContext);
-		}
-		else {
+		} else {
 			// mode="proxy"
 			if (registry.containsBeanDefinition(TaskManagementConfigUtils.ASYNC_ANNOTATION_PROCESSOR_BEAN_NAME)) {
-				parserContext.getReaderContext().error(
-						"Only one AsyncAnnotationBeanPostProcessor may exist within the context.", source);
-			}
-			else {
-				BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(
-						"org.springframework.scheduling.annotation.AsyncAnnotationBeanPostProcessor");
+				parserContext.getReaderContext().error("Only one AsyncAnnotationBeanPostProcessor may exist within the context.", source);
+			} else {
+				BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition("org.springframework.scheduling.annotation.AsyncAnnotationBeanPostProcessor");
 				builder.getRawBeanDefinition().setSource(source);
 				String executor = element.getAttribute("executor");
 				if (StringUtils.hasText(executor)) {
@@ -89,12 +84,9 @@ public class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParse
 		}
 
 		if (registry.containsBeanDefinition(TaskManagementConfigUtils.SCHEDULED_ANNOTATION_PROCESSOR_BEAN_NAME)) {
-			parserContext.getReaderContext().error(
-					"Only one ScheduledAnnotationBeanPostProcessor may exist within the context.", source);
-		}
-		else {
-			BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(
-					"org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor");
+			parserContext.getReaderContext().error("Only one ScheduledAnnotationBeanPostProcessor may exist within the context.", source);
+		} else {
+			BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition("org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor");
 			builder.getRawBeanDefinition().setSource(source);
 			String scheduler = element.getAttribute("scheduler");
 			if (StringUtils.hasText(scheduler)) {
@@ -121,13 +113,11 @@ public class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParse
 			if (StringUtils.hasText(exceptionHandler)) {
 				builder.addPropertyReference("exceptionHandler", exceptionHandler);
 			}
-			parserContext.registerBeanComponent(new BeanComponentDefinition(builder.getBeanDefinition(),
-					TaskManagementConfigUtils.ASYNC_EXECUTION_ASPECT_BEAN_NAME));
+			parserContext.registerBeanComponent(new BeanComponentDefinition(builder.getBeanDefinition(), TaskManagementConfigUtils.ASYNC_EXECUTION_ASPECT_BEAN_NAME));
 		}
 	}
 
-	private static void registerPostProcessor(
-			ParserContext parserContext, BeanDefinitionBuilder builder, String beanName) {
+	private static void registerPostProcessor(ParserContext parserContext, BeanDefinitionBuilder builder, String beanName) {
 
 		builder.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 		parserContext.getRegistry().registerBeanDefinition(beanName, builder.getBeanDefinition());

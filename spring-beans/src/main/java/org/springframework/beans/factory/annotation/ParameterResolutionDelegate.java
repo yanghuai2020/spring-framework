@@ -38,9 +38,9 @@ import org.springframework.util.ClassUtils;
  *
  * @author Sam Brannen
  * @author Juergen Hoeller
- * @since 5.2
  * @see #isAutowirable
  * @see #resolveDependency
+ * @since 5.2
  */
 public final class ParameterResolutionDelegate {
 
@@ -50,10 +50,12 @@ public final class ParameterResolutionDelegate {
 		public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
 			return null;
 		}
+
 		@Override
 		public Annotation[] getAnnotations() {
 			return new Annotation[0];
 		}
+
 		@Override
 		public Annotation[] getDeclaredAnnotations() {
 			return new Annotation[0];
@@ -73,18 +75,17 @@ public final class ParameterResolutionDelegate {
 	 * {@link Qualifier @Qualifier}, or {@link Value @Value}.
 	 * <p>Note that {@link #resolveDependency} may still be able to resolve the
 	 * dependency for the supplied parameter even if this method returns {@code false}.
-	 * @param parameter the parameter whose dependency should be autowired
-	 * (must not be {@code null})
+	 *
+	 * @param parameter      the parameter whose dependency should be autowired
+	 *                       (must not be {@code null})
 	 * @param parameterIndex the index of the parameter in the constructor or method
-	 * that declares the parameter
+	 *                       that declares the parameter
 	 * @see #resolveDependency
 	 */
 	public static boolean isAutowirable(Parameter parameter, int parameterIndex) {
 		Assert.notNull(parameter, "Parameter must not be null");
 		AnnotatedElement annotatedParameter = getEffectiveAnnotatedParameter(parameter, parameterIndex);
-		return (AnnotatedElementUtils.hasAnnotation(annotatedParameter, Autowired.class) ||
-				AnnotatedElementUtils.hasAnnotation(annotatedParameter, Qualifier.class) ||
-				AnnotatedElementUtils.hasAnnotation(annotatedParameter, Value.class));
+		return (AnnotatedElementUtils.hasAnnotation(annotatedParameter, Autowired.class) || AnnotatedElementUtils.hasAnnotation(annotatedParameter, Qualifier.class) || AnnotatedElementUtils.hasAnnotation(annotatedParameter, Value.class));
 	}
 
 	/**
@@ -100,15 +101,16 @@ public final class ParameterResolutionDelegate {
 	 * flag set to {@code false}.
 	 * <p>If an explicit <em>qualifier</em> is not declared, the name of the parameter
 	 * will be used as the qualifier for resolving ambiguities.
-	 * @param parameter the parameter whose dependency should be resolved (must not be
-	 * {@code null})
-	 * @param parameterIndex the index of the parameter in the constructor or method
-	 * that declares the parameter
+	 *
+	 * @param parameter       the parameter whose dependency should be resolved (must not be
+	 *                        {@code null})
+	 * @param parameterIndex  the index of the parameter in the constructor or method
+	 *                        that declares the parameter
 	 * @param containingClass the concrete class that contains the parameter; this may
-	 * differ from the class that declares the parameter in that it may be a subclass
-	 * thereof, potentially substituting type variables (must not be {@code null})
-	 * @param beanFactory the {@code AutowireCapableBeanFactory} from which to resolve
-	 * the dependency (must not be {@code null})
+	 *                        differ from the class that declares the parameter in that it may be a subclass
+	 *                        thereof, potentially substituting type variables (must not be {@code null})
+	 * @param beanFactory     the {@code AutowireCapableBeanFactory} from which to resolve
+	 *                        the dependency (must not be {@code null})
 	 * @return the resolved object, or {@code null} if none found
 	 * @throws BeansException if dependency resolution failed
 	 * @see #isAutowirable
@@ -117,9 +119,7 @@ public final class ParameterResolutionDelegate {
 	 * @see AutowireCapableBeanFactory#resolveDependency(DependencyDescriptor, String)
 	 */
 	@Nullable
-	public static Object resolveDependency(
-			Parameter parameter, int parameterIndex, Class<?> containingClass, AutowireCapableBeanFactory beanFactory)
-			throws BeansException {
+	public static Object resolveDependency(Parameter parameter, int parameterIndex, Class<?> containingClass, AutowireCapableBeanFactory beanFactory) throws BeansException {
 
 		Assert.notNull(parameter, "Parameter must not be null");
 		Assert.notNull(containingClass, "Containing class must not be null");
@@ -129,8 +129,7 @@ public final class ParameterResolutionDelegate {
 		Autowired autowired = AnnotatedElementUtils.findMergedAnnotation(annotatedParameter, Autowired.class);
 		boolean required = (autowired == null || autowired.required());
 
-		MethodParameter methodParameter = SynthesizingMethodParameter.forExecutable(
-				parameter.getDeclaringExecutable(), parameterIndex);
+		MethodParameter methodParameter = SynthesizingMethodParameter.forExecutable(parameter.getDeclaringExecutable(), parameterIndex);
 		DependencyDescriptor descriptor = new DependencyDescriptor(methodParameter, required);
 		descriptor.setContainingClass(containingClass);
 		return beanFactory.resolveDependency(descriptor, null);
@@ -154,13 +153,13 @@ public final class ParameterResolutionDelegate {
 	 * treated as a {@code Parameter} since the metadata (e.g., {@link Parameter#getName()},
 	 * {@link Parameter#getType()}, etc.) will not match those for the declared parameter
 	 * at the given index in an inner class constructor.
+	 *
 	 * @return the supplied {@code parameter} or the <em>effective</em> {@code Parameter}
 	 * if the aforementioned bug is in effect
 	 */
 	private static AnnotatedElement getEffectiveAnnotatedParameter(Parameter parameter, int index) {
 		Executable executable = parameter.getDeclaringExecutable();
-		if (executable instanceof Constructor && ClassUtils.isInnerClass(executable.getDeclaringClass()) &&
-				executable.getParameterAnnotations().length == executable.getParameterCount() - 1) {
+		if (executable instanceof Constructor && ClassUtils.isInnerClass(executable.getDeclaringClass()) && executable.getParameterAnnotations().length == executable.getParameterCount() - 1) {
 			// Bug in javac in JDK <9: annotation array excludes enclosing instance parameter
 			// for inner classes, so access it with the actual parameter index lowered by 1
 			return (index == 0 ? EMPTY_ANNOTATED_ELEMENT : executable.getParameters()[index - 1]);

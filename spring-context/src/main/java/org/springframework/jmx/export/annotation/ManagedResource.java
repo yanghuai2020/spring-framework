@@ -37,8 +37,8 @@ import org.springframework.core.annotation.AliasFor;
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @author Sam Brannen
- * @since 1.2
  * @see org.springframework.jmx.export.metadata.ManagedResource
+ * @since 1.2
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -49,11 +49,9 @@ public @interface ManagedResource {
 	/**
 	 * Alias for the {@link #objectName} attribute, for simple default usage.
 	 */
-	@AliasFor("objectName")
-	String value() default "";
+	@AliasFor("objectName") String value() default "";
 
-	@AliasFor("value")
-	String objectName() default "";
+	@AliasFor("value") String objectName() default "";
 
 	String description() default "";
 

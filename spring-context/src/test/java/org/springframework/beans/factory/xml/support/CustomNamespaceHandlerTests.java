@@ -124,10 +124,7 @@ public class CustomNamespaceHandlerTests {
 		String[] beanNames = this.beanFactory.getBeanNamesForType(ApplicationListener.class);
 		assertThat(Arrays.asList(beanNames).contains("debuggingTestBeanNoInstance")).isTrue();
 		assertThat(this.beanFactory.getType("debuggingTestBeanNoInstance")).isEqualTo(ApplicationListener.class);
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				this.beanFactory.getBean("debuggingTestBeanNoInstance"))
-			.havingRootCause()
-			.isInstanceOf(BeanInstantiationException.class);
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> this.beanFactory.getBean("debuggingTestBeanNoInstance")).havingRootCause().isInstanceOf(BeanInstantiationException.class);
 	}
 
 	@Test

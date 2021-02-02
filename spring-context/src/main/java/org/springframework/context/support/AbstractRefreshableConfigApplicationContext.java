@@ -31,13 +31,12 @@ import org.springframework.util.StringUtils;
  * {@link org.springframework.web.context.support.XmlWebApplicationContext}.
  *
  * @author Juergen Hoeller
- * @since 2.5.2
  * @see #setConfigLocation
  * @see #setConfigLocations
  * @see #getDefaultConfigLocations
+ * @since 2.5.2
  */
-public abstract class AbstractRefreshableConfigApplicationContext extends AbstractRefreshableApplicationContext
-		implements BeanNameAware, InitializingBean {
+public abstract class AbstractRefreshableConfigApplicationContext extends AbstractRefreshableApplicationContext implements BeanNameAware, InitializingBean {
 
 	@Nullable
 	private String[] configLocations;
@@ -53,6 +52,7 @@ public abstract class AbstractRefreshableConfigApplicationContext extends Abstra
 
 	/**
 	 * Create a new AbstractRefreshableConfigApplicationContext with the given parent context.
+	 *
 	 * @param parent the parent context
 	 */
 	public AbstractRefreshableConfigApplicationContext(@Nullable ApplicationContext parent) {
@@ -80,8 +80,7 @@ public abstract class AbstractRefreshableConfigApplicationContext extends Abstra
 			for (int i = 0; i < locations.length; i++) {
 				this.configLocations[i] = resolvePath(locations[i]).trim();
 			}
-		}
-		else {
+		} else {
 			this.configLocations = null;
 		}
 	}
@@ -92,6 +91,7 @@ public abstract class AbstractRefreshableConfigApplicationContext extends Abstra
 	 * patterns, which will get resolved via a ResourcePatternResolver.
 	 * <p>The default implementation returns {@code null}. Subclasses can override
 	 * this to provide a set of resource locations to load bean definitions from.
+	 *
 	 * @return an array of resource locations, or {@code null} if none
 	 * @see #getResources
 	 * @see #getResourcePatternResolver
@@ -106,6 +106,7 @@ public abstract class AbstractRefreshableConfigApplicationContext extends Abstra
 	 * explicit config locations have been specified.
 	 * <p>The default implementation returns {@code null},
 	 * requiring explicit config locations.
+	 *
 	 * @return an array of default config locations, if any
 	 * @see #setConfigLocations
 	 */
@@ -117,6 +118,7 @@ public abstract class AbstractRefreshableConfigApplicationContext extends Abstra
 	/**
 	 * Resolve the given path, replacing placeholders with corresponding
 	 * environment property values if necessary. Applied to config locations.
+	 *
 	 * @param path the original file path
 	 * @return the resolved file path
 	 * @see org.springframework.core.env.Environment#resolveRequiredPlaceholders(String)

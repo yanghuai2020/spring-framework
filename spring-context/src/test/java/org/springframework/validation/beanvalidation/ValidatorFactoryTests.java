@@ -131,9 +131,7 @@ public class ValidatorFactoryTests {
 		BeanPropertyBindingResult errors = new BeanPropertyBindingResult(person, "person");
 		validator.validate(person, errors);
 		assertThat(errors.getErrorCount()).isEqualTo(1);
-		assertThat(errors.getFieldError("address").getRejectedValue())
-				.as("Field/Value type mismatch")
-				.isInstanceOf(ValidAddress.class);
+		assertThat(errors.getFieldError("address").getRejectedValue()).as("Field/Value type mismatch").isInstanceOf(ValidAddress.class);
 	}
 
 	@Test
@@ -184,8 +182,7 @@ public class ValidatorFactoryTests {
 
 	@Test
 	public void testSpringValidationWithAutowiredValidator() {
-		ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(
-				LocalValidatorFactoryBean.class);
+		ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(LocalValidatorFactoryBean.class);
 		LocalValidatorFactoryBean validator = ctx.getBean(LocalValidatorFactoryBean.class);
 
 		ValidPerson person = new ValidPerson();
@@ -378,8 +375,7 @@ public class ValidatorFactoryTests {
 			}
 			boolean valid = (value.name == null || !value.address.street.contains(value.name));
 			if (!valid && "Phil".equals(value.name)) {
-				context.buildConstraintViolationWithTemplate(
-						context.getDefaultConstraintMessageTemplate()).addPropertyNode("address").addConstraintViolation().disableDefaultConstraintViolation();
+				context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate()).addPropertyNode("address").addConstraintViolation().disableDefaultConstraintViolation();
 			}
 			return valid;
 		}
@@ -415,6 +411,7 @@ public class ValidatorFactoryTests {
 		public String getValue() {
 			return value;
 		}
+
 		public void setValue(String value) {
 			this.value = value;
 		}
@@ -423,12 +420,12 @@ public class ValidatorFactoryTests {
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.FIELD)
-	@Constraint(validatedBy=InnerValidator.class)
+	@Constraint(validatedBy = InnerValidator.class)
 	public @interface InnerValid {
 
 		String message() default "NOT VALID";
 
-		Class<?>[] groups() default { };
+		Class<?>[] groups() default {};
 
 		Class<? extends Payload>[] payload() default {};
 	}

@@ -34,8 +34,7 @@ public class AnnotationBindingTests {
 
 	@BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
 		testBean = (AnnotatedTestBean) ctx.getBean("testBean");
 	}
 

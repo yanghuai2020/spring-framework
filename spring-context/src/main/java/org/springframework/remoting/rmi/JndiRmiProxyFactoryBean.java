@@ -44,13 +44,12 @@ import org.springframework.util.ClassUtils;
  *
  * <pre class="code">&lt;property name="jndiEnvironment"&gt;
  * 	 &lt;props>
- *		 &lt;prop key="java.naming.factory.initial"&gt;com.sun.jndi.cosnaming.CNCtxFactory&lt;/prop&gt;
- *		 &lt;prop key="java.naming.provider.url"&gt;iiop://localhost:1050&lt;/prop&gt;
- *	 &lt;/props&gt;
+ * 		 &lt;prop key="java.naming.factory.initial"&gt;com.sun.jndi.cosnaming.CNCtxFactory&lt;/prop&gt;
+ * 		 &lt;prop key="java.naming.provider.url"&gt;iiop://localhost:1050&lt;/prop&gt;
+ * 	 &lt;/props&gt;
  * &lt;/property&gt;</pre>
  *
  * @author Juergen Hoeller
- * @since 1.1
  * @see #setServiceInterface
  * @see #setJndiName
  * @see #setJndiTemplate
@@ -61,11 +60,11 @@ import org.springframework.util.ClassUtils;
  * @see java.rmi.RemoteException
  * @see java.rmi.Remote
  * @see javax.rmi.PortableRemoteObject#narrow
+ * @since 1.1
  * @deprecated as of 5.3 (phasing out serialization-based remoting)
  */
 @Deprecated
-public class JndiRmiProxyFactoryBean extends JndiRmiClientInterceptor
-		implements FactoryBean<Object>, BeanClassLoaderAware {
+public class JndiRmiProxyFactoryBean extends JndiRmiClientInterceptor implements FactoryBean<Object>, BeanClassLoaderAware {
 
 	private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 

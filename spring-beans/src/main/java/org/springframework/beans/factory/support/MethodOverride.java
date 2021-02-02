@@ -47,6 +47,7 @@ public abstract class MethodOverride implements BeanMetadataElement {
 
 	/**
 	 * Construct a new override for the given method.
+	 *
 	 * @param methodName the name of the method to override
 	 */
 	protected MethodOverride(String methodName) {
@@ -98,6 +99,7 @@ public abstract class MethodOverride implements BeanMetadataElement {
 	 * Subclasses must override this to indicate whether they <em>match</em> the
 	 * given method. This allows for argument list checking as well as method
 	 * name checking.
+	 *
 	 * @param method the method to check
 	 * @return whether this override matches the given method
 	 */
@@ -113,8 +115,7 @@ public abstract class MethodOverride implements BeanMetadataElement {
 			return false;
 		}
 		MethodOverride that = (MethodOverride) other;
-		return (ObjectUtils.nullSafeEquals(this.methodName, that.methodName) &&
-				ObjectUtils.nullSafeEquals(this.source, that.source));
+		return (ObjectUtils.nullSafeEquals(this.methodName, that.methodName) && ObjectUtils.nullSafeEquals(this.source, that.source));
 	}
 
 	@Override

@@ -91,8 +91,7 @@ public class ImportResourceTests {
 	@Test
 	public void importWithPlaceholder() throws Exception {
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
-		PropertySource<?> propertySource = new MapPropertySource("test",
-				Collections.<String, Object> singletonMap("test", "springframework"));
+		PropertySource<?> propertySource = new MapPropertySource("test", Collections.<String, Object>singletonMap("test", "springframework"));
 		ctx.getEnvironment().getPropertySources().addFirst(propertySource);
 		ctx.register(ImportXmlConfig.class);
 		ctx.refresh();
@@ -121,54 +120,53 @@ public class ImportResourceTests {
 	static class ImportXmlConfig {
 		@Value("${name}")
 		private String name;
-		public @Bean TestBean javaDeclaredBean() {
+
+		public @Bean
+		TestBean javaDeclaredBean() {
 			return new TestBean(this.name);
 		}
 	}
 
 	@Configuration
 	@ImportResource("classpath:org/springframework/context/annotation/configuration/ImportXmlConfig-context.xml")
-	static class BaseConfig {
-	}
+	static class BaseConfig {}
 
 	@Configuration
-	static class FirstLevelSubConfig extends BaseConfig {
-	}
+	static class FirstLevelSubConfig extends BaseConfig {}
 
 	@Configuration
 	@ImportResource("classpath:org/springframework/context/annotation/configuration/SecondLevelSubConfig-context.xml")
-	static class SecondLevelSubConfig extends BaseConfig {
-	}
+	static class SecondLevelSubConfig extends BaseConfig {}
 
 	@Configuration
 	@ImportResource("classpath:org/springframework/context/annotation/configuration/ImportXmlWithAopNamespace-context.xml")
-	static class ImportXmlWithAopNamespaceConfig {
-	}
+	static class ImportXmlWithAopNamespaceConfig {}
 
 	@Aspect
 	static class AnAspect {
 		@Before("execution(* org.springframework.beans.testfixture.beans.TestBean.*(..))")
-		public void advice() { }
+		public void advice() {
+		}
 	}
 
 	@Configuration
 	@ImportResource("classpath:org/springframework/context/annotation/configuration/ImportXmlWithConfigurationClass-context.xml")
-	static class ImportXmlWithConfigurationClass {
-	}
+	static class ImportXmlWithConfigurationClass {}
 
 	@Configuration
 	@ImportResource("classpath:org/springframework/context/annotation/configuration/ImportXmlConfig-context.xml")
 	static class ImportXmlAutowiredConfig {
-		@Autowired TestBean xmlDeclaredBean;
+		@Autowired
+		TestBean xmlDeclaredBean;
 
-		public @Bean String xmlBeanName() {
+		public @Bean
+		String xmlBeanName() {
 			return xmlDeclaredBean.getName();
 		}
 	}
 
 	@Configuration
 	@ImportResource(locations = "classpath:org/springframework/context/annotation/configuration/ImportNonXmlResourceConfig-context.properties", reader = PropertiesBeanDefinitionReader.class)
-	static class ImportNonXmlResourceConfig {
-	}
+	static class ImportNonXmlResourceConfig {}
 
 }

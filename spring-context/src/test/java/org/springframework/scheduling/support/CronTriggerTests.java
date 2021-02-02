@@ -104,8 +104,7 @@ class CronTriggerTests {
 		CronTrigger trigger = new CronTrigger("11 * * * * *", timeZone);
 		this.calendar.set(Calendar.SECOND, 11);
 		SimpleTriggerContext context = new SimpleTriggerContext();
-		context.update(this.calendar.getTime(), new Date(this.calendar.getTimeInMillis() - 100),
-				new Date(this.calendar.getTimeInMillis() - 90));
+		context.update(this.calendar.getTime(), new Date(this.calendar.getTimeInMillis() - 100), new Date(this.calendar.getTimeInMillis() - 90));
 		this.calendar.add(Calendar.MINUTE, 1);
 		assertThat(trigger.nextExecutionTime(context)).isEqualTo(this.calendar.getTime());
 	}
@@ -859,14 +858,10 @@ class CronTriggerTests {
 	@Target(ElementType.METHOD)
 	@ParameterizedTest(name = "[{index}] localDateTime[{0}], time zone[{1}]")
 	@MethodSource("parameters")
-	@interface ParameterizedCronTriggerTest {
-	}
+	@interface ParameterizedCronTriggerTest {}
 
 	static Stream<Arguments> parameters() {
-		return Stream.of(
-			arguments(LocalDateTime.now(), TimeZone.getTimeZone("PST")),
-			arguments(LocalDateTime.now(), TimeZone.getTimeZone("CET"))
-		);
+		return Stream.of(arguments(LocalDateTime.now(), TimeZone.getTimeZone("PST")), arguments(LocalDateTime.now(), TimeZone.getTimeZone("CET")));
 	}
 
 }

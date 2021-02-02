@@ -3,8 +3,7 @@
  * Provides a ScriptFactoryPostProcessor for turning ScriptFactory
  * definitions into scripted objects.
  */
-@NonNullApi
-@NonNullFields
+@NonNullApi @NonNullFields
 package org.springframework.scripting.support;
 
 import org.springframework.lang.NonNullApi;

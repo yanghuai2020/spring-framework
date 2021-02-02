@@ -131,28 +131,23 @@ public class AnnotationBeanNameGeneratorTests {
 	public void generateBeanNameFromComposedControllerAnnotationWithStringValue() {
 		// SPR-11360
 		BeanDefinitionRegistry registry = new SimpleBeanDefinitionRegistry();
-		AnnotatedBeanDefinition bd = new AnnotatedGenericBeanDefinition(
-			ComposedControllerAnnotationWithStringValue.class);
+		AnnotatedBeanDefinition bd = new AnnotatedGenericBeanDefinition(ComposedControllerAnnotationWithStringValue.class);
 		String beanName = this.beanNameGenerator.generateBeanName(bd, registry);
 		assertThat(beanName).isEqualTo("restController");
 	}
 
 
 	@Component("walden")
-	private static class ComponentWithName {
-	}
+	private static class ComponentWithName {}
 
 	@Component(" ")
-	private static class ComponentWithBlankName {
-	}
+	private static class ComponentWithBlankName {}
 
 	@Component
-	private static class AnonymousComponent {
-	}
+	private static class AnonymousComponent {}
 
 	@Service("henry")
-	private static class ComponentFromStringMeta {
-	}
+	private static class ComponentFromStringMeta {}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.TYPE)
@@ -163,8 +158,7 @@ public class AnnotationBeanNameGeneratorTests {
 	}
 
 	@NonStringMetaComponent(123)
-	private static class ComponentFromNonStringMeta {
-	}
+	private static class ComponentFromNonStringMeta {}
 
 	/**
 	 * @see org.springframework.web.bind.annotation.RestController
@@ -178,15 +172,12 @@ public class AnnotationBeanNameGeneratorTests {
 	}
 
 	@TestRestController
-	public static class ComposedControllerAnnotationWithoutName {
-	}
+	public static class ComposedControllerAnnotationWithoutName {}
 
 	@TestRestController(" ")
-	public static class ComposedControllerAnnotationWithBlankName {
-	}
+	public static class ComposedControllerAnnotationWithBlankName {}
 
 	@TestRestController("restController")
-	public static class ComposedControllerAnnotationWithStringValue {
-	}
+	public static class ComposedControllerAnnotationWithStringValue {}
 
 }

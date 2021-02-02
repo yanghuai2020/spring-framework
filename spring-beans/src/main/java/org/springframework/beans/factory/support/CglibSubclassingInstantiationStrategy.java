@@ -77,8 +77,7 @@ public class CglibSubclassingInstantiationStrategy extends SimpleInstantiationSt
 	}
 
 	@Override
-	protected Object instantiateWithMethodInjection(RootBeanDefinition bd, @Nullable String beanName, BeanFactory owner,
-			@Nullable Constructor<?> ctor, Object... args) {
+	protected Object instantiateWithMethodInjection(RootBeanDefinition bd, @Nullable String beanName, BeanFactory owner, @Nullable Constructor<?> ctor, Object... args) {
 
 		// Must generate CGLIB subclass...
 		return new CglibSubclassCreator(bd, owner).instantiate(ctor, args);
@@ -91,8 +90,7 @@ public class CglibSubclassingInstantiationStrategy extends SimpleInstantiationSt
 	 */
 	private static class CglibSubclassCreator {
 
-		private static final Class<?>[] CALLBACK_TYPES = new Class<?>[]
-				{NoOp.class, LookupOverrideMethodInterceptor.class, ReplaceOverrideMethodInterceptor.class};
+		private static final Class<?>[] CALLBACK_TYPES = new Class<?>[]{NoOp.class, LookupOverrideMethodInterceptor.class, ReplaceOverrideMethodInterceptor.class};
 
 		private final RootBeanDefinition beanDefinition;
 
@@ -106,10 +104,11 @@ public class CglibSubclassingInstantiationStrategy extends SimpleInstantiationSt
 		/**
 		 * Create a new instance of a dynamically generated subclass implementing the
 		 * required lookups.
+		 *
 		 * @param ctor constructor to use. If this is {@code null}, use the
-		 * no-arg constructor (no parameterization, or Setter Injection)
+		 *             no-arg constructor (no parameterization, or Setter Injection)
 		 * @param args arguments to use for the constructor.
-		 * Ignored if the {@code ctor} parameter is {@code null}.
+		 *             Ignored if the {@code ctor} parameter is {@code null}.
 		 * @return new instance of the dynamically generated subclass
 		 */
 		public Object instantiate(@Nullable Constructor<?> ctor, Object... args) {
@@ -117,23 +116,18 @@ public class CglibSubclassingInstantiationStrategy extends SimpleInstantiationSt
 			Object instance;
 			if (ctor == null) {
 				instance = BeanUtils.instantiateClass(subclass);
-			}
-			else {
+			} else {
 				try {
 					Constructor<?> enhancedSubclassConstructor = subclass.getConstructor(ctor.getParameterTypes());
 					instance = enhancedSubclassConstructor.newInstance(args);
-				}
-				catch (Exception ex) {
-					throw new BeanInstantiationException(this.beanDefinition.getBeanClass(),
-							"Failed to invoke constructor for CGLIB enhanced subclass [" + subclass.getName() + "]", ex);
+				} catch (Exception ex) {
+					throw new BeanInstantiationException(this.beanDefinition.getBeanClass(), "Failed to invoke constructor for CGLIB enhanced subclass [" + subclass.getName() + "]", ex);
 				}
 			}
 			// SPR-10785: set callbacks directly on the instance instead of in the
 			// enhanced class (via the Enhancer) in order to avoid memory leaks.
 			Factory factory = (Factory) instance;
-			factory.setCallbacks(new Callback[] {NoOp.INSTANCE,
-					new LookupOverrideMethodInterceptor(this.beanDefinition, this.owner),
-					new ReplaceOverrideMethodInterceptor(this.beanDefinition, this.owner)});
+			factory.setCallbacks(new Callback[]{NoOp.INSTANCE, new LookupOverrideMethodInterceptor(this.beanDefinition, this.owner), new ReplaceOverrideMethodInterceptor(this.beanDefinition, this.owner)});
 			return instance;
 		}
 
@@ -175,8 +169,7 @@ public class CglibSubclassingInstantiationStrategy extends SimpleInstantiationSt
 
 		@Override
 		public boolean equals(@Nullable Object other) {
-			return (other != null && getClass() == other.getClass() &&
-					this.beanDefinition.equals(((CglibIdentitySupport) other).beanDefinition));
+			return (other != null && getClass() == other.getClass() && this.beanDefinition.equals(((CglibIdentitySupport) other).beanDefinition));
 		}
 
 		@Override
@@ -205,15 +198,12 @@ public class CglibSubclassingInstantiationStrategy extends SimpleInstantiationSt
 			}
 			if (methodOverride == null) {
 				return PASSTHROUGH;
-			}
-			else if (methodOverride instanceof LookupOverride) {
+			} else if (methodOverride instanceof LookupOverride) {
 				return LOOKUP_OVERRIDE;
-			}
-			else if (methodOverride instanceof ReplaceOverride) {
+			} else if (methodOverride instanceof ReplaceOverride) {
 				return METHOD_REPLACER;
 			}
-			throw new UnsupportedOperationException("Unexpected MethodOverride subclass: " +
-					methodOverride.getClass().getName());
+			throw new UnsupportedOperationException("Unexpected MethodOverride subclass: " + methodOverride.getClass().getName());
 		}
 	}
 
@@ -238,14 +228,11 @@ public class CglibSubclassingInstantiationStrategy extends SimpleInstantiationSt
 			Assert.state(lo != null, "LookupOverride not found");
 			Object[] argsToUse = (args.length > 0 ? args : null);  // if no-arg, don't insist on args at all
 			if (StringUtils.hasText(lo.getBeanName())) {
-				Object bean = (argsToUse != null ? this.owner.getBean(lo.getBeanName(), argsToUse) :
-						this.owner.getBean(lo.getBeanName()));
+				Object bean = (argsToUse != null ? this.owner.getBean(lo.getBeanName(), argsToUse) : this.owner.getBean(lo.getBeanName()));
 				// Detect package-protected NullBean instance through equals(null) check
 				return (bean.equals(null) ? null : bean);
-			}
-			else {
-				return (argsToUse != null ? this.owner.getBean(method.getReturnType(), argsToUse) :
-						this.owner.getBean(method.getReturnType()));
+			} else {
+				return (argsToUse != null ? this.owner.getBean(method.getReturnType(), argsToUse) : this.owner.getBean(method.getReturnType()));
 			}
 		}
 	}

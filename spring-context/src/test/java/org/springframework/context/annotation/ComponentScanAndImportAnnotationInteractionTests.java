@@ -82,23 +82,19 @@ public class ComponentScanAndImportAnnotationInteractionTests {
 
 
 	@ComponentScan("org.springframework.context.annotation.componentscan.simple")
-	static final class Config1 {
-	}
+	static final class Config1 {}
 
 
 	@Import(org.springframework.context.annotation.componentscan.simple.SimpleComponent.class)
-	static final class Config2 {
-	}
+	static final class Config2 {}
 
 
 	@Import(ImportedConfig.class)
-	static final class Config3 {
-	}
+	static final class Config3 {}
 
 
 	@ComponentScan("org.springframework.context.annotation.componentscan.simple")
 	@ComponentScan("org.springframework.context.annotation.componentscan.importing")
-	public static final class ImportedConfig {
-	}
+	public static final class ImportedConfig {}
 
 }

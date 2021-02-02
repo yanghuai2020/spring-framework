@@ -35,8 +35,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
  */
 class ConcurrentTaskExecutorTests extends AbstractSchedulingTaskExecutorTests {
 
-	private final ThreadPoolExecutor concurrentExecutor =
-			new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
+	private final ThreadPoolExecutor concurrentExecutor = new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
 
 
 	@Override

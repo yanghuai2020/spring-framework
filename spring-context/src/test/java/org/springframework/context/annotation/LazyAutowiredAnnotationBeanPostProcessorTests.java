@@ -136,8 +136,7 @@ public class LazyAutowiredAnnotationBeanPostProcessorTests {
 
 		FieldResourceInjectionBean bean = (FieldResourceInjectionBean) bf.getBean("annotatedBean");
 		assertThat(bean.getTestBean()).isNotNull();
-		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() ->
-				bean.getTestBean().getName());
+		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() -> bean.getTestBean().getName());
 	}
 
 	@Test
@@ -155,8 +154,7 @@ public class LazyAutowiredAnnotationBeanPostProcessorTests {
 		assertThat(bean.getTestBean()).isNotNull();
 		assertThat(bean.getTestBeans()).isNotNull();
 		assertThat(bean.getTestBeans().isEmpty()).isTrue();
-		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() ->
-				bean.getTestBean().getName());
+		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() -> bean.getTestBean().getName());
 	}
 
 
@@ -168,10 +166,12 @@ public class LazyAutowiredAnnotationBeanPostProcessorTests {
 
 	public static class FieldResourceInjectionBean implements TestBeanHolder {
 
-		@Autowired @Lazy
+		@Autowired
+		@Lazy
 		private TestBean testBean;
 
-		@Autowired @Lazy
+		@Autowired
+		@Lazy
 		private List<TestBean> testBeans;
 
 		@Override
@@ -187,10 +187,12 @@ public class LazyAutowiredAnnotationBeanPostProcessorTests {
 
 	public static class OptionalFieldResourceInjectionBean implements TestBeanHolder {
 
-		@Autowired(required = false) @Lazy
+		@Autowired(required = false)
+		@Lazy
 		private TestBean testBean;
 
-		@Autowired(required = false) @Lazy
+		@Autowired(required = false)
+		@Lazy
 		private List<TestBean> testBeans;
 
 		@Override
@@ -239,7 +241,8 @@ public class LazyAutowiredAnnotationBeanPostProcessorTests {
 
 		private TestBean testBean;
 
-		@Autowired @Lazy
+		@Autowired
+		@Lazy
 		public void setTestBean(TestBean testBean) {
 			if (this.testBean != null) {
 				throw new IllegalStateException("Already called");
@@ -293,7 +296,8 @@ public class LazyAutowiredAnnotationBeanPostProcessorTests {
 
 		private final TestBean testBean;
 
-		@Autowired @Lazy
+		@Autowired
+		@Lazy
 		public ConstructorResourceInjectionBeanWithConstructorLevelLazy(TestBean testBean) {
 			this.testBean = testBean;
 		}
@@ -321,9 +325,9 @@ public class LazyAutowiredAnnotationBeanPostProcessorTests {
 	}
 
 
-	@Autowired @Lazy
+	@Autowired
+	@Lazy
 	@Retention(RetentionPolicy.RUNTIME)
-	public @interface LazyInject {
-	}
+	public @interface LazyInject {}
 
 }

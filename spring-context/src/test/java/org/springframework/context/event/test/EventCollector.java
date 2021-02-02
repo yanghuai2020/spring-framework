@@ -98,8 +98,7 @@ public class EventCollector {
 		for (Map.Entry<String, List<Object>> entry : this.content.entrySet()) {
 			actual += entry.getValue().size();
 		}
-		assertThat(actual).as("Wrong number of total events (" + this.content.size() +
-				") registered listener(s)").isEqualTo(number);
+		assertThat(actual).as("Wrong number of total events (" + this.content.size() + ") registered listener(s)").isEqualTo(number);
 	}
 
 	/**

@@ -120,25 +120,19 @@ public class ImportAwareTests {
 
 	@Test
 	public void metadataFromImportsOneThenTwo() {
-		AnnotationMetadata importMetadata = new AnnotationConfigApplicationContext(
-				ConfigurationOne.class, ConfigurationTwo.class)
-				.getBean(MetadataHolder.class).importMetadata;
+		AnnotationMetadata importMetadata = new AnnotationConfigApplicationContext(ConfigurationOne.class, ConfigurationTwo.class).getBean(MetadataHolder.class).importMetadata;
 		assertThat(((StandardAnnotationMetadata) importMetadata).getIntrospectedClass()).isEqualTo(ConfigurationOne.class);
 	}
 
 	@Test
 	public void metadataFromImportsTwoThenOne() {
-		AnnotationMetadata importMetadata = new AnnotationConfigApplicationContext(
-				ConfigurationTwo.class, ConfigurationOne.class)
-				.getBean(MetadataHolder.class).importMetadata;
+		AnnotationMetadata importMetadata = new AnnotationConfigApplicationContext(ConfigurationTwo.class, ConfigurationOne.class).getBean(MetadataHolder.class).importMetadata;
 		assertThat(((StandardAnnotationMetadata) importMetadata).getIntrospectedClass()).isEqualTo(ConfigurationOne.class);
 	}
 
 	@Test
 	public void metadataFromImportsOneThenThree() {
-		AnnotationMetadata importMetadata = new AnnotationConfigApplicationContext(
-				ConfigurationOne.class, ConfigurationThree.class)
-				.getBean(MetadataHolder.class).importMetadata;
+		AnnotationMetadata importMetadata = new AnnotationConfigApplicationContext(ConfigurationOne.class, ConfigurationThree.class).getBean(MetadataHolder.class).importMetadata;
 		assertThat(((StandardAnnotationMetadata) importMetadata).getIntrospectedClass()).isEqualTo(ConfigurationOne.class);
 	}
 
@@ -150,14 +144,12 @@ public class ImportAwareTests {
 
 	@Configuration
 	@Import(ImportedConfig.class)
-	static class ImportingConfig {
-	}
+	static class ImportingConfig {}
 
 
 	@Configuration
 	@EnableImportedConfig(foo = "xyz")
-	static class IndirectlyImportingConfig {
-	}
+	static class IndirectlyImportingConfig {}
 
 
 	@Target(ElementType.TYPE)
@@ -202,8 +194,7 @@ public class ImportAwareTests {
 
 	@Configuration
 	@Import(ImportedConfigLite.class)
-	static class ImportingConfigLite {
-	}
+	static class ImportingConfigLite {}
 
 
 	@Configuration(proxyBeanMethods = false)
@@ -248,21 +239,18 @@ public class ImportAwareTests {
 
 	@Configuration
 	@EnableImportRegistrar
-	static class ImportingRegistrarConfig {
-	}
+	static class ImportingRegistrarConfig {}
 
 
 	@Configuration
 	@EnableImportRegistrar
 	@Import(ImportedConfig.class)
-	static class ImportingRegistrarConfigWithImport {
-	}
+	static class ImportingRegistrarConfigWithImport {}
 
 	@Target(ElementType.TYPE)
 	@Retention(RetentionPolicy.RUNTIME)
 	@Import(ImportedRegistrar.class)
-	public @interface EnableImportRegistrar {
-	}
+	public @interface EnableImportRegistrar {}
 
 
 	static class ImportedRegistrar implements ImportBeanDefinitionRegistrar {
@@ -285,22 +273,19 @@ public class ImportAwareTests {
 
 	@EnableSomeConfiguration("bar")
 	@Configuration
-	public static class ConfigurationOne {
-	}
+	public static class ConfigurationOne {}
 
 
 	@Conditional(OnMissingBeanCondition.class)
 	@EnableSomeConfiguration("foo")
 	@Configuration
-	public static class ConfigurationTwo {
-	}
+	public static class ConfigurationTwo {}
 
 
 	@Conditional(OnMissingBeanCondition.class)
 	@EnableLiteConfiguration("foo")
 	@Configuration
-	public static class ConfigurationThree {
-	}
+	public static class ConfigurationThree {}
 
 
 	@Import(SomeConfiguration.class)
@@ -380,12 +365,8 @@ public class ImportAwareTests {
 
 
 	@Configuration
-	@EnableFeature(policies = {
-			@EnableFeature.FeaturePolicy(name = "one"),
-			@EnableFeature.FeaturePolicy(name = "two")
-	})
-	public static class ApplicationConfiguration {
-	}
+	@EnableFeature(policies = {@EnableFeature.FeaturePolicy(name = "one"), @EnableFeature.FeaturePolicy(name = "two")})
+	public static class ApplicationConfiguration {}
 
 
 	@Target(ElementType.TYPE)
@@ -407,8 +388,7 @@ public class ImportAwareTests {
 
 		@Override
 		public void setImportMetadata(AnnotationMetadata annotationMetadata) {
-			AnnotationAttributes enableFeatureAttributes =
-					AnnotationAttributes.fromMap(annotationMetadata.getAnnotationAttributes(EnableFeature.class.getName()));
+			AnnotationAttributes enableFeatureAttributes = AnnotationAttributes.fromMap(annotationMetadata.getAnnotationAttributes(EnableFeature.class.getName()));
 			assertThat(enableFeatureAttributes.annotationType()).isEqualTo(EnableFeature.class);
 			Arrays.stream(enableFeatureAttributes.getAnnotationArray("policies")).forEach(featurePolicyAttributes -> assertThat(featurePolicyAttributes.annotationType()).isEqualTo(EnableFeature.FeaturePolicy.class));
 		}

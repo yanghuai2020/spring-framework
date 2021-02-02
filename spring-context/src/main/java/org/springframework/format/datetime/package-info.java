@@ -1,8 +1,7 @@
 /**
  * Formatters for {@code java.util.Date} properties.
  */
-@NonNullApi
-@NonNullFields
+@NonNullApi @NonNullFields
 package org.springframework.format.datetime;
 
 import org.springframework.lang.NonNullApi;

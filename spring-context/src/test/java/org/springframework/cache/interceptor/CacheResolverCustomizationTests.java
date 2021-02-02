@@ -134,16 +134,12 @@ public class CacheResolverCustomizationTests {
 	@Test
 	public void noCacheResolved() {
 		Method method = ReflectionUtils.findMethod(SimpleService.class, "noCacheResolved", Object.class);
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.simpleService.noCacheResolved(new Object()))
-			.withMessageContaining(method.toString());
+		assertThatIllegalStateException().isThrownBy(() -> this.simpleService.noCacheResolved(new Object())).withMessageContaining(method.toString());
 	}
 
 	@Test
 	public void unknownCacheResolver() {
-		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() ->
-				this.simpleService.unknownCacheResolver(new Object()))
-			.satisfies(ex -> assertThat(ex.getBeanName()).isEqualTo("unknownCacheResolver"));
+		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() -> this.simpleService.unknownCacheResolver(new Object())).satisfies(ex -> assertThat(ex.getBeanName()).isEqualTo("unknownCacheResolver"));
 	}
 
 

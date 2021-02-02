@@ -37,7 +37,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * Tests for pooling invoker interceptor.
- *
+ * <p>
  * TODO: need to make these tests stronger: it's hard to
  * make too many assumptions about a pool.
  *
@@ -58,8 +58,7 @@ class CommonsPool2TargetSourceTests {
 	@BeforeEach
 	void setUp() throws Exception {
 		this.beanFactory = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(this.beanFactory).loadBeanDefinitions(
-				new ClassPathResource(getClass().getSimpleName() + "-context.xml", getClass()));
+		new XmlBeanDefinitionReader(this.beanFactory).loadBeanDefinitions(new ClassPathResource(getClass().getSimpleName() + "-context.xml", getClass()));
 	}
 
 	/**
@@ -150,8 +149,7 @@ class CommonsPool2TargetSourceTests {
 		}
 
 		// should be at maximum now
-		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(
-				targetSource::getTarget);
+		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(targetSource::getTarget);
 
 		// lets now release an object and try to acquire a new one
 		targetSource.releaseTarget(pooledInstances[9]);
@@ -178,8 +176,7 @@ class CommonsPool2TargetSourceTests {
 		}
 
 		// should be at maximum now
-		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(
-				targetSource::getTarget);
+		assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(targetSource::getTarget);
 
 		// lets now release an object and try to acquire a new one
 		targetSource.releaseTarget(pooledInstances[9]);

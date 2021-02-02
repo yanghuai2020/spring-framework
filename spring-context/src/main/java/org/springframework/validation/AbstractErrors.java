@@ -66,8 +66,7 @@ public abstract class AbstractErrors implements Errors, Serializable {
 		try {
 			String formerNestedPath = this.nestedPathStack.pop();
 			doSetNestedPath(formerNestedPath);
-		}
-		catch (NoSuchElementException ex) {
+		} catch (NoSuchElementException ex) {
 			throw new IllegalStateException("Cannot pop nested path: no nested path on stack");
 		}
 	}
@@ -94,17 +93,16 @@ public abstract class AbstractErrors implements Errors, Serializable {
 	protected String fixedField(@Nullable String field) {
 		if (StringUtils.hasLength(field)) {
 			return getNestedPath() + canonicalFieldName(field);
-		}
-		else {
+		} else {
 			String path = getNestedPath();
-			return (path.endsWith(Errors.NESTED_PATH_SEPARATOR) ?
-					path.substring(0, path.length() - NESTED_PATH_SEPARATOR.length()) : path);
+			return (path.endsWith(Errors.NESTED_PATH_SEPARATOR) ? path.substring(0, path.length() - NESTED_PATH_SEPARATOR.length()) : path);
 		}
 	}
 
 	/**
 	 * Determine the canonical field name for the given field.
 	 * <p>The default implementation simply returns the field name as-is.
+	 *
 	 * @param field the original field name
 	 * @return the canonical field name
 	 */
@@ -225,7 +223,8 @@ public abstract class AbstractErrors implements Errors, Serializable {
 
 	/**
 	 * Check whether the given FieldError matches the given field.
-	 * @param field the field that we are looking up FieldErrors for
+	 *
+	 * @param field      the field that we are looking up FieldErrors for
 	 * @param fieldError the candidate FieldError
 	 * @return whether the FieldError matches the given field
 	 */
@@ -235,8 +234,7 @@ public abstract class AbstractErrors implements Errors, Serializable {
 		}
 		// Optimization: use charAt and regionMatches instead of endsWith and startsWith (SPR-11304)
 		int endIndex = field.length() - 1;
-		return (endIndex >= 0 && field.charAt(endIndex) == '*' &&
-				(endIndex == 0 || field.regionMatches(0, fieldError.getField(), 0, endIndex)));
+		return (endIndex >= 0 && field.charAt(endIndex) == '*' && (endIndex == 0 || field.regionMatches(0, fieldError.getField(), 0, endIndex)));
 	}
 
 

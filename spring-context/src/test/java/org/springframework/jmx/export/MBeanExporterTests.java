@@ -83,8 +83,7 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 		listeners.put("*", null);
 		MBeanExporter exporter = new MBeanExporter();
 
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				exporter.setNotificationListenerMappings(listeners));
+		assertThatIllegalArgumentException().isThrownBy(() -> exporter.setNotificationListenerMappings(listeners));
 	}
 
 	@Test
@@ -102,9 +101,7 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 		exporter.setBeans(getBeanMap());
 		exporter.setServer(server);
 		exporter.setNotificationListenerMappings(listeners);
-		assertThatExceptionOfType(MBeanExportException.class).as("NotificationListener on a non-existent MBean").isThrownBy(() ->
-				start(exporter))
-			.satisfies(ex -> assertThat(ex.contains(InstanceNotFoundException.class)));
+		assertThatExceptionOfType(MBeanExportException.class).as("NotificationListener on a non-existent MBean").isThrownBy(() -> start(exporter)).satisfies(ex -> assertThat(ex.contains(InstanceNotFoundException.class)));
 	}
 
 	@Test
@@ -114,10 +111,8 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 		exporter.setServer(server);
 		try {
 			start(exporter);
-			assertIsRegistered("The bean was not registered with the MBeanServer",
-					ObjectNameManager.getInstance(OBJECT_NAME));
-		}
-		finally {
+			assertIsRegistered("The bean was not registered with the MBeanServer", ObjectNameManager.getInstance(OBJECT_NAME));
+		} finally {
 			exporter.destroy();
 		}
 	}
@@ -139,8 +134,7 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 			Object name = server.getAttribute(ObjectNameManager.getInstance("spring:name=dynBean"), "Name");
 			assertThat(name).as("The name attribute is incorrect").isEqualTo("Rob Harrop");
 			assertThat(asm.invoked).as("Assembler should not have been invoked").isFalse();
-		}
-		finally {
+		} finally {
 			exporter.destroy();
 		}
 	}
@@ -167,8 +161,7 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 			ObjectInstance instance = server.getObjectInstance(ObjectNameManager.getInstance("spring:mbean=true"));
 			assertThat(instance).isNotNull();
 
-			assertThatExceptionOfType(InstanceNotFoundException.class).isThrownBy(() ->
-					server.getObjectInstance(ObjectNameManager.getInstance("spring:mbean=false")));
+			assertThatExceptionOfType(InstanceNotFoundException.class).isThrownBy(() -> server.getObjectInstance(ObjectNameManager.getInstance("spring:mbean=false")));
 		}
 	}
 
@@ -341,8 +334,7 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 
 		assertIsRegistered("Bean instance not registered", objectName);
 
-		Object result = server.invoke(objectName, "add", new Object[] {new Integer(2), new Integer(3)}, new String[] {
-				int.class.getName(), int.class.getName()});
+		Object result = server.invoke(objectName, "add", new Object[]{new Integer(2), new Integer(3)}, new String[]{int.class.getName(), int.class.getName()});
 
 		assertThat(new Integer(5)).as("Incorrect result return from add").isEqualTo(result);
 		assertThat(server.getAttribute(objectName, "Name")).as("Incorrect attribute value").isEqualTo(name);
@@ -386,10 +378,8 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 		exporter.setAutodetectMode(MBeanExporter.AUTODETECT_MBEAN);
 		start(exporter);
 
-		assertIsRegistered("Bona fide MBean not autodetected in AUTODETECT_MBEAN mode",
-				ObjectNameManager.getInstance(OBJECT_NAME));
-		assertIsNotRegistered("Bean autodetected and (only) AUTODETECT_MBEAN mode is on",
-				ObjectNameManager.getInstance(exportedBeanName));
+		assertIsRegistered("Bona fide MBean not autodetected in AUTODETECT_MBEAN mode", ObjectNameManager.getInstance(OBJECT_NAME));
+		assertIsNotRegistered("Bean autodetected and (only) AUTODETECT_MBEAN mode is on", ObjectNameManager.getInstance(exportedBeanName));
 	}
 
 	@Test
@@ -408,12 +398,9 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 		exporter.setBeanFactory(factory);
 		exporter.setAutodetectMode(MBeanExporter.AUTODETECT_ALL);
 		start(exporter);
-		assertIsRegistered("Bona fide MBean not autodetected in (AUTODETECT_ALL) mode",
-				ObjectNameManager.getInstance(OBJECT_NAME));
-		assertIsRegistered("Bean not autodetected in (AUTODETECT_ALL) mode",
-				ObjectNameManager.getInstance(exportedBeanName));
-		assertIsNotRegistered("Bean autodetected and did not satisfy the autodetect info assembler",
-				ObjectNameManager.getInstance(notToBeExportedBeanName));
+		assertIsRegistered("Bona fide MBean not autodetected in (AUTODETECT_ALL) mode", ObjectNameManager.getInstance(OBJECT_NAME));
+		assertIsRegistered("Bean not autodetected in (AUTODETECT_ALL) mode", ObjectNameManager.getInstance(exportedBeanName));
+		assertIsNotRegistered("Bean autodetected and did not satisfy the autodetect info assembler", ObjectNameManager.getInstance(notToBeExportedBeanName));
 	}
 
 	@Test
@@ -430,10 +417,8 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 		exporter.setBeanFactory(factory);
 		exporter.setAutodetectMode(MBeanExporter.AUTODETECT_ASSEMBLER);
 		start(exporter);
-		assertIsNotRegistered("Bona fide MBean was autodetected in AUTODETECT_ASSEMBLER mode - must not have been",
-				ObjectNameManager.getInstance(OBJECT_NAME));
-		assertIsRegistered("Bean not autodetected in AUTODETECT_ASSEMBLER mode",
-				ObjectNameManager.getInstance(exportedBeanName));
+		assertIsNotRegistered("Bona fide MBean was autodetected in AUTODETECT_ASSEMBLER mode - must not have been", ObjectNameManager.getInstance(OBJECT_NAME));
+		assertIsRegistered("Bean not autodetected in AUTODETECT_ASSEMBLER mode", ObjectNameManager.getInstance(exportedBeanName));
 	}
 
 	/**
@@ -454,43 +439,37 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 		exporter.setBeanFactory(factory);
 		exporter.setAutodetectMode(MBeanExporter.AUTODETECT_ASSEMBLER);
 		start(exporter);
-		assertIsRegistered("Explicitly exported bona fide MBean obviously not exported.",
-				ObjectNameManager.getInstance(OBJECT_NAME));
+		assertIsRegistered("Explicitly exported bona fide MBean obviously not exported.", ObjectNameManager.getInstance(OBJECT_NAME));
 	}
 
 	@Test
 	void testSetAutodetectModeToOutOfRangeNegativeValue() {
 		MBeanExporter exporter = new MBeanExporter();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				exporter.setAutodetectMode(-1));
+		assertThatIllegalArgumentException().isThrownBy(() -> exporter.setAutodetectMode(-1));
 	}
 
 	@Test
 	void testSetAutodetectModeToOutOfRangePositiveValue() {
 		MBeanExporter exporter = new MBeanExporter();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				exporter.setAutodetectMode(5));
+		assertThatIllegalArgumentException().isThrownBy(() -> exporter.setAutodetectMode(5));
 	}
 
 	@Test
 	void testSetAutodetectModeNameToAnEmptyString() {
 		MBeanExporter exporter = new MBeanExporter();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				exporter.setAutodetectModeName(""));
+		assertThatIllegalArgumentException().isThrownBy(() -> exporter.setAutodetectModeName(""));
 	}
 
 	@Test
 	void testSetAutodetectModeNameToAWhitespacedString() {
 		MBeanExporter exporter = new MBeanExporter();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				exporter.setAutodetectModeName("  \t"));
+		assertThatIllegalArgumentException().isThrownBy(() -> exporter.setAutodetectModeName("  \t"));
 	}
 
 	@Test
 	void testSetAutodetectModeNameToARubbishValue() {
 		MBeanExporter exporter = new MBeanExporter();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				exporter.setAutodetectModeName("That Hansel is... *sssooo* hot right now!"));
+		assertThatIllegalArgumentException().isThrownBy(() -> exporter.setAutodetectModeName("That Hansel is... *sssooo* hot right now!"));
 	}
 
 	@Test
@@ -499,19 +478,18 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 		Map<String, Object> beans = new HashMap<>();
 		beans.put(OBJECT_NAME, "beanName");
 		exporter.setBeans(beans);
-		assertThatExceptionOfType(MBeanExportException.class).isThrownBy(() ->
-				start(exporter));
+		assertThatExceptionOfType(MBeanExportException.class).isThrownBy(() -> start(exporter));
 	}
 
 	@Test
 	void testNotRunningInBeanFactoryAndAutodetectionIsOn() throws Exception {
 		MBeanExporter exporter = new MBeanExporter();
 		exporter.setAutodetectMode(MBeanExporter.AUTODETECT_ALL);
-		assertThatExceptionOfType(MBeanExportException.class).isThrownBy(() ->
-				start(exporter));
+		assertThatExceptionOfType(MBeanExportException.class).isThrownBy(() -> start(exporter));
 	}
 
-	@Test  // SPR-2158
+	@Test
+		// SPR-2158
 	void testMBeanIsNotUnregisteredSpuriouslyIfSomeExternalProcessHasUnregisteredMBean() throws Exception {
 		MBeanExporter exporter = new MBeanExporter();
 		exporter.setBeans(getBeanMap());
@@ -519,15 +497,15 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 		MockMBeanExporterListener listener = new MockMBeanExporterListener();
 		exporter.setListeners(listener);
 		start(exporter);
-		assertIsRegistered("The bean was not registered with the MBeanServer",
-				ObjectNameManager.getInstance(OBJECT_NAME));
+		assertIsRegistered("The bean was not registered with the MBeanServer", ObjectNameManager.getInstance(OBJECT_NAME));
 
 		this.server.unregisterMBean(new ObjectName(OBJECT_NAME));
 		exporter.destroy();
 		assertThat(listener.getUnregistered().size()).as("Listener should not have been invoked (MBean previously unregistered by external agent)").isEqualTo(0);
 	}
 
-	@Test  // SPR-3302
+	@Test
+		// SPR-3302
 	void testBeanNameCanBeUsedInNotificationListenersMap() throws Exception {
 		String beanName = "charlesDexterWard";
 		BeanDefinitionBuilder testBean = BeanDefinitionBuilder.rootBeanDefinition(JmxTestBean.class);
@@ -571,11 +549,11 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 		start(exporter);
 	}
 
-	@Test  // SPR-3625
+	@Test
+		// SPR-3625
 	void testMBeanIsUnregisteredForRuntimeExceptionDuringInitialization() throws Exception {
 		BeanDefinitionBuilder builder1 = BeanDefinitionBuilder.rootBeanDefinition(Person.class);
-		BeanDefinitionBuilder builder2 = BeanDefinitionBuilder
-				.rootBeanDefinition(RuntimeExceptionThrowingConstructorBean.class);
+		BeanDefinitionBuilder builder2 = BeanDefinitionBuilder.rootBeanDefinition(RuntimeExceptionThrowingConstructorBean.class);
 
 		String objectName1 = "spring:test=bean1";
 		String objectName2 = "spring:test=bean2";
@@ -592,13 +570,10 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 		exporter.setBeans(beansToExport);
 		exporter.setBeanFactory(factory);
 
-		assertThatExceptionOfType(RuntimeException.class).as("failed during creation of RuntimeExceptionThrowingConstructorBean").isThrownBy(() ->
-				start(exporter));
+		assertThatExceptionOfType(RuntimeException.class).as("failed during creation of RuntimeExceptionThrowingConstructorBean").isThrownBy(() -> start(exporter));
 
-		assertIsNotRegistered("Must have unregistered all previously registered MBeans due to RuntimeException",
-				ObjectNameManager.getInstance(objectName1));
-		assertIsNotRegistered("Must have never registered this MBean due to RuntimeException",
-				ObjectNameManager.getInstance(objectName2));
+		assertIsNotRegistered("Must have unregistered all previously registered MBeans due to RuntimeException", ObjectNameManager.getInstance(objectName1));
+		assertIsNotRegistered("Must have never registered this MBean due to RuntimeException", ObjectNameManager.getInstance(objectName2));
 	}
 
 	@Test
@@ -617,10 +592,8 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 		exporter.addExcludedBean(secondBeanName);
 
 		start(exporter);
-		assertIsRegistered("Bean not autodetected in (AUTODETECT_ALL) mode",
-				ObjectNameManager.getInstance(firstBeanName));
-		assertIsNotRegistered("Bean should have been excluded",
-				ObjectNameManager.getInstance(secondBeanName));
+		assertIsRegistered("Bean not autodetected in (AUTODETECT_ALL) mode", ObjectNameManager.getInstance(firstBeanName));
+		assertIsNotRegistered("Bean should have been excluded", ObjectNameManager.getInstance(secondBeanName));
 	}
 
 	@Test
@@ -634,8 +607,7 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 		exporter.setAutodetectMode(MBeanExporter.AUTODETECT_ALL);
 
 		start(exporter);
-		assertIsRegistered("Non-null FactoryBean object registered",
-				ObjectNameManager.getInstance("spring:type=FactoryBean"));
+		assertIsRegistered("Non-null FactoryBean object registered", ObjectNameManager.getInstance("spring:type=FactoryBean"));
 	}
 
 	@Test
@@ -649,8 +621,7 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 		exporter.setAutodetectMode(MBeanExporter.AUTODETECT_ALL);
 
 		start(exporter);
-		assertIsNotRegistered("Null FactoryBean object not registered",
-				ObjectNameManager.getInstance("spring:type=FactoryBean"));
+		assertIsNotRegistered("Null FactoryBean object not registered", ObjectNameManager.getInstance("spring:type=FactoryBean"));
 	}
 
 
@@ -771,8 +742,7 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 	}
 
 
-	private static final class NamedBeanAutodetectCapableMBeanInfoAssemblerStub extends
-			SimpleReflectiveMBeanInfoAssembler implements AutodetectCapableMBeanInfoAssembler {
+	private static final class NamedBeanAutodetectCapableMBeanInfoAssemblerStub extends SimpleReflectiveMBeanInfoAssembler implements AutodetectCapableMBeanInfoAssembler {
 
 		private Collection<String> namedBeans;
 
@@ -794,15 +764,18 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 
 	public static class ProperSomethingFactoryBean implements FactoryBean<Something> {
 
-		@Override public Something getObject() {
+		@Override
+		public Something getObject() {
 			return new Something();
 		}
 
-		@Override public Class<?> getObjectType() {
+		@Override
+		public Class<?> getObjectType() {
 			return Something.class;
 		}
 
-		@Override public boolean isSingleton() {
+		@Override
+		public boolean isSingleton() {
 			return true;
 		}
 	}
@@ -810,15 +783,18 @@ public class MBeanExporterTests extends AbstractMBeanServerTests {
 
 	public static class NullSomethingFactoryBean implements FactoryBean<Something> {
 
-		@Override public Something getObject() {
+		@Override
+		public Something getObject() {
 			return null;
 		}
 
-		@Override public Class<?> getObjectType() {
+		@Override
+		public Class<?> getObjectType() {
 			return Something.class;
 		}
 
-		@Override public boolean isSingleton() {
+		@Override
+		public boolean isSingleton() {
 			return true;
 		}
 	}

@@ -55,8 +55,7 @@ public class Spr8954Tests {
 
 		assertThat(bf.isTypeMatch("&foo", FactoryBean.class)).isTrue();
 
-		@SuppressWarnings("rawtypes")
-		Map<String, FactoryBean> fbBeans = bf.getBeansOfType(FactoryBean.class);
+		@SuppressWarnings("rawtypes") Map<String, FactoryBean> fbBeans = bf.getBeansOfType(FactoryBean.class);
 		assertThat(1).isEqualTo(fbBeans.size());
 		assertThat("&foo").isEqualTo(fbBeans.keySet().iterator().next());
 
@@ -74,8 +73,7 @@ public class Spr8954Tests {
 
 		assertThat(bf.isTypeMatch("&foo", FactoryBean.class)).isTrue();
 
-		@SuppressWarnings("rawtypes")
-		Map<String, FactoryBean> fbBeans = bf.getBeansOfType(FactoryBean.class);
+		@SuppressWarnings("rawtypes") Map<String, FactoryBean> fbBeans = bf.getBeansOfType(FactoryBean.class);
 		assertThat(1).isEqualTo(fbBeans.size());
 		assertThat("&foo").isEqualTo(fbBeans.keySet().iterator().next());
 
@@ -87,7 +85,8 @@ public class Spr8954Tests {
 
 	static class FooConfig {
 
-		@Bean FooFactoryBean foo() {
+		@Bean
+		FooFactoryBean foo() {
 			return new FooFactoryBean();
 		}
 	}
@@ -112,16 +111,13 @@ public class Spr8954Tests {
 	}
 
 
-	interface AnInterface {
-	}
+	interface AnInterface {}
 
 
-	static class Foo {
-	}
+	static class Foo {}
 
 
-	interface PredictedType {
-	}
+	interface PredictedType {}
 
 
 	static class PredictingBPP implements SmartInstantiationAwareBeanPostProcessor {

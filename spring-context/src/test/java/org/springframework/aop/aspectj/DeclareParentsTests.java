@@ -40,8 +40,7 @@ public class DeclareParentsTests {
 
 	@BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
 		testBeanProxy = (ITestBean) ctx.getBean("testBean");
 		introductionObject = ctx.getBean("introduction");
 	}
@@ -69,8 +68,7 @@ public class DeclareParentsTests {
 
 		testBeanProxy.setName("");
 		lockable.lock();
-		assertThatIllegalStateException().as("should be locked").isThrownBy(() ->
-				testBeanProxy.setName(" "));
+		assertThatIllegalStateException().as("should be locked").isThrownBy(() -> testBeanProxy.setName(" "));
 	}
 
 }

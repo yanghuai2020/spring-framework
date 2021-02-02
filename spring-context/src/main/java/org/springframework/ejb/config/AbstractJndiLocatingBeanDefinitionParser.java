@@ -49,9 +49,7 @@ abstract class AbstractJndiLocatingBeanDefinitionParser extends AbstractSimpleBe
 
 	@Override
 	protected boolean isEligibleAttribute(String attributeName) {
-		return (super.isEligibleAttribute(attributeName) &&
-				!ENVIRONMENT_REF.equals(attributeName) &&
-				!LAZY_INIT_ATTRIBUTE.equals(attributeName));
+		return (super.isEligibleAttribute(attributeName) && !ENVIRONMENT_REF.equals(attributeName) && !LAZY_INIT_ATTRIBUTE.equals(attributeName));
 	}
 
 	@Override
@@ -60,8 +58,7 @@ abstract class AbstractJndiLocatingBeanDefinitionParser extends AbstractSimpleBe
 		if (envValue != null) {
 			// Specific environment settings defined, overriding any shared properties.
 			definitionBuilder.addPropertyValue(JNDI_ENVIRONMENT, envValue);
-		}
-		else {
+		} else {
 			// Check whether there is a reference to shared environment properties...
 			String envRef = element.getAttribute(ENVIRONMENT_REF);
 			if (StringUtils.hasLength(envRef)) {

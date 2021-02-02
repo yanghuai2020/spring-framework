@@ -36,8 +36,8 @@ import org.springframework.util.CollectionUtils;
  * @author Chris Beams
  * @author Juergen Hoeller
  * @author Stephane Nicoll
- * @since 3.1
  * @see EnableAsync
+ * @since 3.1
  */
 @Configuration(proxyBeanMethods = false)
 public abstract class AbstractAsyncConfiguration implements ImportAware {
@@ -54,11 +54,9 @@ public abstract class AbstractAsyncConfiguration implements ImportAware {
 
 	@Override
 	public void setImportMetadata(AnnotationMetadata importMetadata) {
-		this.enableAsync = AnnotationAttributes.fromMap(
-				importMetadata.getAnnotationAttributes(EnableAsync.class.getName(), false));
+		this.enableAsync = AnnotationAttributes.fromMap(importMetadata.getAnnotationAttributes(EnableAsync.class.getName(), false));
 		if (this.enableAsync == null) {
-			throw new IllegalArgumentException(
-					"@EnableAsync is not present on importing class " + importMetadata.getClassName());
+			throw new IllegalArgumentException("@EnableAsync is not present on importing class " + importMetadata.getClassName());
 		}
 	}
 

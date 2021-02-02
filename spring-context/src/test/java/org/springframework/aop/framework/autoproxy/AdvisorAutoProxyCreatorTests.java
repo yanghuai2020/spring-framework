@@ -42,11 +42,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Tests for auto proxy creation by advisor recognition.
  *
- * @see org.springframework.aop.framework.autoproxy.AdvisorAutoProxyCreatorIntegrationTests
- *
  * @author Rod Johnson
  * @author Dave Syer
  * @author Chris Beams
+ * @see org.springframework.aop.framework.autoproxy.AdvisorAutoProxyCreatorIntegrationTests
  */
 @SuppressWarnings("resource")
 public class AdvisorAutoProxyCreatorTests {
@@ -162,8 +161,7 @@ public class AdvisorAutoProxyCreatorTests {
 
 	@Test
 	public void testQuickTargetSourceCreator() throws Exception {
-		ClassPathXmlApplicationContext bf =
-				new ClassPathXmlApplicationContext(QUICK_TARGETSOURCE_CONTEXT, CLASS);
+		ClassPathXmlApplicationContext bf = new ClassPathXmlApplicationContext(QUICK_TARGETSOURCE_CONTEXT, CLASS);
 		ITestBean test = (ITestBean) bf.getBean("test");
 		assertThat(AopUtils.isAopProxy(test)).isFalse();
 		assertThat(test.getName()).isEqualTo("Rod");
@@ -229,8 +227,7 @@ public class AdvisorAutoProxyCreatorTests {
 class SelectivePrototypeTargetSourceCreator extends AbstractBeanFactoryBasedTargetSourceCreator {
 
 	@Override
-	protected AbstractBeanFactoryBasedTargetSource createBeanFactoryBasedTargetSource(
-			Class<?> beanClass, String beanName) {
+	protected AbstractBeanFactoryBasedTargetSource createBeanFactoryBasedTargetSource(Class<?> beanClass, String beanName) {
 		if (!beanName.startsWith("prototype")) {
 			return null;
 		}

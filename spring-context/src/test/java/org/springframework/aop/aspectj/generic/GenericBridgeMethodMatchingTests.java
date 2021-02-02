@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * <p>This class focuses on JDK proxy, while a subclass, GenericBridgeMethodMatchingClassProxyTests,
  * focuses on class proxying.
- *
+ * <p>
  * See SPR-3556 for more details.
  *
  * @author Ramnivas Laddad
@@ -49,8 +49,7 @@ public class GenericBridgeMethodMatchingTests {
 	@SuppressWarnings("unchecked")
 	@org.junit.jupiter.api.BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
 
 		counterAspect = (GenericCounterAspect) ctx.getBean("counterAspect");
 		counterAspect.count = 0;

@@ -4,8 +4,7 @@
  *
  * <p>Intended for use by tools and aspects (making an ideal target for pointcuts).
  */
-@NonNullApi
-@NonNullFields
+@NonNullApi @NonNullFields
 package org.springframework.stereotype;
 
 import org.springframework.lang.NonNullApi;

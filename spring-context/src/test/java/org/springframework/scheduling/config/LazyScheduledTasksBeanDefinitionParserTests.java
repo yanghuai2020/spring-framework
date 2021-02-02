@@ -36,16 +36,14 @@ class LazyScheduledTasksBeanDefinitionParserTests {
 	@Test
 	@Timeout(5)
 	void checkTarget() {
-		try (ConfigurableApplicationContext applicationContext =
-				new GenericXmlApplicationContext(getClass(), "lazyScheduledTasksContext.xml")) {
+		try (ConfigurableApplicationContext applicationContext = new GenericXmlApplicationContext(getClass(), "lazyScheduledTasksContext.xml")) {
 
 			Task task = applicationContext.getBean(Task.class);
 
 			while (!task.executed) {
 				try {
 					Thread.sleep(10);
-				}
-				catch (Exception ex) {
+				} catch (Exception ex) {
 					/* Do Nothing */
 				}
 			}

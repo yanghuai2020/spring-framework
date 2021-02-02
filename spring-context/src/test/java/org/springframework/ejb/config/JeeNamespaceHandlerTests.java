@@ -46,8 +46,7 @@ public class JeeNamespaceHandlerTests {
 	@BeforeEach
 	public void setup() {
 		GenericApplicationContext ctx = new GenericApplicationContext();
-		new XmlBeanDefinitionReader(ctx).loadBeanDefinitions(
-				new ClassPathResource("jeeNamespaceHandlerTests.xml", getClass()));
+		new XmlBeanDefinitionReader(ctx).loadBeanDefinitions(new ClassPathResource("jeeNamespaceHandlerTests.xml", getClass()));
 		ctx.refresh();
 		this.beanFactory = ctx.getBeanFactory();
 		this.beanFactory.getBeanNamesForType(ITestBean.class);

@@ -85,36 +85,31 @@ public class ImportAnnotationDetectionTests {
 	@Configuration
 	@MetaImport1
 	@MetaImport2
-	static class MultiMetaImportConfig {
-	}
+	static class MultiMetaImportConfig {}
 
 	@Configuration
 	@MetaImport1
 	@MetaImport2
 	@Import(Config3.class)
-	static class MultiMetaImportConfigWithLocalImport {
-	}
+	static class MultiMetaImportConfigWithLocalImport {}
 
 	@Configuration
 	@MetaImport1
 	@MetaImport2
 	@Import(Config2a.class)
-	static class MultiMetaImportConfigWithLocalImportWithBeanOverride {
-	}
+	static class MultiMetaImportConfigWithLocalImportWithBeanOverride {}
 
 
 	@Target(ElementType.TYPE)
 	@Retention(RetentionPolicy.RUNTIME)
 	@Import(Config1.class)
-	@interface MetaImport1 {
-	}
+	@interface MetaImport1 {}
 
 
 	@Target(ElementType.TYPE)
 	@Retention(RetentionPolicy.RUNTIME)
 	@Import(Config2.class)
-	@interface MetaImport2 {
-	}
+	@interface MetaImport2 {}
 
 
 	@Configuration

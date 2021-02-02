@@ -76,8 +76,7 @@ public class ContextAnnotationAutowireCandidateResolver extends QualifierAnnotat
 
 	protected Object buildLazyResolutionProxy(final DependencyDescriptor descriptor, final @Nullable String beanName) {
 		BeanFactory beanFactory = getBeanFactory();
-		Assert.state(beanFactory instanceof DefaultListableBeanFactory,
-				"BeanFactory needs to be a DefaultListableBeanFactory");
+		Assert.state(beanFactory instanceof DefaultListableBeanFactory, "BeanFactory needs to be a DefaultListableBeanFactory");
 		final DefaultListableBeanFactory dlbf = (DefaultListableBeanFactory) beanFactory;
 
 		TargetSource ts = new TargetSource() {
@@ -85,10 +84,12 @@ public class ContextAnnotationAutowireCandidateResolver extends QualifierAnnotat
 			public Class<?> getTargetClass() {
 				return descriptor.getDependencyType();
 			}
+
 			@Override
 			public boolean isStatic() {
 				return false;
 			}
+
 			@Override
 			public Object getTarget() {
 				Set<String> autowiredBeanNames = (beanName != null ? new LinkedHashSet<>(1) : null);
@@ -97,15 +98,12 @@ public class ContextAnnotationAutowireCandidateResolver extends QualifierAnnotat
 					Class<?> type = getTargetClass();
 					if (Map.class == type) {
 						return Collections.emptyMap();
-					}
-					else if (List.class == type) {
+					} else if (List.class == type) {
 						return Collections.emptyList();
-					}
-					else if (Set.class == type || Collection.class == type) {
+					} else if (Set.class == type || Collection.class == type) {
 						return Collections.emptySet();
 					}
-					throw new NoSuchBeanDefinitionException(descriptor.getResolvableType(),
-							"Optional dependency not present for lazy injection point");
+					throw new NoSuchBeanDefinitionException(descriptor.getResolvableType(), "Optional dependency not present for lazy injection point");
 				}
 				if (autowiredBeanNames != null) {
 					for (String autowiredBeanName : autowiredBeanNames) {
@@ -116,6 +114,7 @@ public class ContextAnnotationAutowireCandidateResolver extends QualifierAnnotat
 				}
 				return target;
 			}
+
 			@Override
 			public void releaseTarget(Object target) {
 			}

@@ -68,23 +68,22 @@ import org.springframework.util.Assert;
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
- * @since 2.0
  * @see #setRequiredAnnotationType
  * @see Required
+ * @since 2.0
  * @deprecated as of 5.1, in favor of using constructor injection for required settings
  * (or a custom {@link org.springframework.beans.factory.InitializingBean} implementation)
  */
 @Deprecated
-public class RequiredAnnotationBeanPostProcessor implements SmartInstantiationAwareBeanPostProcessor,
-		MergedBeanDefinitionPostProcessor, PriorityOrdered, BeanFactoryAware {
+public class RequiredAnnotationBeanPostProcessor implements SmartInstantiationAwareBeanPostProcessor, MergedBeanDefinitionPostProcessor, PriorityOrdered, BeanFactoryAware {
 
 	/**
 	 * Bean definition attribute that may indicate whether a given bean is supposed
 	 * to be skipped when performing this post-processor's required property check.
+	 *
 	 * @see #shouldSkip
 	 */
-	public static final String SKIP_REQUIRED_CHECK_ATTRIBUTE =
-			Conventions.getQualifiedAttributeName(RequiredAnnotationBeanPostProcessor.class, "skipRequiredCheck");
+	public static final String SKIP_REQUIRED_CHECK_ATTRIBUTE = Conventions.getQualifiedAttributeName(RequiredAnnotationBeanPostProcessor.class, "skipRequiredCheck");
 
 
 	private Class<? extends Annotation> requiredAnnotationType = Required.class;
@@ -143,8 +142,7 @@ public class RequiredAnnotationBeanPostProcessor implements SmartInstantiationAw
 	}
 
 	@Override
-	public PropertyValues postProcessPropertyValues(
-			PropertyValues pvs, PropertyDescriptor[] pds, Object bean, String beanName) {
+	public PropertyValues postProcessPropertyValues(PropertyValues pvs, PropertyDescriptor[] pds, Object bean, String beanName) {
 
 		if (!this.validatedBeanNames.contains(beanName)) {
 			if (!shouldSkip(this.beanFactory, beanName)) {
@@ -170,8 +168,9 @@ public class RequiredAnnotationBeanPostProcessor implements SmartInstantiationAw
 	 * {@link #SKIP_REQUIRED_CHECK_ATTRIBUTE} attribute in the bean definition, if any.
 	 * It also suggests skipping in case of a bean definition with a "factory-bean"
 	 * reference set, assuming that instance-based factories pre-populate the bean.
+	 *
 	 * @param beanFactory the BeanFactory to check against
-	 * @param beanName the name of the bean to check against
+	 * @param beanName    the name of the bean to check against
 	 * @return {@code true} to skip the bean; {@code false} to process it
 	 */
 	protected boolean shouldSkip(@Nullable ConfigurableListableBeanFactory beanFactory, String beanName) {
@@ -191,6 +190,7 @@ public class RequiredAnnotationBeanPostProcessor implements SmartInstantiationAw
 	 * <p>This implementation looks for the existence of a
 	 * {@link #setRequiredAnnotationType "required" annotation}
 	 * on the supplied {@link PropertyDescriptor property}.
+	 *
 	 * @param propertyDescriptor the target PropertyDescriptor (never {@code null})
 	 * @return {@code true} if the supplied property has been marked as being required;
 	 * {@code false} if not, or if the supplied property does not have a setter method
@@ -202,8 +202,9 @@ public class RequiredAnnotationBeanPostProcessor implements SmartInstantiationAw
 
 	/**
 	 * Build an exception message for the given list of invalid properties.
+	 *
 	 * @param invalidProperties the list of names of invalid properties
-	 * @param beanName the name of the bean
+	 * @param beanName          the name of the bean
 	 * @return the exception message
 	 */
 	private String buildExceptionMessage(List<String> invalidProperties, String beanName) {
@@ -215,8 +216,7 @@ public class RequiredAnnotationBeanPostProcessor implements SmartInstantiationAw
 			if (i > 0) {
 				if (i == (size - 1)) {
 					sb.append(" and");
-				}
-				else {
+				} else {
 					sb.append(",");
 				}
 			}

@@ -30,8 +30,7 @@ public abstract class AbstractApplicationEventListenerTests {
 	protected ResolvableType getGenericApplicationEventType(String fieldName) {
 		try {
 			return ResolvableType.forField(TestEvents.class.getField(fieldName));
-		}
-		catch (NoSuchFieldException ex) {
+		} catch (NoSuchFieldException ex) {
 			throw new IllegalStateException("No such field on Events '" + fieldName + "'");
 		}
 	}
@@ -57,8 +56,7 @@ public abstract class AbstractApplicationEventListenerTests {
 
 		public SmartGenericTestEvent(Object source, T payload) {
 			super(source, payload);
-			this.resolvableType = ResolvableType.forClassWithGenerics(
-					getClass(), payload.getClass());
+			this.resolvableType = ResolvableType.forClassWithGenerics(getClass(), payload.getClass());
 		}
 
 		@Override
@@ -98,8 +96,7 @@ public abstract class AbstractApplicationEventListenerTests {
 		}
 	}
 
-	static class UpperBoundEventListener
-			implements ApplicationListener<GenericTestEvent<? extends RuntimeException>> {
+	static class UpperBoundEventListener implements ApplicationListener<GenericTestEvent<? extends RuntimeException>> {
 
 		@Override
 		public void onApplicationEvent(GenericTestEvent<? extends RuntimeException> event) {

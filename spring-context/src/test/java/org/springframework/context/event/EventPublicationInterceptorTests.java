@@ -48,8 +48,7 @@ public class EventPublicationInterceptorTests {
 	public void testWithNoApplicationEventClassSupplied() {
 		EventPublicationInterceptor interceptor = new EventPublicationInterceptor();
 		interceptor.setApplicationEventPublisher(this.publisher);
-		assertThatIllegalArgumentException().isThrownBy(
-				interceptor::afterPropertiesSet);
+		assertThatIllegalArgumentException().isThrownBy(interceptor::afterPropertiesSet);
 	}
 
 	@Test
@@ -57,8 +56,8 @@ public class EventPublicationInterceptorTests {
 		EventPublicationInterceptor interceptor = new EventPublicationInterceptor();
 		interceptor.setApplicationEventPublisher(this.publisher);
 		assertThatIllegalArgumentException().isThrownBy(() -> {
-				interceptor.setApplicationEventClass(getClass());
-				interceptor.afterPropertiesSet();
+			interceptor.setApplicationEventClass(getClass());
+			interceptor.afterPropertiesSet();
 		});
 	}
 
@@ -67,8 +66,8 @@ public class EventPublicationInterceptorTests {
 		EventPublicationInterceptor interceptor = new EventPublicationInterceptor();
 		interceptor.setApplicationEventPublisher(this.publisher);
 		assertThatIllegalArgumentException().isThrownBy(() -> {
-				interceptor.setApplicationEventClass(ApplicationEvent.class);
-				interceptor.afterPropertiesSet();
+			interceptor.setApplicationEventClass(ApplicationEvent.class);
+			interceptor.afterPropertiesSet();
 		});
 	}
 
@@ -77,8 +76,8 @@ public class EventPublicationInterceptorTests {
 		EventPublicationInterceptor interceptor = new EventPublicationInterceptor();
 		interceptor.setApplicationEventPublisher(this.publisher);
 		assertThatIllegalArgumentException().isThrownBy(() -> {
-				interceptor.setApplicationEventClass(TestEventWithNoValidOneArgObjectCtor.class);
-				interceptor.afterPropertiesSet();
+			interceptor.setApplicationEventClass(TestEventWithNoValidOneArgObjectCtor.class);
+			interceptor.afterPropertiesSet();
 		});
 	}
 
@@ -102,8 +101,7 @@ public class EventPublicationInterceptorTests {
 		ctx.registerSingleton("otherListener", FactoryBeanTestListener.class);
 		ctx.refresh();
 
-		EventPublicationInterceptor interceptor =
-				(EventPublicationInterceptor) ctx.getBean("publisher");
+		EventPublicationInterceptor interceptor = (EventPublicationInterceptor) ctx.getBean("publisher");
 		ProxyFactory factory = new ProxyFactory(target);
 		factory.addAdvice(0, interceptor);
 

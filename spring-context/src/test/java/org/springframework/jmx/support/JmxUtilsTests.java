@@ -131,8 +131,7 @@ class JmxUtilsTests {
 		MBeanServer server = null;
 		try {
 			server = JmxUtils.locateMBeanServer();
-		}
-		finally {
+		} finally {
 			if (server != null) {
 				MBeanServerFactory.releaseMBeanServer(server);
 			}
@@ -224,31 +223,24 @@ class JmxUtilsTests {
 	}
 
 
-	public static class Bar extends Foo {
-	}
+	public static class Bar extends Foo {}
 
 
-	public static class Abc extends Bar {
-	}
+	public static class Abc extends Bar {}
 
 
-	private interface JmxInterfaceMBean {
-	}
+	private interface JmxInterfaceMBean {}
 
 
-	private interface JmxInterface extends JmxInterfaceMBean {
-	}
+	private interface JmxInterface extends JmxInterfaceMBean {}
 
 
-	private interface SpecializedJmxInterface extends JmxInterface {
-	}
+	private interface SpecializedJmxInterface extends JmxInterface {}
 
 
-	private interface JmxClassMBean {
-	}
+	private interface JmxClassMBean {}
 
 
-	private static class JmxClass implements JmxClassMBean {
-	}
+	private static class JmxClass implements JmxClassMBean {}
 
 }

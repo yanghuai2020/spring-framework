@@ -52,8 +52,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 @SuppressWarnings("serial")
 public class CglibProxyTests extends AbstractAopProxyTests implements Serializable {
 
-	private static final String DEPENDENCY_CHECK_CONTEXT =
-			CglibProxyTests.class.getSimpleName() + "-with-dependency-checking.xml";
+	private static final String DEPENDENCY_CHECK_CONTEXT = CglibProxyTests.class.getSimpleName() + "-with-dependency-checking.xml";
 
 
 	@Override
@@ -78,8 +77,7 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 
 	@Test
 	public void testNullConfig() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new CglibAopProxy(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new CglibAopProxy(null));
 	}
 
 	@Test
@@ -87,8 +85,7 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 		AdvisedSupport pc = new AdvisedSupport(ITestBean.class);
 		pc.addAdvice(new NopInterceptor());
 		AopProxy aop = createAopProxy(pc);
-		assertThatExceptionOfType(AopConfigException.class).isThrownBy(
-				aop::getProxy);
+		assertThatExceptionOfType(AopConfigException.class).isThrownBy(aop::getProxy);
 	}
 
 	@Test
@@ -210,14 +207,17 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 			public ClassFilter getClassFilter() {
 				return ClassFilter.TRUE;
 			}
+
 			@Override
 			public MethodMatcher getMethodMatcher() {
 				return MethodMatcher.TRUE;
 			}
+
 			@Override
 			public boolean equals(Object obj) {
 				return true;
 			}
+
 			@Override
 			public int hashCode() {
 				return 0;
@@ -265,7 +265,7 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 		AdvisedSupport pc = new AdvisedSupport();
 		pc.setTargetSource(mockTargetSource);
 		CglibAopProxy aop = new CglibAopProxy(pc);
-		aop.setConstructorArguments(new Object[] {"Rob Harrop", 22}, new Class<?>[] {String.class, int.class});
+		aop.setConstructorArguments(new Object[]{"Rob Harrop", 22}, new Class<?>[]{String.class, int.class});
 
 		NoArgCtorTestBean proxy = (NoArgCtorTestBean) aop.getProxy();
 		assertThat(proxy).isNotNull();
@@ -329,8 +329,7 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 
 		try {
 			proxy.doTest();
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			assertThat(ex instanceof ApplicationContextException).as("Invalid exception class").isTrue();
 		}
 
@@ -418,8 +417,7 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 	}
 
 
-	public interface MyInterface {
-	}
+	public interface MyInterface {}
 
 
 	public enum MyEnum implements MyInterface {
@@ -451,12 +449,10 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 		public void doTest() throws Exception {
 			try {
 				throw new ApplicationContextException("foo");
-			}
-			catch (Exception ex) {
+			} catch (Exception ex) {
 				catchInvoked = true;
 				throw ex;
-			}
-			finally {
+			} finally {
 				finallyInvoked = true;
 			}
 		}

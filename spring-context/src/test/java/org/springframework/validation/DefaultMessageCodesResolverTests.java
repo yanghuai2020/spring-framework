@@ -42,26 +42,13 @@ class DefaultMessageCodesResolverTests {
 	@Test
 	void shouldResolveFieldMessageCode() throws Exception {
 		String[] codes = resolver.resolveMessageCodes("errorCode", "objectName", "field", TestBean.class);
-		assertThat(codes).containsExactly(
-				"errorCode.objectName.field",
-				"errorCode.field",
-				"errorCode.org.springframework.beans.testfixture.beans.TestBean",
-				"errorCode");
+		assertThat(codes).containsExactly("errorCode.objectName.field", "errorCode.field", "errorCode.org.springframework.beans.testfixture.beans.TestBean", "errorCode");
 	}
 
 	@Test
 	void shouldResolveIndexedFieldMessageCode() throws Exception {
 		String[] codes = resolver.resolveMessageCodes("errorCode", "objectName", "a.b[3].c[5].d", TestBean.class);
-		assertThat(codes).containsExactly(
-				"errorCode.objectName.a.b[3].c[5].d",
-				"errorCode.objectName.a.b[3].c.d",
-				"errorCode.objectName.a.b.c.d",
-				"errorCode.a.b[3].c[5].d",
-				"errorCode.a.b[3].c.d",
-				"errorCode.a.b.c.d",
-				"errorCode.d",
-				"errorCode.org.springframework.beans.testfixture.beans.TestBean",
-				"errorCode");
+		assertThat(codes).containsExactly("errorCode.objectName.a.b[3].c[5].d", "errorCode.objectName.a.b[3].c.d", "errorCode.objectName.a.b.c.d", "errorCode.a.b[3].c[5].d", "errorCode.a.b[3].c.d", "errorCode.a.b.c.d", "errorCode.d", "errorCode.org.springframework.beans.testfixture.beans.TestBean", "errorCode");
 	}
 
 	@Test
@@ -75,41 +62,26 @@ class DefaultMessageCodesResolverTests {
 	void shouldResolveFieldMessageCodeWithPrefix() throws Exception {
 		resolver.setPrefix("prefix.");
 		String[] codes = resolver.resolveMessageCodes("errorCode", "objectName", "field", TestBean.class);
-		assertThat(codes).containsExactly(
-				"prefix.errorCode.objectName.field",
-				"prefix.errorCode.field",
-				"prefix.errorCode.org.springframework.beans.testfixture.beans.TestBean",
-				"prefix.errorCode");
+		assertThat(codes).containsExactly("prefix.errorCode.objectName.field", "prefix.errorCode.field", "prefix.errorCode.org.springframework.beans.testfixture.beans.TestBean", "prefix.errorCode");
 	}
 
 	@Test
 	void shouldSupportNullPrefix() throws Exception {
 		resolver.setPrefix(null);
 		String[] codes = resolver.resolveMessageCodes("errorCode", "objectName", "field", TestBean.class);
-		assertThat(codes).containsExactly(
-				"errorCode.objectName.field",
-				"errorCode.field",
-				"errorCode.org.springframework.beans.testfixture.beans.TestBean",
-				"errorCode");
+		assertThat(codes).containsExactly("errorCode.objectName.field", "errorCode.field", "errorCode.org.springframework.beans.testfixture.beans.TestBean", "errorCode");
 	}
 
 	@Test
 	void shouldSupportMalformedIndexField() throws Exception {
 		String[] codes = resolver.resolveMessageCodes("errorCode", "objectName", "field[", TestBean.class);
-		assertThat(codes).containsExactly(
-				"errorCode.objectName.field[",
-				"errorCode.field[",
-				"errorCode.org.springframework.beans.testfixture.beans.TestBean",
-				"errorCode");
+		assertThat(codes).containsExactly("errorCode.objectName.field[", "errorCode.field[", "errorCode.org.springframework.beans.testfixture.beans.TestBean", "errorCode");
 	}
 
 	@Test
 	void shouldSupportNullFieldType() throws Exception {
 		String[] codes = resolver.resolveMessageCodes("errorCode", "objectName", "field", null);
-		assertThat(codes).containsExactly(
-				"errorCode.objectName.field",
-				"errorCode.field",
-				"errorCode");
+		assertThat(codes).containsExactly("errorCode.objectName.field", "errorCode.field", "errorCode");
 	}
 
 	@Test
@@ -123,17 +95,12 @@ class DefaultMessageCodesResolverTests {
 	void shouldSupportFieldPostfixFormat() throws Exception {
 		resolver.setMessageCodeFormatter(Format.POSTFIX_ERROR_CODE);
 		String[] codes = resolver.resolveMessageCodes("errorCode", "objectName", "field", TestBean.class);
-		assertThat(codes).containsExactly(
-				"objectName.field.errorCode",
-				"field.errorCode",
-				"org.springframework.beans.testfixture.beans.TestBean.errorCode",
-				"errorCode");
+		assertThat(codes).containsExactly("objectName.field.errorCode", "field.errorCode", "org.springframework.beans.testfixture.beans.TestBean.errorCode", "errorCode");
 	}
 
 	@Test
 	void shouldSupportCustomFormat() throws Exception {
-		resolver.setMessageCodeFormatter((errorCode, objectName, field) ->
-				DefaultMessageCodesResolver.Format.toDelimitedString("CUSTOM-" + errorCode, objectName, field));
+		resolver.setMessageCodeFormatter((errorCode, objectName, field) -> DefaultMessageCodesResolver.Format.toDelimitedString("CUSTOM-" + errorCode, objectName, field));
 		String[] codes = resolver.resolveMessageCodes("errorCode", "objectName");
 		assertThat(codes).containsExactly("CUSTOM-errorCode.objectName", "CUSTOM-errorCode");
 	}

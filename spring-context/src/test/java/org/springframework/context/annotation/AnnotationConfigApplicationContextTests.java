@@ -97,23 +97,18 @@ class AnnotationConfigApplicationContextTests {
 
 		// attempt to retrieve a bean that does not exist
 		Class<?> targetType = Pattern.class;
-		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() ->
-				context.getBean(targetType))
-			.withMessageContaining(format("No qualifying bean of type '%s'", targetType.getName()));
+		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() -> context.getBean(targetType)).withMessageContaining(format("No qualifying bean of type '%s'", targetType.getName()));
 	}
 
 	@Test
 	void getBeanByTypeAmbiguityRaisesException() {
 		ApplicationContext context = new AnnotationConfigApplicationContext(TwoTestBeanConfig.class);
-		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() ->
-				context.getBean(TestBean.class))
-			.withMessageContaining("No qualifying bean of type '" + TestBean.class.getName() + "'")
-			.withMessageContaining("tb1")
-			.withMessageContaining("tb2");
+		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() -> context.getBean(TestBean.class)).withMessageContaining("No qualifying bean of type '" + TestBean.class.getName() + "'").withMessageContaining("tb1").withMessageContaining("tb2");
 	}
 
 	/**
 	 * Tests that Configuration classes are registered according to convention
+	 *
 	 * @see org.springframework.beans.factory.support.DefaultBeanNameGenerator#generateBeanName
 	 */
 	@Test
@@ -160,6 +155,7 @@ class AnnotationConfigApplicationContextTests {
 				bean.getClass().getName();
 				return bean;
 			}
+
 			@Override
 			public Object postProcessAfterInitialization(Object bean, String beanName) {
 				bean.getClass().getName();
@@ -196,8 +192,7 @@ class AnnotationConfigApplicationContextTests {
 	@Test
 	void individualBeanWithSupplier() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.registerBean(BeanA.class,
-				() -> new BeanA(context.getBean(BeanB.class), context.getBean(BeanC.class)));
+		context.registerBean(BeanA.class, () -> new BeanA(context.getBean(BeanB.class), context.getBean(BeanC.class)));
 		context.registerBean(BeanB.class, BeanB::new);
 		context.registerBean(BeanC.class, BeanC::new);
 		context.refresh();
@@ -207,18 +202,14 @@ class AnnotationConfigApplicationContextTests {
 		assertThat(context.getBean(BeanA.class).c).isSameAs(context.getBean(BeanC.class));
 		assertThat(context.getBean(BeanB.class).applicationContext).isSameAs(context);
 
-		assertThat(context.getDefaultListableBeanFactory().getDependentBeans("annotationConfigApplicationContextTests.BeanB"))
-			.containsExactly("annotationConfigApplicationContextTests.BeanA");
-		assertThat(context.getDefaultListableBeanFactory().getDependentBeans("annotationConfigApplicationContextTests.BeanC"))
-			.containsExactly("annotationConfigApplicationContextTests.BeanA");
+		assertThat(context.getDefaultListableBeanFactory().getDependentBeans("annotationConfigApplicationContextTests.BeanB")).containsExactly("annotationConfigApplicationContextTests.BeanA");
+		assertThat(context.getDefaultListableBeanFactory().getDependentBeans("annotationConfigApplicationContextTests.BeanC")).containsExactly("annotationConfigApplicationContextTests.BeanA");
 	}
 
 	@Test
 	void individualBeanWithSupplierAndCustomizer() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.registerBean(BeanA.class,
-				() -> new BeanA(context.getBean(BeanB.class), context.getBean(BeanC.class)),
-				bd -> bd.setLazyInit(true));
+		context.registerBean(BeanA.class, () -> new BeanA(context.getBean(BeanB.class), context.getBean(BeanC.class)), bd -> bd.setLazyInit(true));
 		context.registerBean(BeanB.class, BeanB::new);
 		context.registerBean(BeanC.class, BeanC::new);
 		context.refresh();
@@ -232,8 +223,7 @@ class AnnotationConfigApplicationContextTests {
 	@Test
 	void individualNamedBeanWithSupplier() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.registerBean("a", BeanA.class,
-				() -> new BeanA(context.getBean(BeanB.class), context.getBean(BeanC.class)));
+		context.registerBean("a", BeanA.class, () -> new BeanA(context.getBean(BeanB.class), context.getBean(BeanC.class)));
 		context.registerBean("b", BeanB.class, BeanB::new);
 		context.registerBean("c", BeanC.class, BeanC::new);
 		context.refresh();
@@ -247,9 +237,7 @@ class AnnotationConfigApplicationContextTests {
 	@Test
 	void individualNamedBeanWithSupplierAndCustomizer() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.registerBean("a", BeanA.class,
-				() -> new BeanA(context.getBean(BeanB.class), context.getBean(BeanC.class)),
-				bd -> bd.setLazyInit(true));
+		context.registerBean("a", BeanA.class, () -> new BeanA(context.getBean(BeanB.class), context.getBean(BeanC.class)), bd -> bd.setLazyInit(true));
 		context.registerBean("b", BeanB.class, BeanB::new);
 		context.registerBean("c", BeanC.class, BeanC::new);
 		context.refresh();
@@ -276,8 +264,7 @@ class AnnotationConfigApplicationContextTests {
 		assertThat(context.getBeansOfType(BeanB.class).values().iterator().next()).isSameAs(context.getBean(BeanB.class));
 		assertThat(context.getBeansOfType(BeanC.class).values().iterator().next()).isSameAs(context.getBean(BeanC.class));
 
-		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() ->
-				context.getBeanFactory().resolveNamedBean(BeanA.class));
+		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() -> context.getBeanFactory().resolveNamedBean(BeanA.class));
 		assertThat(context.getBeanFactory().resolveNamedBean(BeanB.class).getBeanInstance()).isSameAs(context.getBean(BeanB.class));
 		assertThat(context.getBeanFactory().resolveNamedBean(BeanC.class).getBeanInstance()).isSameAs(context.getBean(BeanC.class));
 	}
@@ -420,11 +407,13 @@ class AnnotationConfigApplicationContextTests {
 	@Configuration
 	static class TwoTestBeanConfig {
 
-		@Bean TestBean tb1() {
+		@Bean
+		TestBean tb1() {
 			return new TestBean();
 		}
 
-		@Bean TestBean tb2() {
+		@Bean
+		TestBean tb2() {
 			return new TestBean();
 		}
 	}
@@ -432,16 +421,21 @@ class AnnotationConfigApplicationContextTests {
 	@Configuration
 	static class NameConfig {
 
-		@Bean String name() { return "foo"; }
+		@Bean
+		String name() {
+			return "foo";
+		}
 	}
 
 	@Configuration
 	@Import(NameConfig.class)
 	static class AutowiredConfig {
 
-		@Autowired String autowiredName;
+		@Autowired
+		String autowiredName;
 
-		@Bean TestBean testBean() {
+		@Bean
+		TestBean testBean() {
 			TestBean testBean = new TestBean();
 			testBean.name = autowiredName;
 			return testBean;
@@ -463,7 +457,8 @@ class AnnotationConfigApplicationContextTests {
 
 	static class BeanB {
 
-		@Autowired ApplicationContext applicationContext;
+		@Autowired
+		ApplicationContext applicationContext;
 
 		public BeanB() {
 		}
@@ -554,8 +549,7 @@ class TestBean {
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		}
-		else if (!name.equals(other.name))
+		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}

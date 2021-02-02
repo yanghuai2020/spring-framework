@@ -54,9 +54,9 @@ import org.springframework.core.annotation.AliasFor;
  * @author Mark Fisher
  * @author Chris Beams
  * @author Sam Brannen
- * @since 2.5
  * @see org.springframework.stereotype.Component
  * @see org.springframework.context.annotation.Bean
+ * @since 2.5
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
@@ -65,24 +65,24 @@ public @interface Scope {
 
 	/**
 	 * Alias for {@link #scopeName}.
+	 *
 	 * @see #scopeName
 	 */
-	@AliasFor("scopeName")
-	String value() default "";
+	@AliasFor("scopeName") String value() default "";
 
 	/**
 	 * Specifies the name of the scope to use for the annotated component/bean.
 	 * <p>Defaults to an empty string ({@code ""}) which implies
 	 * {@link ConfigurableBeanFactory#SCOPE_SINGLETON SCOPE_SINGLETON}.
-	 * @since 4.2
+	 *
 	 * @see ConfigurableBeanFactory#SCOPE_PROTOTYPE
 	 * @see ConfigurableBeanFactory#SCOPE_SINGLETON
 	 * @see org.springframework.web.context.WebApplicationContext#SCOPE_REQUEST
 	 * @see org.springframework.web.context.WebApplicationContext#SCOPE_SESSION
 	 * @see #value
+	 * @since 4.2
 	 */
-	@AliasFor("value")
-	String scopeName() default "";
+	@AliasFor("value") String scopeName() default "";
 
 	/**
 	 * Specifies whether a component should be configured as a scoped proxy
@@ -91,6 +91,7 @@ public @interface Scope {
 	 * that no scoped proxy should be created unless a different default
 	 * has been configured at the component-scan instruction level.
 	 * <p>Analogous to {@code <aop:scoped-proxy/>} support in Spring XML.
+	 *
 	 * @see ScopedProxyMode
 	 */
 	ScopedProxyMode proxyMode() default ScopedProxyMode.DEFAULT;

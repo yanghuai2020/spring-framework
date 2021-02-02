@@ -100,8 +100,7 @@ public class ModelMapTests {
 	@Test
 	public void testOneArgCtorWithNull() {
 		//Null model arguments added without a name being explicitly supplied are not allowed
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new ModelMap(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new ModelMap(null));
 	}
 
 	@Test
@@ -126,8 +125,7 @@ public class ModelMapTests {
 	public void testAddObjectWithNull() throws Exception {
 		// Null model arguments added without a name being explicitly supplied are not allowed
 		ModelMap model = new ModelMap();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				model.addAttribute(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> model.addAttribute(null));
 	}
 
 	@Test
@@ -160,8 +158,7 @@ public class ModelMapTests {
 		ArrayList<String> list = new ArrayList<>();
 		list.add("bing");
 		list.add(null);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				model.addAllAttributes(list));
+		assertThatIllegalArgumentException().isThrownBy(() -> model.addAllAttributes(list));
 	}
 
 	@Test
@@ -278,15 +275,12 @@ public class ModelMapTests {
 	@Test
 	public void testRawJdkProxy() throws Exception {
 		ModelMap map = new ModelMap();
-		Object proxy = Proxy.newProxyInstance(
-				getClass().getClassLoader(),
-				new Class<?>[] {Map.class},
-				new InvocationHandler() {
-					@Override
-					public Object invoke(Object proxy, Method method, Object[] args) {
-						return "proxy";
-					}
-				});
+		Object proxy = Proxy.newProxyInstance(getClass().getClassLoader(), new Class<?>[]{Map.class}, new InvocationHandler() {
+			@Override
+			public Object invoke(Object proxy, Method method, Object[] args) {
+				return "proxy";
+			}
+		});
 		map.addAttribute(proxy);
 		assertThat(map.get("map")).isSameAs(proxy);
 	}
@@ -306,7 +300,6 @@ public class ModelMapTests {
 	}
 
 
-	public static class UKInnerClass {
-	}
+	public static class UKInnerClass {}
 
 }

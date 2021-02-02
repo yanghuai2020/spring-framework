@@ -34,8 +34,7 @@ public class ObjenesisProxyTests {
 
 	@Test
 	public void appliesAspectToClassWithComplexConstructor() {
-		@SuppressWarnings("resource")
-		ApplicationContext context = new ClassPathXmlApplicationContext("ObjenesisProxyTests-context.xml", getClass());
+		@SuppressWarnings("resource") ApplicationContext context = new ClassPathXmlApplicationContext("ObjenesisProxyTests-context.xml", getClass());
 
 		ClassWithComplexConstructor bean = context.getBean(ClassWithComplexConstructor.class);
 		bean.method();

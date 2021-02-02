@@ -30,8 +30,7 @@ public class Spr16179Tests {
 
 	@Test
 	public void repro() {
-		AnnotationConfigApplicationContext bf =
-				new AnnotationConfigApplicationContext(AssemblerConfig.class, AssemblerInjection.class);
+		AnnotationConfigApplicationContext bf = new AnnotationConfigApplicationContext(AssemblerConfig.class, AssemblerInjection.class);
 
 		assertThat(bf.getBean(AssemblerInjection.class).assembler0).isSameAs(bf.getBean("someAssembler"));
 		// assertNull(bf.getBean(AssemblerInjection.class).assembler1);  TODO: accidental match

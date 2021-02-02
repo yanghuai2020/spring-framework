@@ -45,8 +45,7 @@ public class ExecutorBeanDefinitionParserTests {
 
 	@BeforeEach
 	public void setup() {
-		this.context = new ClassPathXmlApplicationContext(
-				"executorContext.xml", ExecutorBeanDefinitionParserTests.class);
+		this.context = new ClassPathXmlApplicationContext("executorContext.xml", ExecutorBeanDefinitionParserTests.class);
 	}
 
 
@@ -78,8 +77,7 @@ public class ExecutorBeanDefinitionParserTests {
 
 	@Test
 	public void invalidPoolSize() {
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				this.context.getBean("invalidPoolSize"));
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> this.context.getBean("invalidPoolSize"));
 	}
 
 	@Test
@@ -129,8 +127,7 @@ public class ExecutorBeanDefinitionParserTests {
 
 	@Test
 	public void propertyPlaceholderWithInvalidPoolSize() {
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				this.context.getBean("propertyPlaceholderWithInvalidPoolSize"));
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> this.context.getBean("propertyPlaceholderWithInvalidPoolSize"));
 	}
 
 	@Test

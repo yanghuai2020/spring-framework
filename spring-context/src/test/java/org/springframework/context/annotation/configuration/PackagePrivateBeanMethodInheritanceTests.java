@@ -57,13 +57,13 @@ public class PackagePrivateBeanMethodInheritanceTests {
 
 	public static class Foo {
 		final Bar bar;
+
 		public Foo(Bar bar) {
 			this.bar = bar;
 		}
 	}
 
-	public static class Bar {
-	}
+	public static class Bar {}
 
 	@Configuration
 	public static class ReproConfig extends org.springframework.context.annotation.configuration.a.BaseConfig {

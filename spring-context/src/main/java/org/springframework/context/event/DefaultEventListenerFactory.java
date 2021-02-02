@@ -28,8 +28,8 @@ import org.springframework.core.Ordered;
  * <p>Used as "catch-all" implementation by default.
  *
  * @author Stephane Nicoll
- * @since 4.2
  * @see ApplicationListenerMethodAdapter
+ * @since 4.2
  */
 public class DefaultEventListenerFactory implements EventListenerFactory, Ordered {
 

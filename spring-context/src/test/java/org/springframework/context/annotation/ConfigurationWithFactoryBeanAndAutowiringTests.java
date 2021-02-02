@@ -92,8 +92,7 @@ public class ConfigurationWithFactoryBeanAndAutowiringTests {
 	}
 
 
-	static class DummyBean {
-	}
+	static class DummyBean {}
 
 
 	static class MyFactoryBean implements FactoryBean<String>, InitializingBean {
@@ -142,7 +141,7 @@ public class ConfigurationWithFactoryBeanAndAutowiringTests {
 		@Override
 		@SuppressWarnings("unchecked")
 		public Class<T> getObjectType() {
-			return (Class<T>)obj.getClass();
+			return (Class<T>) obj.getClass();
 		}
 
 		@Override

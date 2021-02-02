@@ -53,6 +53,5 @@ class WithNestedAnnotation {
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Component
-	public static @interface MyComponent {
-	}
+	public static @interface MyComponent {}
 }

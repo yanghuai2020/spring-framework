@@ -361,13 +361,11 @@ public class NestedConfigurationClassTests {
 
 
 	@Import(S1Config.class)
-	static class S1Importer {
-	}
+	static class S1Importer {}
 
 
 	@Import(S1ConfigWithProxy.class)
-	static class S1ImporterWithProxy {
-	}
+	static class S1ImporterWithProxy {}
 
 
 	@Component
@@ -380,8 +378,7 @@ public class NestedConfigurationClassTests {
 
 			@Component
 			@Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
-			protected static class L2ConfigEmpty {
-			}
+			protected static class L2ConfigEmpty {}
 		}
 	}
 
@@ -394,15 +391,13 @@ public class NestedConfigurationClassTests {
 
 			@Component
 			@Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
-			protected static class L2ConfigEmpty {
-			}
+			protected static class L2ConfigEmpty {}
 		}
 	}
 
 
 	@Component
 	@Lazy
-	static class L0ConfigConcrete extends L0ConfigBase {
-	}
+	static class L0ConfigConcrete extends L0ConfigBase {}
 
 }

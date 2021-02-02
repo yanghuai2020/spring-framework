@@ -30,8 +30,8 @@ import org.springframework.util.Assert;
  * a {@link org.springframework.beans.factory.config.BeanDefinition}.
  *
  * @author Juergen Hoeller
- * @since 2.5.2
  * @see org.springframework.core.io.DescriptiveResource
+ * @since 2.5.2
  */
 class BeanDefinitionResource extends AbstractResource {
 
@@ -40,6 +40,7 @@ class BeanDefinitionResource extends AbstractResource {
 
 	/**
 	 * Create a new BeanDefinitionResource.
+	 *
 	 * @param beanDefinition the BeanDefinition object to wrap
 	 */
 	public BeanDefinitionResource(BeanDefinition beanDefinition) {
@@ -67,8 +68,7 @@ class BeanDefinitionResource extends AbstractResource {
 
 	@Override
 	public InputStream getInputStream() throws IOException {
-		throw new FileNotFoundException(
-				"Resource cannot be opened because it points to " + getDescription());
+		throw new FileNotFoundException("Resource cannot be opened because it points to " + getDescription());
 	}
 
 	@Override
@@ -82,8 +82,7 @@ class BeanDefinitionResource extends AbstractResource {
 	 */
 	@Override
 	public boolean equals(@Nullable Object other) {
-		return (this == other || (other instanceof BeanDefinitionResource &&
-				((BeanDefinitionResource) other).beanDefinition.equals(this.beanDefinition)));
+		return (this == other || (other instanceof BeanDefinitionResource && ((BeanDefinitionResource) other).beanDefinition.equals(this.beanDefinition)));
 	}
 
 	/**

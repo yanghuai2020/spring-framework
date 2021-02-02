@@ -35,13 +35,13 @@ class BitsCronFieldTests {
 	@Test
 	void parse() {
 		assertThat(BitsCronField.parseSeconds("42")).has(clearRange(0, 41)).has(set(42)).has(clearRange(43, 59));
-		assertThat(BitsCronField.parseSeconds("0-4,8-12")).has(setRange(0, 4)).has(clearRange(5,7)).has(setRange(8, 12)).has(clearRange(13,59));
+		assertThat(BitsCronField.parseSeconds("0-4,8-12")).has(setRange(0, 4)).has(clearRange(5, 7)).has(setRange(8, 12)).has(clearRange(13, 59));
 		assertThat(BitsCronField.parseSeconds("57/2")).has(clearRange(0, 56)).has(set(57)).has(clear(58)).has(set(59));
 
 		assertThat(BitsCronField.parseMinutes("30")).has(set(30)).has(clearRange(1, 29)).has(clearRange(31, 59));
 
 		assertThat(BitsCronField.parseHours("23")).has(set(23)).has(clearRange(0, 23));
-		assertThat(BitsCronField.parseHours("0-23/2")).has(set(0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22)).has(clear(1,3,5,7,9,11,13,15,17,19,21,23));
+		assertThat(BitsCronField.parseHours("0-23/2")).has(set(0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22)).has(clear(1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23));
 
 		assertThat(BitsCronField.parseDaysOfMonth("1")).has(set(1)).has(clearRange(2, 31));
 
@@ -59,13 +59,7 @@ class BitsCronFieldTests {
 		assertThat(BitsCronField.parseMonth("1,2,3")).has(set(1, 2, 3)).has(clearRange(4, 12));
 		assertThat(BitsCronField.parseDaysOfWeek("1,2,3")).has(set(1, 2, 3)).has(clearRange(4, 7));
 
-		assertThat(BitsCronField.parseMinutes("5,10-30/2"))
-				.has(clearRange(0, 5))
-				.has(set(5))
-				.has(clearRange(6,10))
-				.has(set(10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30))
-				.has(clear(11, 13, 15, 17, 19, 21, 23, 25, 27, 29))
-				.has(clearRange(31, 60));
+		assertThat(BitsCronField.parseMinutes("5,10-30/2")).has(clearRange(0, 5)).has(set(5)).has(clearRange(6, 10)).has(set(10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30)).has(clear(11, 13, 15, 17, 19, 21, 23, 25, 27, 29)).has(clearRange(31, 60));
 	}
 
 	@Test
@@ -99,10 +93,8 @@ class BitsCronFieldTests {
 
 	@Test
 	void names() {
-		assertThat(((BitsCronField)CronField.parseMonth("JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC")))
-				.has(clear(0)).has(setRange(1, 12));
-		assertThat(((BitsCronField)CronField.parseDaysOfWeek("SUN,MON,TUE,WED,THU,FRI,SAT")))
-				.has(clear(0)).has(setRange(1, 7));
+		assertThat(((BitsCronField) CronField.parseMonth("JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC"))).has(clear(0)).has(setRange(1, 12));
+		assertThat(((BitsCronField) CronField.parseDaysOfWeek("SUN,MON,TUE,WED,THU,FRI,SAT"))).has(clear(0)).has(setRange(1, 7));
 	}
 
 	private static Condition<BitsCronField> set(int... indices) {

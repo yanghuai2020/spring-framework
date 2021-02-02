@@ -62,8 +62,7 @@ public class FormattingConversionServiceFactoryBeanTests {
 			assertThat(value).isEqualTo(15.0);
 			value = fcs.convert(15.0, descriptor, TypeDescriptor.valueOf(String.class));
 			assertThat(value).isEqualTo("15");
-		}
-		finally {
+		} finally {
 			LocaleContextHolder.resetLocaleContext();
 		}
 	}
@@ -76,9 +75,7 @@ public class FormattingConversionServiceFactoryBeanTests {
 		FormattingConversionService fcs = factory.getObject();
 		TypeDescriptor descriptor = new TypeDescriptor(TestBean.class.getDeclaredField("pattern"));
 
-		assertThatExceptionOfType(ConversionFailedException.class).isThrownBy(() ->
-				fcs.convert("15,00", TypeDescriptor.valueOf(String.class), descriptor))
-			.withCauseInstanceOf(NumberFormatException.class);
+		assertThatExceptionOfType(ConversionFailedException.class).isThrownBy(() -> fcs.convert("15,00", TypeDescriptor.valueOf(String.class), descriptor)).withCauseInstanceOf(NumberFormatException.class);
 	}
 
 	@Test
@@ -130,11 +127,9 @@ public class FormattingConversionServiceFactoryBeanTests {
 	@Retention(RetentionPolicy.RUNTIME)
 	private @interface SpecialInt {
 
-		@AliasFor("alias")
-		String value() default "";
+		@AliasFor("alias") String value() default "";
 
-		@AliasFor("value")
-		String alias() default "";
+		@AliasFor("value") String alias() default "";
 	}
 
 

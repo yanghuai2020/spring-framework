@@ -81,8 +81,8 @@ import org.springframework.core.annotation.AliasFor;
  *
  * @author Stephane Nicoll
  * @author Sam Brannen
- * @since 4.2
  * @see EventListenerMethodProcessor
+ * @since 4.2
  */
 @Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -92,8 +92,7 @@ public @interface EventListener {
 	/**
 	 * Alias for {@link #classes}.
 	 */
-	@AliasFor("classes")
-	Class<?>[] value() default {};
+	@AliasFor("classes") Class<?>[] value() default {};
 
 	/**
 	 * The event classes that this listener handles.
@@ -102,8 +101,7 @@ public @interface EventListener {
 	 * However, if this attribute is specified with multiple values,
 	 * the annotated method must <em>not</em> declare any parameters.
 	 */
-	@AliasFor("value")
-	Class<?>[] classes() default {};
+	@AliasFor("value") Class<?>[] classes() default {};
 
 	/**
 	 * Spring Expression Language (SpEL) expression used for making the event

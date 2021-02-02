@@ -76,6 +76,7 @@ public class PeriodicTrigger implements Trigger {
 
 	/**
 	 * Return this trigger's period.
+	 *
 	 * @since 5.0.2
 	 */
 	public long getPeriod() {
@@ -84,6 +85,7 @@ public class PeriodicTrigger implements Trigger {
 
 	/**
 	 * Return this trigger's time unit (milliseconds by default).
+	 *
 	 * @since 5.0.2
 	 */
 	public TimeUnit getTimeUnit() {
@@ -101,6 +103,7 @@ public class PeriodicTrigger implements Trigger {
 
 	/**
 	 * Return the initial delay, or 0 if none.
+	 *
 	 * @since 5.0.2
 	 */
 	public long getInitialDelay() {
@@ -119,6 +122,7 @@ public class PeriodicTrigger implements Trigger {
 	/**
 	 * Return whether this trigger uses fixed rate ({@code true}) or
 	 * fixed delay ({@code false}) behavior.
+	 *
 	 * @since 5.0.2
 	 */
 	public boolean isFixedRate() {
@@ -152,8 +156,7 @@ public class PeriodicTrigger implements Trigger {
 			return false;
 		}
 		PeriodicTrigger otherTrigger = (PeriodicTrigger) other;
-		return (this.fixedRate == otherTrigger.fixedRate && this.initialDelay == otherTrigger.initialDelay &&
-				this.period == otherTrigger.period);
+		return (this.fixedRate == otherTrigger.fixedRate && this.initialDelay == otherTrigger.initialDelay && this.period == otherTrigger.period);
 	}
 
 	@Override

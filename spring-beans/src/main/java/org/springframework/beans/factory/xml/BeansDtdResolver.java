@@ -39,8 +39,8 @@ import org.springframework.lang.Nullable;
  *
  * @author Juergen Hoeller
  * @author Colin Sampaleanu
- * @since 04.06.2003
  * @see ResourceEntityResolver
+ * @since 04.06.2003
  */
 public class BeansDtdResolver implements EntityResolver {
 
@@ -55,8 +55,7 @@ public class BeansDtdResolver implements EntityResolver {
 	@Nullable
 	public InputSource resolveEntity(@Nullable String publicId, @Nullable String systemId) throws IOException {
 		if (logger.isTraceEnabled()) {
-			logger.trace("Trying to resolve XML entity with public ID [" + publicId +
-					"] and system ID [" + systemId + "]");
+			logger.trace("Trying to resolve XML entity with public ID [" + publicId + "] and system ID [" + systemId + "]");
 		}
 
 		if (systemId != null && systemId.endsWith(DTD_EXTENSION)) {
@@ -76,8 +75,7 @@ public class BeansDtdResolver implements EntityResolver {
 						logger.trace("Found beans DTD [" + systemId + "] in classpath: " + dtdFile);
 					}
 					return source;
-				}
-				catch (FileNotFoundException ex) {
+				} catch (FileNotFoundException ex) {
 					if (logger.isDebugEnabled()) {
 						logger.debug("Could not resolve beans DTD [" + systemId + "]: not found in classpath", ex);
 					}

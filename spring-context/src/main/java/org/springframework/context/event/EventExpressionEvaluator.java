@@ -34,8 +34,8 @@ import org.springframework.lang.Nullable;
  * <p>Meant to be used as a reusable, thread-safe component.
  *
  * @author Stephane Nicoll
- * @since 4.2
  * @see CachedExpressionEvaluator
+ * @since 4.2
  */
 class EventExpressionEvaluator extends CachedExpressionEvaluator {
 
@@ -46,18 +46,15 @@ class EventExpressionEvaluator extends CachedExpressionEvaluator {
 	 * Determine if the condition defined by the specified expression evaluates
 	 * to {@code true}.
 	 */
-	public boolean condition(String conditionExpression, ApplicationEvent event, Method targetMethod,
-			AnnotatedElementKey methodKey, Object[] args, @Nullable BeanFactory beanFactory) {
+	public boolean condition(String conditionExpression, ApplicationEvent event, Method targetMethod, AnnotatedElementKey methodKey, Object[] args, @Nullable BeanFactory beanFactory) {
 
 		EventExpressionRootObject root = new EventExpressionRootObject(event, args);
-		MethodBasedEvaluationContext evaluationContext = new MethodBasedEvaluationContext(
-				root, targetMethod, args, getParameterNameDiscoverer());
+		MethodBasedEvaluationContext evaluationContext = new MethodBasedEvaluationContext(root, targetMethod, args, getParameterNameDiscoverer());
 		if (beanFactory != null) {
 			evaluationContext.setBeanResolver(new BeanFactoryResolver(beanFactory));
 		}
 
-		return (Boolean.TRUE.equals(getExpression(this.conditionCache, methodKey, conditionExpression).getValue(
-				evaluationContext, Boolean.class)));
+		return (Boolean.TRUE.equals(getExpression(this.conditionCache, methodKey, conditionExpression).getValue(evaluationContext, Boolean.class)));
 	}
 
 }

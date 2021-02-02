@@ -65,8 +65,7 @@ public class ConfigurationClassAspectIntegrationTests {
 
 	private void assertAdviceWasApplied(Class<?> configClass) {
 		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(factory).loadBeanDefinitions(
-				new ClassPathResource("aspectj-autoproxy-config.xml", ConfigurationClassAspectIntegrationTests.class));
+		new XmlBeanDefinitionReader(factory).loadBeanDefinitions(new ClassPathResource("aspectj-autoproxy-config.xml", ConfigurationClassAspectIntegrationTests.class));
 		GenericApplicationContext ctx = new GenericApplicationContext(factory);
 		ctx.addBeanFactoryPostProcessor(new ConfigurationClassPostProcessor());
 		ctx.registerBeanDefinition("config", new RootBeanDefinition(configClass));
@@ -127,7 +126,6 @@ public class ConfigurationClassAspectIntegrationTests {
 			testBean.setName("advisedName");
 		}
 	}
-
 
 
 	@Configuration

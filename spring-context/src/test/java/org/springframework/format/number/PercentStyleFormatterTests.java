@@ -45,14 +45,12 @@ public class PercentStyleFormatterTests {
 
 	@Test
 	public void parseBogusValue() throws ParseException {
-		assertThatExceptionOfType(ParseException.class).isThrownBy(() ->
-				formatter.parse("bogus", Locale.US));
+		assertThatExceptionOfType(ParseException.class).isThrownBy(() -> formatter.parse("bogus", Locale.US));
 	}
 
 	@Test
 	public void parsePercentValueNotLenientFailure() throws ParseException {
-		assertThatExceptionOfType(ParseException.class).isThrownBy(() ->
-				formatter.parse("23.56%bogus", Locale.US));
+		assertThatExceptionOfType(ParseException.class).isThrownBy(() -> formatter.parse("23.56%bogus", Locale.US));
 	}
 
 }

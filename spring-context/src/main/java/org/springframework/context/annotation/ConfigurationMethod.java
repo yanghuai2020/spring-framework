@@ -65,8 +65,7 @@ abstract class ConfigurationMethod {
 
 	@Override
 	public String toString() {
-		return String.format("[%s:name=%s,declaringClass=%s]",
-				getClass().getSimpleName(), getMetadata().getMethodName(), getMetadata().getDeclaringClassName());
+		return String.format("[%s:name=%s,declaringClass=%s]", getClass().getSimpleName(), getMetadata().getMethodName(), getMetadata().getDeclaringClassName());
 	}
 
 }

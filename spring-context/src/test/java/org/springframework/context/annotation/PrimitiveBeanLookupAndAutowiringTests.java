@@ -32,7 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Prior to these changes, an attempt to lookup or inject a bean of type boolean would
  * fail because all spring beans are Objects, regardless of initial type due to the way
  * that ObjectFactory works.
- *
+ * <p>
  * Now these attempts to lookup or inject primitive types work, thanks to simple changes
  * in AbstractBeanFactory using ClassUtils#isAssignable methods instead of the built-in
  * Class#isAssignableFrom. The former takes into account primitives and their object
@@ -63,16 +63,14 @@ public class PrimitiveBeanLookupAndAutowiringTests {
 
 	@Test
 	public void primitiveAutowiredInjection() {
-		ApplicationContext ctx =
-				new AnnotationConfigApplicationContext(Config.class, AutowiredComponent.class);
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class, AutowiredComponent.class);
 		assertThat(ctx.getBean(AutowiredComponent.class).b).isEqualTo(true);
 		assertThat(ctx.getBean(AutowiredComponent.class).i).isEqualTo(42);
 	}
 
 	@Test
 	public void primitiveResourceInjection() {
-		ApplicationContext ctx =
-				new AnnotationConfigApplicationContext(Config.class, ResourceComponent.class);
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class, ResourceComponent.class);
 		assertThat(ctx.getBean(ResourceComponent.class).b).isEqualTo(true);
 		assertThat(ctx.getBean(ResourceComponent.class).i).isEqualTo(42);
 	}
@@ -93,13 +91,17 @@ public class PrimitiveBeanLookupAndAutowiringTests {
 
 
 	static class AutowiredComponent {
-		@Autowired boolean b;
-		@Autowired int i;
+		@Autowired
+		boolean b;
+		@Autowired
+		int i;
 	}
 
 
 	static class ResourceComponent {
-		@Resource boolean b;
-		@Autowired int i;
+		@Resource
+		boolean b;
+		@Autowired
+		int i;
 	}
 }

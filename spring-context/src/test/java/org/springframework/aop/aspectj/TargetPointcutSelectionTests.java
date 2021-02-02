@@ -47,8 +47,7 @@ public class TargetPointcutSelectionTests {
 
 	@BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
 		testImpl1 = (TestInterface) ctx.getBean("testImpl1");
 		testImpl2 = (TestInterface) ctx.getBean("testImpl2");
 		testAspectForTestImpl1 = (TestAspect) ctx.getBean("testAspectForTestImpl1");
@@ -94,12 +93,10 @@ public class TargetPointcutSelectionTests {
 	}
 
 
-	public static class TestImpl1 extends AbstractTestImpl {
-	}
+	public static class TestImpl1 extends AbstractTestImpl {}
 
 
-	public static class TestImpl2 extends AbstractTestImpl {
-	}
+	public static class TestImpl2 extends AbstractTestImpl {}
 
 
 	public static class TestAspect {

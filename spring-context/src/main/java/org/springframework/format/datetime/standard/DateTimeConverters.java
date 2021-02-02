@@ -49,6 +49,7 @@ final class DateTimeConverters {
 
 	/**
 	 * Install the converters into the converter registry.
+	 *
 	 * @param registry the converter registry
 	 */
 	public static void registerConverters(ConverterRegistry registry) {
@@ -79,10 +80,8 @@ final class DateTimeConverters {
 	private static ZonedDateTime calendarToZonedDateTime(Calendar source) {
 		if (source instanceof GregorianCalendar) {
 			return ((GregorianCalendar) source).toZonedDateTime();
-		}
-		else {
-			return ZonedDateTime.ofInstant(Instant.ofEpochMilli(source.getTimeInMillis()),
-					source.getTimeZone().toZoneId());
+		} else {
+			return ZonedDateTime.ofInstant(Instant.ofEpochMilli(source.getTimeInMillis()), source.getTimeZone().toZoneId());
 		}
 	}
 

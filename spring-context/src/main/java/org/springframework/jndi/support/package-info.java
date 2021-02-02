@@ -2,8 +2,7 @@
  * Support classes for JNDI usage,
  * including a JNDI-based BeanFactory implementation.
  */
-@NonNullApi
-@NonNullFields
+@NonNullApi @NonNullFields
 package org.springframework.jndi.support;
 
 import org.springframework.lang.NonNullApi;

@@ -46,8 +46,7 @@ public class BeanNamePointcutAtAspectTests {
 
 	@org.junit.jupiter.api.BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
 
 		counterAspect = (CounterAspect) ctx.getBean("counterAspect");
 		testBean1 = (ITestBean) ctx.getBean("testBean1");

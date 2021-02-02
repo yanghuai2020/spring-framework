@@ -42,8 +42,7 @@ import org.springframework.beans.testfixture.beans.factory.DummyFactory;
  *
  * @author Chris Beams
  */
-final class XmlBeanFactoryTestTypes {
-}
+final class XmlBeanFactoryTestTypes {}
 
 
 /**
@@ -192,7 +191,7 @@ abstract class ConstructorInjectedOverrides {
  * @author Juergen Hoeller
  * @since 09.11.2003
  */
-@SuppressWarnings({ "serial", "unused" })
+@SuppressWarnings({"serial", "unused"})
 class DerivedConstructorDependenciesBean extends ConstructorDependenciesBean {
 
 	boolean initialized;
@@ -255,8 +254,7 @@ class DummyBoImpl implements DummyBo {
 /**
  * @author Rod Johnson
  */
-class DummyDao {
-}
+class DummyDao {}
 
 
 /**
@@ -306,6 +304,7 @@ class DummyReferencer {
 
 /**
  * Fixed method replacer for String return types
+ *
  * @author Rod Johnson
  */
 class FixedMethodReplacer implements MethodReplacer {
@@ -418,7 +417,7 @@ abstract class OverrideOneMethod extends MethodReplaceCandidate implements Overr
 
 	@Override
 	public String replaceMe(String someParam) {
-		return "replaceMe:"  + someParam;
+		return "replaceMe:" + someParam;
 	}
 }
 
@@ -540,8 +539,7 @@ class ProtectedLifecycleBean implements BeanNameAware, BeanFactoryAware, Initial
 	 * managed the bean's lifecycle correctly
 	 */
 	public void businessMethod() {
-		if (!this.inited || (this.initMethodDeclared && !this.initedViaDeclaredInitMethod) ||
-				!this.postProcessedAfterInit) {
+		if (!this.inited || (this.initMethodDeclared && !this.initedViaDeclaredInitMethod) || !this.postProcessedAfterInit) {
 			throw new RuntimeException("Factory didn't initialize lifecycle object correctly");
 		}
 	}

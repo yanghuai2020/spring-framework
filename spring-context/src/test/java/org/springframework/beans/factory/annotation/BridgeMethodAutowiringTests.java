@@ -60,7 +60,6 @@ public class BridgeMethodAutowiringTests {
 
 
 	@Component("userObject")
-	public static class Foo {
-	}
+	public static class Foo {}
 
 }

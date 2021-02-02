@@ -137,8 +137,7 @@ import org.springframework.util.StringUtils;
  * @author Sam Brannen
  * @since 2.0
  */
-public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPostProcessor,
-		BeanClassLoaderAware, BeanFactoryAware, ResourceLoaderAware, DisposableBean, Ordered {
+public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPostProcessor, BeanClassLoaderAware, BeanFactoryAware, ResourceLoaderAware, DisposableBean, Ordered {
 
 	/**
 	 * The {@link org.springframework.core.io.Resource}-style prefix that denotes
@@ -151,27 +150,26 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 	/**
 	 * The {@code refreshCheckDelay} attribute.
 	 */
-	public static final String REFRESH_CHECK_DELAY_ATTRIBUTE = Conventions.getQualifiedAttributeName(
-			ScriptFactoryPostProcessor.class, "refreshCheckDelay");
+	public static final String REFRESH_CHECK_DELAY_ATTRIBUTE = Conventions.getQualifiedAttributeName(ScriptFactoryPostProcessor.class, "refreshCheckDelay");
 
 	/**
 	 * The {@code proxyTargetClass} attribute.
 	 */
-	public static final String PROXY_TARGET_CLASS_ATTRIBUTE = Conventions.getQualifiedAttributeName(
-			ScriptFactoryPostProcessor.class, "proxyTargetClass");
+	public static final String PROXY_TARGET_CLASS_ATTRIBUTE = Conventions.getQualifiedAttributeName(ScriptFactoryPostProcessor.class, "proxyTargetClass");
 
 	/**
 	 * The {@code language} attribute.
 	 */
-	public static final String LANGUAGE_ATTRIBUTE = Conventions.getQualifiedAttributeName(
-			ScriptFactoryPostProcessor.class, "language");
+	public static final String LANGUAGE_ATTRIBUTE = Conventions.getQualifiedAttributeName(ScriptFactoryPostProcessor.class, "language");
 
 	private static final String SCRIPT_FACTORY_NAME_PREFIX = "scriptFactory.";
 
 	private static final String SCRIPTED_OBJECT_NAME_PREFIX = "scriptedObject.";
 
 
-	/** Logger available to subclasses. */
+	/**
+	 * Logger available to subclasses.
+	 */
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	private long defaultRefreshCheckDelay = -1;
@@ -188,7 +186,9 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 
 	final DefaultListableBeanFactory scriptBeanFactory = new DefaultListableBeanFactory();
 
-	/** Map from bean name String to ScriptSource object. */
+	/**
+	 * Map from bean name String to ScriptSource object.
+	 */
 	private final Map<String, ScriptSource> scriptSourceCache = new ConcurrentHashMap<>();
 
 
@@ -198,6 +198,7 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 	 * <p>Note that an actual refresh will only happen when
 	 * the {@link org.springframework.scripting.ScriptSource} indicates
 	 * that it has been modified.
+	 *
 	 * @see org.springframework.scripting.ScriptSource#isModified()
 	 */
 	public void setDefaultRefreshCheckDelay(long defaultRefreshCheckDelay) {
@@ -206,6 +207,7 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 
 	/**
 	 * Flag to signal that refreshable proxies should be created to proxy the target class not its interfaces.
+	 *
 	 * @param defaultProxyTargetClass the flag value to set
 	 */
 	public void setDefaultProxyTargetClass(boolean defaultProxyTargetClass) {
@@ -220,8 +222,7 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) {
 		if (!(beanFactory instanceof ConfigurableBeanFactory)) {
-			throw new IllegalStateException("ScriptFactoryPostProcessor doesn't work with " +
-					"non-ConfigurableBeanFactory: " + beanFactory.getClass());
+			throw new IllegalStateException("ScriptFactoryPostProcessor doesn't work with " + "non-ConfigurableBeanFactory: " + beanFactory.getClass());
 		}
 		this.beanFactory = (ConfigurableBeanFactory) beanFactory;
 
@@ -233,8 +234,7 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 
 		// Filter out BeanPostProcessors that are part of the AOP infrastructure,
 		// since those are only meant to apply to beans defined in the original factory.
-		this.scriptBeanFactory.getBeanPostProcessors().removeIf(beanPostProcessor ->
-				beanPostProcessor instanceof AopInfrastructureBean);
+		this.scriptBeanFactory.getBeanPostProcessors().removeIf(beanPostProcessor -> beanPostProcessor instanceof AopInfrastructureBean);
 	}
 
 	@Override
@@ -271,25 +271,19 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 			Class<?> scriptedType = scriptFactory.getScriptedObjectType(scriptSource);
 			if (scriptedType != null) {
 				return scriptedType;
-			}
-			else if (!ObjectUtils.isEmpty(interfaces)) {
+			} else if (!ObjectUtils.isEmpty(interfaces)) {
 				return (interfaces.length == 1 ? interfaces[0] : createCompositeInterface(interfaces));
-			}
-			else {
+			} else {
 				if (bd.isSingleton()) {
 					return this.scriptBeanFactory.getBean(scriptedObjectBeanName).getClass();
 				}
 			}
-		}
-		catch (Exception ex) {
-			if (ex instanceof BeanCreationException &&
-					((BeanCreationException) ex).getMostSpecificCause() instanceof BeanCurrentlyInCreationException) {
+		} catch (Exception ex) {
+			if (ex instanceof BeanCreationException && ((BeanCreationException) ex).getMostSpecificCause() instanceof BeanCurrentlyInCreationException) {
 				if (logger.isTraceEnabled()) {
-					logger.trace("Could not determine scripted object type for bean '" + beanName + "': " +
-							ex.getMessage());
+					logger.trace("Could not determine scripted object type for bean '" + beanName + "': " + ex.getMessage());
 				}
-			}
-			else {
+			} else {
 				if (logger.isDebugEnabled()) {
 					logger.debug("Could not determine scripted object type for bean '" + beanName + "'", ex);
 				}
@@ -326,23 +320,18 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 			if (scriptedObjectType != null) {
 				isFactoryBean = FactoryBean.class.isAssignableFrom(scriptedObjectType);
 			}
-		}
-		catch (Exception ex) {
-			throw new BeanCreationException(beanName,
-					"Could not determine scripted object type for " + scriptFactory, ex);
+		} catch (Exception ex) {
+			throw new BeanCreationException(beanName, "Could not determine scripted object type for " + scriptFactory, ex);
 		}
 
 		long refreshCheckDelay = resolveRefreshCheckDelay(bd);
 		if (refreshCheckDelay >= 0) {
 			Class<?>[] interfaces = scriptFactory.getScriptInterfaces();
-			RefreshableScriptTargetSource ts = new RefreshableScriptTargetSource(this.scriptBeanFactory,
-					scriptedObjectBeanName, scriptFactory, scriptSource, isFactoryBean);
+			RefreshableScriptTargetSource ts = new RefreshableScriptTargetSource(this.scriptBeanFactory, scriptedObjectBeanName, scriptFactory, scriptSource, isFactoryBean);
 			boolean proxyTargetClass = resolveProxyTargetClass(bd);
 			String language = (String) bd.getAttribute(LANGUAGE_ATTRIBUTE);
 			if (proxyTargetClass && (language == null || !language.equals("groovy"))) {
-				throw new BeanDefinitionValidationException(
-						"Cannot use proxyTargetClass=true with script beans where language is not 'groovy': '" +
-						language + "'");
+				throw new BeanDefinitionValidationException("Cannot use proxyTargetClass=true with script beans where language is not 'groovy': '" + language + "'");
 			}
 			ts.setRefreshCheckDelay(refreshCheckDelay);
 			return createRefreshableProxy(ts, interfaces, proxyTargetClass);
@@ -358,8 +347,9 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 	 * Prepare the script beans in the internal BeanFactory that this
 	 * post-processor uses. Each original bean definition will be split
 	 * into a ScriptFactory definition and a scripted object definition.
-	 * @param bd the original bean definition in the main BeanFactory
-	 * @param scriptFactoryBeanName the name of the internal ScriptFactory bean
+	 *
+	 * @param bd                     the original bean definition in the main BeanFactory
+	 * @param scriptFactoryBeanName  the name of the internal ScriptFactory bean
 	 * @param scriptedObjectBeanName the name of the internal scripted object bean
 	 */
 	protected void prepareScriptBeans(BeanDefinition bd, String scriptFactoryBeanName, String scriptedObjectBeanName) {
@@ -367,12 +357,9 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 		synchronized (this.scriptBeanFactory) {
 			if (!this.scriptBeanFactory.containsBeanDefinition(scriptedObjectBeanName)) {
 
-				this.scriptBeanFactory.registerBeanDefinition(
-						scriptFactoryBeanName, createScriptFactoryBeanDefinition(bd));
-				ScriptFactory scriptFactory =
-						this.scriptBeanFactory.getBean(scriptFactoryBeanName, ScriptFactory.class);
-				ScriptSource scriptSource =
-						getScriptSource(scriptFactoryBeanName, scriptFactory.getScriptSourceLocator());
+				this.scriptBeanFactory.registerBeanDefinition(scriptFactoryBeanName, createScriptFactoryBeanDefinition(bd));
+				ScriptFactory scriptFactory = this.scriptBeanFactory.getBean(scriptFactoryBeanName, ScriptFactory.class);
+				ScriptSource scriptSource = getScriptSource(scriptFactoryBeanName, scriptFactory.getScriptSourceLocator());
 				Class<?>[] interfaces = scriptFactory.getScriptInterfaces();
 
 				Class<?>[] scriptedInterfaces = interfaces;
@@ -381,8 +368,7 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 					scriptedInterfaces = ObjectUtils.addObjectToArray(interfaces, configInterface);
 				}
 
-				BeanDefinition objectBd = createScriptedObjectBeanDefinition(
-						bd, scriptFactoryBeanName, scriptSource, scriptedInterfaces);
+				BeanDefinition objectBd = createScriptedObjectBeanDefinition(bd, scriptFactoryBeanName, scriptSource, scriptedInterfaces);
 				long refreshCheckDelay = resolveRefreshCheckDelay(bd);
 				if (refreshCheckDelay >= 0) {
 					objectBd.setScope(BeanDefinition.SCOPE_PROTOTYPE);
@@ -400,6 +386,7 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 	 * under the key {@link #REFRESH_CHECK_DELAY_ATTRIBUTE} which is a valid {@link Number}
 	 * type, then this value is used. Otherwise, the {@link #defaultRefreshCheckDelay}
 	 * value is used.
+	 *
 	 * @param beanDefinition the BeanDefinition to check
 	 * @return the refresh check delay
 	 */
@@ -408,14 +395,10 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 		Object attributeValue = beanDefinition.getAttribute(REFRESH_CHECK_DELAY_ATTRIBUTE);
 		if (attributeValue instanceof Number) {
 			refreshCheckDelay = ((Number) attributeValue).longValue();
-		}
-		else if (attributeValue instanceof String) {
+		} else if (attributeValue instanceof String) {
 			refreshCheckDelay = Long.parseLong((String) attributeValue);
-		}
-		else if (attributeValue != null) {
-			throw new BeanDefinitionStoreException("Invalid refresh check delay attribute [" +
-					REFRESH_CHECK_DELAY_ATTRIBUTE + "] with value '" + attributeValue +
-					"': needs to be of type Number or String");
+		} else if (attributeValue != null) {
+			throw new BeanDefinitionStoreException("Invalid refresh check delay attribute [" + REFRESH_CHECK_DELAY_ATTRIBUTE + "] with value '" + attributeValue + "': needs to be of type Number or String");
 		}
 		return refreshCheckDelay;
 	}
@@ -425,14 +408,10 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 		Object attributeValue = beanDefinition.getAttribute(PROXY_TARGET_CLASS_ATTRIBUTE);
 		if (attributeValue instanceof Boolean) {
 			proxyTargetClass = (Boolean) attributeValue;
-		}
-		else if (attributeValue instanceof String) {
+		} else if (attributeValue instanceof String) {
 			proxyTargetClass = Boolean.parseBoolean((String) attributeValue);
-		}
-		else if (attributeValue != null) {
-			throw new BeanDefinitionStoreException("Invalid proxy target class attribute [" +
-					PROXY_TARGET_CLASS_ATTRIBUTE + "] with value '" + attributeValue +
-					"': needs to be of type Boolean or String");
+		} else if (attributeValue != null) {
+			throw new BeanDefinitionStoreException("Invalid proxy target class attribute [" + PROXY_TARGET_CLASS_ATTRIBUTE + "] with value '" + attributeValue + "': needs to be of type Boolean or String");
 		}
 		return proxyTargetClass;
 	}
@@ -441,6 +420,7 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 	 * Create a ScriptFactory bean definition based on the given script definition,
 	 * extracting only the definition data that is relevant for the ScriptFactory
 	 * (that is, only bean class and constructor arguments).
+	 *
 	 * @param bd the full script bean definition
 	 * @return the extracted ScriptFactory bean definition
 	 * @see org.springframework.scripting.ScriptFactory
@@ -455,14 +435,14 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 	/**
 	 * Obtain a ScriptSource for the given bean, lazily creating it
 	 * if not cached already.
-	 * @param beanName the name of the scripted bean
+	 *
+	 * @param beanName            the name of the scripted bean
 	 * @param scriptSourceLocator the script source locator associated with the bean
 	 * @return the corresponding ScriptSource instance
 	 * @see #convertToScriptSource
 	 */
 	protected ScriptSource getScriptSource(String beanName, String scriptSourceLocator) {
-		return this.scriptSourceCache.computeIfAbsent(beanName, key ->
-				convertToScriptSource(beanName, scriptSourceLocator, this.resourceLoader));
+		return this.scriptSourceCache.computeIfAbsent(beanName, key -> convertToScriptSource(beanName, scriptSourceLocator, this.resourceLoader));
 	}
 
 	/**
@@ -470,18 +450,17 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 	 * <p>By default, supported locators are Spring resource locations
 	 * (such as "file:C:/myScript.bsh" or "classpath:myPackage/myScript.bsh")
 	 * and inline scripts ("inline:myScriptText...").
-	 * @param beanName the name of the scripted bean
+	 *
+	 * @param beanName            the name of the scripted bean
 	 * @param scriptSourceLocator the script source locator
-	 * @param resourceLoader the ResourceLoader to use (if necessary)
+	 * @param resourceLoader      the ResourceLoader to use (if necessary)
 	 * @return the ScriptSource instance
 	 */
-	protected ScriptSource convertToScriptSource(String beanName, String scriptSourceLocator,
-			ResourceLoader resourceLoader) {
+	protected ScriptSource convertToScriptSource(String beanName, String scriptSourceLocator, ResourceLoader resourceLoader) {
 
 		if (scriptSourceLocator.startsWith(INLINE_SCRIPT_PREFIX)) {
 			return new StaticScriptSource(scriptSourceLocator.substring(INLINE_SCRIPT_PREFIX.length()), beanName);
-		}
-		else {
+		} else {
 			return new ResourceScriptSource(resourceLoader.getResource(scriptSourceLocator));
 		}
 	}
@@ -492,10 +471,11 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 	 * a destroy method (if defined).
 	 * <p>This implementation creates the interface via CGLIB's InterfaceMaker,
 	 * determining the property types from the given interfaces (as far as possible).
-	 * @param bd the bean definition (property values etc) to create a
-	 * config interface for
+	 *
+	 * @param bd         the bean definition (property values etc) to create a
+	 *                   config interface for
 	 * @param interfaces the interfaces to check against (might define
-	 * getters corresponding to the setters we're supposed to generate)
+	 *                   getters corresponding to the setters we're supposed to generate)
 	 * @return the config interface
 	 * @see org.springframework.cglib.proxy.InterfaceMaker
 	 * @see org.springframework.beans.BeanUtils#findPropertyType
@@ -507,7 +487,7 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 			String propertyName = pv.getName();
 			Class<?> propertyType = BeanUtils.findPropertyType(propertyName, interfaces);
 			String setterName = "set" + StringUtils.capitalize(propertyName);
-			Signature signature = new Signature(setterName, Type.VOID_TYPE, new Type[] {Type.getType(propertyType)});
+			Signature signature = new Signature(setterName, Type.VOID_TYPE, new Type[]{Type.getType(propertyType)});
 			maker.add(signature, new Type[0]);
 		}
 		if (bd.getInitMethodName() != null) {
@@ -526,6 +506,7 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 	 * implementing the given interfaces in one single Class.
 	 * <p>The default implementation builds a JDK proxy class
 	 * for the given interfaces.
+	 *
 	 * @param interfaces the interfaces to merge
 	 * @return the merged interface as Class
 	 * @see java.lang.reflect.Proxy#getProxyClass
@@ -538,15 +519,15 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 	 * Create a bean definition for the scripted object, based on the given script
 	 * definition, extracting the definition data that is relevant for the scripted
 	 * object (that is, everything but bean class and constructor arguments).
-	 * @param bd the full script bean definition
+	 *
+	 * @param bd                    the full script bean definition
 	 * @param scriptFactoryBeanName the name of the internal ScriptFactory bean
-	 * @param scriptSource the ScriptSource for the scripted bean
-	 * @param interfaces the interfaces that the scripted bean is supposed to implement
+	 * @param scriptSource          the ScriptSource for the scripted bean
+	 * @param interfaces            the interfaces that the scripted bean is supposed to implement
 	 * @return the extracted ScriptFactory bean definition
 	 * @see org.springframework.scripting.ScriptFactory#getScriptedObject
 	 */
-	protected BeanDefinition createScriptedObjectBeanDefinition(BeanDefinition bd, String scriptFactoryBeanName,
-			ScriptSource scriptSource, @Nullable Class<?>[] interfaces) {
+	protected BeanDefinition createScriptedObjectBeanDefinition(BeanDefinition bd, String scriptFactoryBeanName, ScriptSource scriptSource, @Nullable Class<?>[] interfaces) {
 
 		GenericBeanDefinition objectBd = new GenericBeanDefinition(bd);
 		objectBd.setFactoryBeanName(scriptFactoryBeanName);
@@ -559,9 +540,10 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 
 	/**
 	 * Create a refreshable proxy for the given AOP TargetSource.
-	 * @param ts the refreshable TargetSource
+	 *
+	 * @param ts         the refreshable TargetSource
 	 * @param interfaces the proxy interfaces (may be {@code null} to
-	 * indicate proxying of all interfaces implemented by the target class)
+	 *                   indicate proxying of all interfaces implemented by the target class)
 	 * @return the generated proxy
 	 * @see RefreshableScriptTargetSource
 	 */
@@ -572,8 +554,7 @@ public class ScriptFactoryPostProcessor implements SmartInstantiationAwareBeanPo
 
 		if (interfaces != null) {
 			proxyFactory.setInterfaces(interfaces);
-		}
-		else {
+		} else {
 			Class<?> targetClass = ts.getTargetClass();
 			if (targetClass != null) {
 				proxyFactory.setInterfaces(ClassUtils.getAllInterfacesForClass(targetClass, this.beanClassLoader));

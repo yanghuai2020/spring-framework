@@ -38,28 +38,23 @@ public class ModelMBeanNotificationPublisherTests {
 
 	@Test
 	public void testCtorWithNullMBean() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new ModelMBeanNotificationPublisher(null, createObjectName(), this));
+		assertThatIllegalArgumentException().isThrownBy(() -> new ModelMBeanNotificationPublisher(null, createObjectName(), this));
 	}
 
 	@Test
 	public void testCtorWithNullObjectName() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new ModelMBeanNotificationPublisher(new SpringModelMBean(), null, this));
+		assertThatIllegalArgumentException().isThrownBy(() -> new ModelMBeanNotificationPublisher(new SpringModelMBean(), null, this));
 	}
 
 	@Test
 	public void testCtorWithNullManagedResource() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new ModelMBeanNotificationPublisher(new SpringModelMBean(), createObjectName(), null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new ModelMBeanNotificationPublisher(new SpringModelMBean(), createObjectName(), null));
 	}
 
 	@Test
 	public void testSendNullNotification() throws Exception {
-		NotificationPublisher publisher
-				= new ModelMBeanNotificationPublisher(new SpringModelMBean(), createObjectName(), this);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				publisher.sendNotification(null));
+		NotificationPublisher publisher = new ModelMBeanNotificationPublisher(new SpringModelMBean(), createObjectName(), this);
+		assertThatIllegalArgumentException().isThrownBy(() -> publisher.sendNotification(null));
 	}
 
 	public void testSendVanillaNotification() throws Exception {
