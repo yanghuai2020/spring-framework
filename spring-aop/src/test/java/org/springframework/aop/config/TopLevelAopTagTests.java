@@ -35,8 +35,7 @@ public class TopLevelAopTagTests {
 	@Test
 	public void testParse() {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(beanFactory).loadBeanDefinitions(
-				qualifiedResource(TopLevelAopTagTests.class, "context.xml"));
+		new XmlBeanDefinitionReader(beanFactory).loadBeanDefinitions(qualifiedResource(TopLevelAopTagTests.class, "context.xml"));
 
 		assertThat(beanFactory.containsBeanDefinition("testPointcut")).isTrue();
 	}

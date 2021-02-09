@@ -42,8 +42,7 @@ import org.springframework.lang.Nullable;
  * @since 2.0
  */
 @SuppressWarnings("serial")
-final class InstantiationModelAwarePointcutAdvisorImpl
-		implements InstantiationModelAwarePointcutAdvisor, AspectJPrecedenceInformation, Serializable {
+final class InstantiationModelAwarePointcutAdvisorImpl implements InstantiationModelAwarePointcutAdvisor, AspectJPrecedenceInformation, Serializable {
 
 	private static final Advice EMPTY_ADVICE = new Advice() {};
 
@@ -80,9 +79,7 @@ final class InstantiationModelAwarePointcutAdvisorImpl
 	private Boolean isAfterAdvice;
 
 
-	public InstantiationModelAwarePointcutAdvisorImpl(AspectJExpressionPointcut declaredPointcut,
-			Method aspectJAdviceMethod, AspectJAdvisorFactory aspectJAdvisorFactory,
-			MetadataAwareAspectInstanceFactory aspectInstanceFactory, int declarationOrder, String aspectName) {
+	public InstantiationModelAwarePointcutAdvisorImpl(AspectJExpressionPointcut declaredPointcut, Method aspectJAdviceMethod, AspectJAdvisorFactory aspectJAdvisorFactory, MetadataAwareAspectInstanceFactory aspectInstanceFactory, int declarationOrder, String aspectName) {
 
 		this.declaredPointcut = declaredPointcut;
 		this.declaringClass = aspectJAdviceMethod.getDeclaringClass();
@@ -96,17 +93,14 @@ final class InstantiationModelAwarePointcutAdvisorImpl
 
 		if (aspectInstanceFactory.getAspectMetadata().isLazilyInstantiated()) {
 			// Static part of the pointcut is a lazy type.
-			Pointcut preInstantiationPointcut = Pointcuts.union(
-					aspectInstanceFactory.getAspectMetadata().getPerClausePointcut(), this.declaredPointcut);
+			Pointcut preInstantiationPointcut = Pointcuts.union(aspectInstanceFactory.getAspectMetadata().getPerClausePointcut(), this.declaredPointcut);
 
 			// Make it dynamic: must mutate from pre-instantiation to post-instantiation state.
 			// If it's not a dynamic pointcut, it may be optimized out
 			// by the Spring AOP infrastructure after the first evaluation.
-			this.pointcut = new PerTargetInstantiationModelPointcut(
-					this.declaredPointcut, preInstantiationPointcut, aspectInstanceFactory);
+			this.pointcut = new PerTargetInstantiationModelPointcut(this.declaredPointcut, preInstantiationPointcut, aspectInstanceFactory);
 			this.lazy = true;
-		}
-		else {
+		} else {
 			// A singleton aspect.
 			this.pointcut = this.declaredPointcut;
 			this.lazy = false;
@@ -146,8 +140,7 @@ final class InstantiationModelAwarePointcutAdvisorImpl
 	}
 
 	private Advice instantiateAdvice(AspectJExpressionPointcut pointcut) {
-		Advice advice = this.aspectJAdvisorFactory.getAdvice(this.aspectJAdviceMethod, pointcut,
-				this.aspectInstanceFactory, this.declarationOrder, this.aspectName);
+		Advice advice = this.aspectJAdvisorFactory.getAdvice(this.aspectJAdviceMethod, pointcut, this.aspectInstanceFactory, this.declarationOrder, this.aspectName);
 		return (advice != null ? advice : EMPTY_ADVICE);
 	}
 
@@ -212,13 +205,11 @@ final class InstantiationModelAwarePointcutAdvisorImpl
 	 * creation of the advice.
 	 */
 	private void determineAdviceType() {
-		AspectJAnnotation<?> aspectJAnnotation =
-				AbstractAspectJAdvisorFactory.findAspectJAnnotationOnMethod(this.aspectJAdviceMethod);
+		AspectJAnnotation<?> aspectJAnnotation = AbstractAspectJAdvisorFactory.findAspectJAnnotationOnMethod(this.aspectJAdviceMethod);
 		if (aspectJAnnotation == null) {
 			this.isBeforeAdvice = false;
 			this.isAfterAdvice = false;
-		}
-		else {
+		} else {
 			switch (aspectJAnnotation.getAnnotationType()) {
 				case AtPointcut:
 				case AtAround:
@@ -244,17 +235,14 @@ final class InstantiationModelAwarePointcutAdvisorImpl
 		inputStream.defaultReadObject();
 		try {
 			this.aspectJAdviceMethod = this.declaringClass.getMethod(this.methodName, this.parameterTypes);
-		}
-		catch (NoSuchMethodException ex) {
+		} catch (NoSuchMethodException ex) {
 			throw new IllegalStateException("Failed to find advice method on deserialization", ex);
 		}
 	}
 
 	@Override
 	public String toString() {
-		return "InstantiationModelAwarePointcutAdvisor: expression [" + getDeclaredPointcut().getExpression() +
-				"]; advice method [" + this.aspectJAdviceMethod + "]; perClauseKind=" +
-				this.aspectInstanceFactory.getAspectMetadata().getAjType().getPerClause().getKind();
+		return "InstantiationModelAwarePointcutAdvisor: expression [" + getDeclaredPointcut().getExpression() + "]; advice method [" + this.aspectJAdviceMethod + "]; perClauseKind=" + this.aspectInstanceFactory.getAspectMetadata().getAjType().getPerClause().getKind();
 	}
 
 
@@ -272,8 +260,7 @@ final class InstantiationModelAwarePointcutAdvisorImpl
 		@Nullable
 		private LazySingletonAspectInstanceFactoryDecorator aspectInstanceFactory;
 
-		public PerTargetInstantiationModelPointcut(AspectJExpressionPointcut declaredPointcut,
-				Pointcut preInstantiationPointcut, MetadataAwareAspectInstanceFactory aspectInstanceFactory) {
+		public PerTargetInstantiationModelPointcut(AspectJExpressionPointcut declaredPointcut, Pointcut preInstantiationPointcut, MetadataAwareAspectInstanceFactory aspectInstanceFactory) {
 
 			this.declaredPointcut = declaredPointcut;
 			this.preInstantiationPointcut = preInstantiationPointcut;
@@ -286,8 +273,7 @@ final class InstantiationModelAwarePointcutAdvisorImpl
 		public boolean matches(Method method, Class<?> targetClass) {
 			// We're either instantiated and matching on declared pointcut,
 			// or uninstantiated matching on either pointcut...
-			return (isAspectMaterialized() && this.declaredPointcut.matches(method, targetClass)) ||
-					this.preInstantiationPointcut.getMethodMatcher().matches(method, targetClass);
+			return (isAspectMaterialized() && this.declaredPointcut.matches(method, targetClass)) || this.preInstantiationPointcut.getMethodMatcher().matches(method, targetClass);
 		}
 
 		@Override

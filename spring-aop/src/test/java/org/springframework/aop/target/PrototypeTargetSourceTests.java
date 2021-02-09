@@ -32,7 +32,9 @@ import static org.springframework.core.testfixture.io.ResourceTestUtils.qualifie
  */
 public class PrototypeTargetSourceTests {
 
-	/** Initial count value set in bean factory XML */
+	/**
+	 * Initial count value set in bean factory XML
+	 */
 	private static final int INITIAL_COUNT = 10;
 
 	private DefaultListableBeanFactory beanFactory;
@@ -41,8 +43,7 @@ public class PrototypeTargetSourceTests {
 	@BeforeEach
 	public void setup() {
 		this.beanFactory = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(this.beanFactory).loadBeanDefinitions(
-				qualifiedResource(PrototypeTargetSourceTests.class, "context.xml"));
+		new XmlBeanDefinitionReader(this.beanFactory).loadBeanDefinitions(qualifiedResource(PrototypeTargetSourceTests.class, "context.xml"));
 	}
 
 

@@ -32,13 +32,12 @@ import org.springframework.lang.Nullable;
  * This post-processor is therefore aligned with {@link AbstractAutoProxyCreator}.
  *
  * @author Juergen Hoeller
- * @since 4.2.3
  * @see AutoProxyUtils#shouldProxyTargetClass
  * @see AutoProxyUtils#determineTargetClass
+ * @since 4.2.3
  */
 @SuppressWarnings("serial")
-public abstract class AbstractBeanFactoryAwareAdvisingPostProcessor extends AbstractAdvisingBeanPostProcessor
-		implements BeanFactoryAware {
+public abstract class AbstractBeanFactoryAwareAdvisingPostProcessor extends AbstractAdvisingBeanPostProcessor implements BeanFactoryAware {
 
 	@Nullable
 	private ConfigurableListableBeanFactory beanFactory;
@@ -46,8 +45,7 @@ public abstract class AbstractBeanFactoryAwareAdvisingPostProcessor extends Abst
 
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) {
-		this.beanFactory = (beanFactory instanceof ConfigurableListableBeanFactory ?
-				(ConfigurableListableBeanFactory) beanFactory : null);
+		this.beanFactory = (beanFactory instanceof ConfigurableListableBeanFactory ? (ConfigurableListableBeanFactory) beanFactory : null);
 	}
 
 	@Override
@@ -57,8 +55,7 @@ public abstract class AbstractBeanFactoryAwareAdvisingPostProcessor extends Abst
 		}
 
 		ProxyFactory proxyFactory = super.prepareProxyFactory(bean, beanName);
-		if (!proxyFactory.isProxyTargetClass() && this.beanFactory != null &&
-				AutoProxyUtils.shouldProxyTargetClass(this.beanFactory, beanName)) {
+		if (!proxyFactory.isProxyTargetClass() && this.beanFactory != null && AutoProxyUtils.shouldProxyTargetClass(this.beanFactory, beanName)) {
 			proxyFactory.setProxyTargetClass(true);
 		}
 		return proxyFactory;
@@ -66,8 +63,7 @@ public abstract class AbstractBeanFactoryAwareAdvisingPostProcessor extends Abst
 
 	@Override
 	protected boolean isEligible(Object bean, String beanName) {
-		return (!AutoProxyUtils.isOriginalInstance(beanName, bean.getClass()) &&
-				super.isEligible(bean, beanName));
+		return (!AutoProxyUtils.isOriginalInstance(beanName, bean.getClass()) && super.isEligible(bean, beanName));
 	}
 
 }

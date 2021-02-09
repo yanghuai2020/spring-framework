@@ -58,11 +58,15 @@ public class MethodInvocationProceedingJoinPoint implements ProceedingJoinPoint,
 	@Nullable
 	private Object[] args;
 
-	/** Lazily initialized signature object. */
+	/**
+	 * Lazily initialized signature object.
+	 */
 	@Nullable
 	private Signature signature;
 
-	/** Lazily initialized source location object. */
+	/**
+	 * Lazily initialized source location object.
+	 */
 	@Nullable
 	private SourceLocation sourceLocation;
 
@@ -70,6 +74,7 @@ public class MethodInvocationProceedingJoinPoint implements ProceedingJoinPoint,
 	/**
 	 * Create a new MethodInvocationProceedingJoinPoint, wrapping the given
 	 * Spring ProxyMethodInvocation object.
+	 *
 	 * @param methodInvocation the Spring ProxyMethodInvocation object
 	 */
 	public MethodInvocationProceedingJoinPoint(ProxyMethodInvocation methodInvocation) {
@@ -94,9 +99,7 @@ public class MethodInvocationProceedingJoinPoint implements ProceedingJoinPoint,
 	public Object proceed(Object[] arguments) throws Throwable {
 		Assert.notNull(arguments, "Argument array passed to proceed cannot be null");
 		if (arguments.length != this.methodInvocation.getArguments().length) {
-			throw new IllegalArgumentException("Expecting " +
-					this.methodInvocation.getArguments().length + " arguments to proceed, " +
-					"but was passed " + arguments.length + " arguments");
+			throw new IllegalArgumentException("Expecting " + this.methodInvocation.getArguments().length + " arguments to proceed, " + "but was passed " + arguments.length + " arguments");
 		}
 		this.methodInvocation.setArguments(arguments);
 		return this.methodInvocation.invocableClone(arguments).proceed();
@@ -249,8 +252,7 @@ public class MethodInvocationProceedingJoinPoint implements ProceedingJoinPoint,
 			return toString(false, true, false, true);
 		}
 
-		private String toString(boolean includeModifier, boolean includeReturnTypeAndArgs,
-				boolean useLongReturnAndArgumentTypeName, boolean useLongTypeName) {
+		private String toString(boolean includeModifier, boolean includeReturnTypeAndArgs, boolean useLongReturnAndArgumentTypeName, boolean useLongTypeName) {
 
 			StringBuilder sb = new StringBuilder();
 			if (includeModifier) {
@@ -271,8 +273,7 @@ public class MethodInvocationProceedingJoinPoint implements ProceedingJoinPoint,
 			return sb.toString();
 		}
 
-		private void appendTypes(StringBuilder sb, Class<?>[] types, boolean includeArgs,
-				boolean useLongReturnAndArgumentTypeName) {
+		private void appendTypes(StringBuilder sb, Class<?>[] types, boolean includeArgs, boolean useLongReturnAndArgumentTypeName) {
 
 			if (includeArgs) {
 				for (int size = types.length, i = 0; i < size; i++) {
@@ -281,8 +282,7 @@ public class MethodInvocationProceedingJoinPoint implements ProceedingJoinPoint,
 						sb.append(",");
 					}
 				}
-			}
-			else {
+			} else {
 				if (types.length != 0) {
 					sb.append("..");
 				}
@@ -293,8 +293,7 @@ public class MethodInvocationProceedingJoinPoint implements ProceedingJoinPoint,
 			if (type.isArray()) {
 				appendType(sb, type.getComponentType(), useLongTypeName);
 				sb.append("[]");
-			}
-			else {
+			} else {
 				sb.append(useLongTypeName ? type.getName() : type.getSimpleName());
 			}
 		}

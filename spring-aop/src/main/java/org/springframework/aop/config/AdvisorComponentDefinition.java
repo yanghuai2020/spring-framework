@@ -50,8 +50,7 @@ public class AdvisorComponentDefinition extends AbstractComponentDefinition {
 		this(advisorBeanName, advisorDefinition, null);
 	}
 
-	public AdvisorComponentDefinition(
-			String advisorBeanName, BeanDefinition advisorDefinition, @Nullable BeanDefinition pointcutDefinition) {
+	public AdvisorComponentDefinition(String advisorBeanName, BeanDefinition advisorDefinition, @Nullable BeanDefinition pointcutDefinition) {
 
 		Assert.notNull(advisorBeanName, "'advisorBeanName' must not be null");
 		Assert.notNull(advisorDefinition, "'advisorDefinition' must not be null");
@@ -63,29 +62,24 @@ public class AdvisorComponentDefinition extends AbstractComponentDefinition {
 		Assert.state(adviceReference != null, "Missing 'adviceBeanName' property");
 
 		if (pointcutDefinition != null) {
-			this.beanReferences = new BeanReference[] {adviceReference};
-			this.beanDefinitions = new BeanDefinition[] {advisorDefinition, pointcutDefinition};
+			this.beanReferences = new BeanReference[]{adviceReference};
+			this.beanDefinitions = new BeanDefinition[]{advisorDefinition, pointcutDefinition};
 			this.description = buildDescription(adviceReference, pointcutDefinition);
-		}
-		else {
+		} else {
 			BeanReference pointcutReference = (BeanReference) pvs.get("pointcut");
 			Assert.state(pointcutReference != null, "Missing 'pointcut' property");
-			this.beanReferences = new BeanReference[] {adviceReference, pointcutReference};
-			this.beanDefinitions = new BeanDefinition[] {advisorDefinition};
+			this.beanReferences = new BeanReference[]{adviceReference, pointcutReference};
+			this.beanDefinitions = new BeanDefinition[]{advisorDefinition};
 			this.description = buildDescription(adviceReference, pointcutReference);
 		}
 	}
 
 	private String buildDescription(BeanReference adviceReference, BeanDefinition pointcutDefinition) {
-		return "Advisor <advice(ref)='" +
-				adviceReference.getBeanName() + "', pointcut(expression)=[" +
-				pointcutDefinition.getPropertyValues().get("expression") + "]>";
+		return "Advisor <advice(ref)='" + adviceReference.getBeanName() + "', pointcut(expression)=[" + pointcutDefinition.getPropertyValues().get("expression") + "]>";
 	}
 
 	private String buildDescription(BeanReference adviceReference, BeanReference pointcutReference) {
-		return "Advisor <advice(ref)='" +
-				adviceReference.getBeanName() + "', pointcut(ref)='" +
-				pointcutReference.getBeanName() + "'>";
+		return "Advisor <advice(ref)='" + adviceReference.getBeanName() + "', pointcut(ref)='" + pointcutReference.getBeanName() + "'>";
 	}
 
 

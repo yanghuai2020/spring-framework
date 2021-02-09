@@ -1,8 +1,7 @@
 /**
  * Convenience classes for using Spring's AOP API.
  */
-@NonNullApi
-@NonNullFields
+@NonNullApi @NonNullFields
 package org.springframework.aop.support;
 
 import org.springframework.lang.NonNullApi;

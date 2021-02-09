@@ -36,8 +36,7 @@ public class ExposeInvocationInterceptorTests {
 	@Test
 	public void testXmlConfig() {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(
-				qualifiedResource(ExposeInvocationInterceptorTests.class, "context.xml"));
+		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(qualifiedResource(ExposeInvocationInterceptorTests.class, "context.xml"));
 		ITestBean tb = (ITestBean) bf.getBean("proxy");
 		String name = "tony";
 		tb.setName(name);

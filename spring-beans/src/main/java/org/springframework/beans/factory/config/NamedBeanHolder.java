@@ -23,7 +23,7 @@ import org.springframework.util.Assert;
  * A simple holder for a given bean name plus bean instance.
  *
  * @param <T> the bean type
- * @author Juergen Hoeller
+ * @author Juergen Hoellerπ
  * @see AutowireCapableBeanFactory#resolveNamedBean(Class)
  * @since 4.3.3
  */

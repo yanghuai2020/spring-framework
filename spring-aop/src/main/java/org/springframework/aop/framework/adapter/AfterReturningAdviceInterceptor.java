@@ -43,6 +43,7 @@ public class AfterReturningAdviceInterceptor implements MethodInterceptor, After
 
 	/**
 	 * Create a new AfterReturningAdviceInterceptor for the given advice.
+	 *
 	 * @param advice the AfterReturningAdvice to wrap
 	 */
 	public AfterReturningAdviceInterceptor(AfterReturningAdvice advice) {

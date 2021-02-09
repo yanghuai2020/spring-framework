@@ -40,8 +40,8 @@ import org.springframework.aop.support.ComposablePointcut;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @since 2.0
  * @see org.springframework.aop.aspectj.AspectJExpressionPointcut
+ * @since 2.0
  */
 @SuppressWarnings("serial")
 public class AspectMetadata implements Serializable {
@@ -75,8 +75,9 @@ public class AspectMetadata implements Serializable {
 
 	/**
 	 * Create a new AspectMetadata instance for the given aspect class.
+	 *
 	 * @param aspectClass the aspect class
-	 * @param aspectName the name of the aspect
+	 * @param aspectName  the name of the aspect
 	 */
 	public AspectMetadata(Class<?> aspectClass, String aspectName) {
 		this.aspectName = aspectName;
@@ -117,8 +118,7 @@ public class AspectMetadata implements Serializable {
 				this.perClausePointcut = new ComposablePointcut(new TypePatternClassFilter(findPerClause(aspectClass)));
 				return;
 			default:
-				throw new AopConfigException(
-						"PerClause " + ajType.getPerClause().getKind() + " not supported by Spring AOP for " + aspectClass);
+				throw new AopConfigException("PerClause " + ajType.getPerClause().getKind() + " not supported by Spring AOP for " + aspectClass);
 		}
 	}
 

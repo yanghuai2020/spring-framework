@@ -71,10 +71,8 @@ class RuntimeTestWalker {
 			residualTestField = ShadowMatchImpl.class.getDeclaredField("residualTest");
 			varTypeField = ReflectionVar.class.getDeclaredField("varType");
 			myClassField = ReflectionBasedReferenceTypeDelegate.class.getDeclaredField("myClass");
-		}
-		catch (NoSuchFieldException ex) {
-			throw new IllegalStateException("The version of aspectjtools.jar / aspectjweaver.jar " +
-					"on the classpath is incompatible with this version of Spring: " + ex);
+		} catch (NoSuchFieldException ex) {
+			throw new IllegalStateException("The version of aspectjtools.jar / aspectjweaver.jar " + "on the classpath is incompatible with this version of Spring: " + ex);
 		}
 	}
 
@@ -87,8 +85,7 @@ class RuntimeTestWalker {
 		try {
 			ReflectionUtils.makeAccessible(residualTestField);
 			this.runtimeTest = (Test) residualTestField.get(shadowMatch);
-		}
-		catch (IllegalAccessException ex) {
+		} catch (IllegalAccessException ex) {
 			throw new IllegalStateException(ex);
 		}
 	}
@@ -99,18 +96,15 @@ class RuntimeTestWalker {
 	 * then it tests subtype sensitive vars.
 	 */
 	public boolean testsSubtypeSensitiveVars() {
-		return (this.runtimeTest != null &&
-				new SubtypeSensitiveVarTypeTestVisitor().testsSubtypeSensitiveVars(this.runtimeTest));
+		return (this.runtimeTest != null && new SubtypeSensitiveVarTypeTestVisitor().testsSubtypeSensitiveVars(this.runtimeTest));
 	}
 
 	public boolean testThisInstanceOfResidue(Class<?> thisClass) {
-		return (this.runtimeTest != null &&
-				new ThisInstanceOfResidueTestVisitor(thisClass).thisInstanceOfMatches(this.runtimeTest));
+		return (this.runtimeTest != null && new ThisInstanceOfResidueTestVisitor(thisClass).thisInstanceOfMatches(this.runtimeTest));
 	}
 
 	public boolean testTargetInstanceOfResidue(Class<?> targetClass) {
-		return (this.runtimeTest != null &&
-				new TargetInstanceOfResidueTestVisitor(targetClass).targetInstanceOfMatches(this.runtimeTest));
+		return (this.runtimeTest != null && new TargetInstanceOfResidueTestVisitor(targetClass).targetInstanceOfMatches(this.runtimeTest));
 	}
 
 
@@ -167,8 +161,7 @@ class RuntimeTestWalker {
 			try {
 				ReflectionUtils.makeAccessible(varTypeField);
 				return (Integer) varTypeField.get(v);
-			}
-			catch (IllegalAccessException ex) {
+			} catch (IllegalAccessException ex) {
 				throw new IllegalStateException(ex);
 			}
 		}
@@ -208,8 +201,7 @@ class RuntimeTestWalker {
 					try {
 						ReflectionUtils.makeAccessible(myClassField);
 						typeClass = (Class<?>) myClassField.get(delegate);
-					}
-					catch (IllegalAccessException ex) {
+					} catch (IllegalAccessException ex) {
 						throw new IllegalStateException(ex);
 					}
 				}
@@ -220,8 +212,7 @@ class RuntimeTestWalker {
 					typeClass = ClassUtils.forName(type.getName(), this.matchClass.getClassLoader());
 				}
 				this.matches = typeClass.isAssignableFrom(this.matchClass);
-			}
-			catch (ClassNotFoundException ex) {
+			} catch (ClassNotFoundException ex) {
 				this.matches = false;
 			}
 		}

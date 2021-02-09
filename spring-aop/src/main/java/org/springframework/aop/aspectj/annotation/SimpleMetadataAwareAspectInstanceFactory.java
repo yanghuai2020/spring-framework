@@ -28,16 +28,16 @@ import org.springframework.core.annotation.OrderUtils;
  * @author Juergen Hoeller
  * @since 2.0.4
  */
-public class SimpleMetadataAwareAspectInstanceFactory extends SimpleAspectInstanceFactory
-		implements MetadataAwareAspectInstanceFactory {
+public class SimpleMetadataAwareAspectInstanceFactory extends SimpleAspectInstanceFactory implements MetadataAwareAspectInstanceFactory {
 
 	private final AspectMetadata metadata;
 
 
 	/**
 	 * Create a new SimpleMetadataAwareAspectInstanceFactory for the given aspect class.
+	 *
 	 * @param aspectClass the aspect class
-	 * @param aspectName the aspect name
+	 * @param aspectName  the aspect name
 	 */
 	public SimpleMetadataAwareAspectInstanceFactory(Class<?> aspectClass, String aspectName) {
 		super(aspectClass);

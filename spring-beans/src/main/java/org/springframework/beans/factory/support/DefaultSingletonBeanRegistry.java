@@ -77,7 +77,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 
 
 	/**
-	 * 单例对象列表， beanName -> bean实例
+	 * 单例对象列表(创建完成的，可以使用的)， beanName -> bean实例
 	 *
 	 * Cache of singleton objects: bean name to bean instance.
 	 */
@@ -85,19 +85,20 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 
 	/**
 	 * 单例工厂列表 beanName -> beanFactory
-	 *
+	 * 跟 singletonObjects 互斥，其中的对象不会同时出现
 	 * Cache of singleton factories: bean name to ObjectFactory.
 	 */
 	private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>(16);
 
 	/**
 	 * 循环对象依赖列表，对象在创建之后，进行注入过程中，发现产生了循环依赖，那么会将对象放入到这个队列，并且从singletonFactories中移除掉。
-	 *
+	 * 跟 singletonObjects 互斥，其中的对象不会同时出现
 	 * Cache of early singleton objects: bean name to bean instance.
 	 */
 	private final Map<String, Object> earlySingletonObjects = new ConcurrentHashMap<>(16);
 
 	/**
+	 *
 	 * Set of registered singletons, containing the bean names in registration order.
 	 */
 	private final Set<String> registeredSingletons = new LinkedHashSet<>(256);

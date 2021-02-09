@@ -64,8 +64,7 @@ public class DebugInterceptorTests {
 		given(log.isTraceEnabled()).willReturn(true);
 
 		DebugInterceptor interceptor = new StubDebugInterceptor(log);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				interceptor.invoke(methodInvocation));
+		assertThatIllegalArgumentException().isThrownBy(() -> interceptor.invoke(methodInvocation));
 		checkCallCountTotal(interceptor);
 
 		verify(log).trace(anyString());

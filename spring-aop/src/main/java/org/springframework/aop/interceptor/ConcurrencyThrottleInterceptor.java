@@ -37,12 +37,11 @@ import org.springframework.util.ConcurrencyThrottleSupport;
  * Specify the "concurrencyLimit" bean property to change this value.
  *
  * @author Juergen Hoeller
- * @since 11.02.2004
  * @see #setConcurrencyLimit
+ * @since 11.02.2004
  */
 @SuppressWarnings("serial")
-public class ConcurrencyThrottleInterceptor extends ConcurrencyThrottleSupport
-		implements MethodInterceptor, Serializable {
+public class ConcurrencyThrottleInterceptor extends ConcurrencyThrottleSupport implements MethodInterceptor, Serializable {
 
 	public ConcurrencyThrottleInterceptor() {
 		setConcurrencyLimit(1);
@@ -54,8 +53,7 @@ public class ConcurrencyThrottleInterceptor extends ConcurrencyThrottleSupport
 		beforeAccess();
 		try {
 			return methodInvocation.proceed();
-		}
-		finally {
+		} finally {
 			afterAccess();
 		}
 	}

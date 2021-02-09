@@ -41,7 +41,9 @@ import static org.springframework.core.testfixture.io.ResourceTestUtils.qualifie
  */
 public class HotSwappableTargetSourceTests {
 
-	/** Initial count value set in bean factory XML */
+	/**
+	 * Initial count value set in bean factory XML
+	 */
 	private static final int INITIAL_COUNT = 10;
 
 	private DefaultListableBeanFactory beanFactory;
@@ -50,8 +52,7 @@ public class HotSwappableTargetSourceTests {
 	@BeforeEach
 	public void setup() {
 		this.beanFactory = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(this.beanFactory).loadBeanDefinitions(
-				qualifiedResource(HotSwappableTargetSourceTests.class, "context.xml"));
+		new XmlBeanDefinitionReader(this.beanFactory).loadBeanDefinitions(qualifiedResource(HotSwappableTargetSourceTests.class, "context.xml"));
 	}
 
 	/**
@@ -109,9 +110,7 @@ public class HotSwappableTargetSourceTests {
 	@Test
 	public void testRejectsSwapToNull() {
 		HotSwappableTargetSource swapper = (HotSwappableTargetSource) beanFactory.getBean("swapper");
-		assertThatIllegalArgumentException().as("Shouldn't be able to swap to invalid value").isThrownBy(() ->
-				swapper.swap(null))
-			.withMessageContaining("null");
+		assertThatIllegalArgumentException().as("Shouldn't be able to swap to invalid value").isThrownBy(() -> swapper.swap(null)).withMessageContaining("null");
 		// It shouldn't be corrupted, it should still work
 		testBasicFunctionality();
 	}

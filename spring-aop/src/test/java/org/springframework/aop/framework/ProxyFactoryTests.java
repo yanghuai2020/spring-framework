@@ -124,15 +124,13 @@ public class ProxyFactoryTests {
 		// Check out of bounds
 		try {
 			pf.removeAdvisor(-1);
-		}
-		catch (AopConfigException ex) {
+		} catch (AopConfigException ex) {
 			// Ok
 		}
 
 		try {
 			pf.removeAdvisor(2);
-		}
-		catch (AopConfigException ex) {
+		} catch (AopConfigException ex) {
 			// Ok
 		}
 
@@ -267,9 +265,7 @@ public class ProxyFactoryTests {
 
 		assertThat(config.getAdvisors().length == oldCount).isTrue();
 
-		assertThatExceptionOfType(RuntimeException.class)
-				.as("Existing object won't implement this interface any more")
-				.isThrownBy(ts::getTimeStamp); // Existing reference will fail
+		assertThatExceptionOfType(RuntimeException.class).as("Existing object won't implement this interface any more").isThrownBy(ts::getTimeStamp); // Existing reference will fail
 
 		assertThat(config.getProxy() instanceof TimeStamped).as("Should no longer implement TimeStamped").isFalse();
 
@@ -381,7 +377,7 @@ public class ProxyFactoryTests {
 
 
 	@Order(1)
-	public static class B implements Runnable{
+	public static class B implements Runnable {
 
 		@Override
 		public void run() {

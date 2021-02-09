@@ -517,6 +517,20 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		try {
+			/**
+			 * @@扩展点:1
+			 * 如下接口会收集到一个cache中：
+			 *
+			 * InstantiationAwareBeanPostProcessor
+			 * SmartInstantiationAwareBeanPostProcessor
+			 * DestructionAwareBeanPostProcessor
+			 * MergedBeanDefinitionPostProcessor
+			 *
+			 * 下面接口会得到执行：
+			 * InstantiationAwareBeanPostProcessor
+			 *
+			 * 来处理初始化Bean前置方法触发AOP的功能。
+			 */
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
 			Object bean = resolveBeforeInstantiation(beanName, mbdToUse);
 			if (bean != null) {
@@ -1063,6 +1077,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	}
 
 	/**
+	 * @##需#
+	 *
 	 * Apply before-instantiation post-processors, resolving whether there is a
 	 * before-instantiation shortcut for the specified bean.
 	 *
@@ -1105,6 +1121,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	protected Object applyBeanPostProcessorsBeforeInstantiation(Class<?> beanClass, String beanName) {
 		for (InstantiationAwareBeanPostProcessor bp : getBeanPostProcessorCache().instantiationAware) {
 			Object result = bp.postProcessBeforeInstantiation(beanClass, beanName);
+			System.out.println("=======================> name:"+beanName+"  class:"+beanClass);
 			if (result != null) {
 				return result;
 			}

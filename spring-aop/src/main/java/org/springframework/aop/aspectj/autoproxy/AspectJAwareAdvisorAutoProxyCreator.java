@@ -69,8 +69,7 @@ public class AspectJAwareAdvisorAutoProxyCreator extends AbstractAdvisorAutoProx
 	protected List<Advisor> sortAdvisors(List<Advisor> advisors) {
 		List<PartiallyComparableAdvisorHolder> partiallyComparableAdvisors = new ArrayList<>(advisors.size());
 		for (Advisor advisor : advisors) {
-			partiallyComparableAdvisors.add(
-					new PartiallyComparableAdvisorHolder(advisor, DEFAULT_PRECEDENCE_COMPARATOR));
+			partiallyComparableAdvisors.add(new PartiallyComparableAdvisorHolder(advisor, DEFAULT_PRECEDENCE_COMPARATOR));
 		}
 		List<PartiallyComparableAdvisorHolder> sorted = PartialOrder.sort(partiallyComparableAdvisors);
 		if (sorted != null) {
@@ -79,8 +78,7 @@ public class AspectJAwareAdvisorAutoProxyCreator extends AbstractAdvisorAutoProx
 				result.add(pcAdvisor.getAdvisor());
 			}
 			return result;
-		}
-		else {
+		} else {
 			return super.sortAdvisors(advisors);
 		}
 	}
@@ -100,8 +98,7 @@ public class AspectJAwareAdvisorAutoProxyCreator extends AbstractAdvisorAutoProx
 		// TODO: Consider optimization by caching the list of the aspect names
 		List<Advisor> candidateAdvisors = findCandidateAdvisors();
 		for (Advisor advisor : candidateAdvisors) {
-			if (advisor instanceof AspectJPointcutAdvisor &&
-					((AspectJPointcutAdvisor) advisor).getAspectName().equals(beanName)) {
+			if (advisor instanceof AspectJPointcutAdvisor && ((AspectJPointcutAdvisor) advisor).getAspectName().equals(beanName)) {
 				return true;
 			}
 		}

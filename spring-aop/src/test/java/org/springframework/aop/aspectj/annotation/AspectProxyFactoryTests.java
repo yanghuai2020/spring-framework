@@ -41,8 +41,7 @@ public class AspectProxyFactoryTests {
 	@Test
 	public void testWithNonAspect() {
 		AspectJProxyFactory proxyFactory = new AspectJProxyFactory(new TestBean());
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				proxyFactory.addAspect(TestBean.class));
+		assertThatIllegalArgumentException().isThrownBy(() -> proxyFactory.addAspect(TestBean.class));
 	}
 
 	@Test
@@ -78,8 +77,7 @@ public class AspectProxyFactoryTests {
 	@Test
 	public void testWithInstanceWithNonAspect() throws Exception {
 		AspectJProxyFactory pf = new AspectJProxyFactory();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				pf.addAspect(new TestBean()));
+		assertThatIllegalArgumentException().isThrownBy(() -> pf.addAspect(new TestBean()));
 	}
 
 	@Test
@@ -168,8 +166,7 @@ public class AspectProxyFactoryTests {
 	}
 
 
-	public interface MyInterface {
-	}
+	public interface MyInterface {}
 
 
 	public enum MyEnum implements MyInterface {

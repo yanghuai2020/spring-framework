@@ -156,17 +156,23 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 	}
 
 
-	/** The pointcut expression associated with the advice, as a simple String. */
+	/**
+	 * The pointcut expression associated with the advice, as a simple String.
+	 */
 	@Nullable
 	private String pointcutExpression;
 
 	private boolean raiseExceptions;
 
-	/** If the advice is afterReturning, and binds the return value, this is the parameter name used. */
+	/**
+	 * If the advice is afterReturning, and binds the return value, this is the parameter name used.
+	 */
 	@Nullable
 	private String returningName;
 
-	/** If the advice is afterThrowing, and binds the thrown value, this is the parameter name used. */
+	/**
+	 * If the advice is afterThrowing, and binds the thrown value, this is the parameter name used.
+	 */
 	@Nullable
 	private String throwingName;
 
@@ -189,6 +195,7 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 	/**
 	 * Indicate whether {@link IllegalArgumentException} and {@link AmbiguousBindingException}
 	 * must be thrown as appropriate in the case of failing to deduce advice parameter names.
+	 *
 	 * @param raiseExceptions {@code true} if exceptions are to be thrown
 	 */
 	public void setRaiseExceptions(boolean raiseExceptions) {
@@ -198,6 +205,7 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 	/**
 	 * If {@code afterReturning} advice binds the return value, the
 	 * returning variable name must be specified.
+	 *
 	 * @param returningName the name of the returning variable
 	 */
 	public void setReturningName(@Nullable String returningName) {
@@ -207,6 +215,7 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 	/**
 	 * If {@code afterThrowing} advice binds the thrown value, the
 	 * throwing variable name must be specified.
+	 *
 	 * @param throwingName the name of the throwing variable
 	 */
 	public void setThrowingName(@Nullable String throwingName) {
@@ -218,6 +227,7 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 	 * Deduce the parameter names for an advice method.
 	 * <p>See the {@link AspectJAdviceParameterNameDiscoverer class level javadoc}
 	 * for this class for details of the algorithm used.
+	 *
 	 * @param method the target {@link Method}
 	 * @return the parameter names
 	 */
@@ -236,8 +246,7 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 			minimumNumberUnboundArgs++;
 		}
 		if (this.numberOfRemainingUnboundArguments < minimumNumberUnboundArgs) {
-			throw new IllegalStateException(
-					"Not enough arguments in method to satisfy binding of returning and throwing variables");
+			throw new IllegalStateException("Not enough arguments in method to satisfy binding of returning and throwing variables");
 		}
 
 		try {
@@ -271,25 +280,20 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 						throw new IllegalStateException("Unknown algorithmic step: " + (algorithmicStep - 1));
 				}
 			}
-		}
-		catch (AmbiguousBindingException | IllegalArgumentException ex) {
+		} catch (AmbiguousBindingException | IllegalArgumentException ex) {
 			if (this.raiseExceptions) {
 				throw ex;
-			}
-			else {
+			} else {
 				return null;
 			}
 		}
 
 		if (this.numberOfRemainingUnboundArguments == 0) {
 			return this.parameterNameBindings;
-		}
-		else {
+		} else {
 			if (this.raiseExceptions) {
-				throw new IllegalStateException("Failed to bind all argument names: " +
-						this.numberOfRemainingUnboundArguments + " argument(s) could not be bound");
-			}
-			else {
+				throw new IllegalStateException("Failed to bind all argument names: " + this.numberOfRemainingUnboundArguments + " argument(s) could not be bound");
+			} else {
 				// convention for failing is to return null, allowing participation in a chain of responsibility
 				return null;
 			}
@@ -298,17 +302,17 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 
 	/**
 	 * An advice method can never be a constructor in Spring.
+	 *
 	 * @return {@code null}
 	 * @throws UnsupportedOperationException if
-	 * {@link #setRaiseExceptions(boolean) raiseExceptions} has been set to {@code true}
+	 *                                       {@link #setRaiseExceptions(boolean) raiseExceptions} has been set to {@code true}
 	 */
 	@Override
 	@Nullable
 	public String[] getParameterNames(Constructor<?> ctor) {
 		if (this.raiseExceptions) {
 			throw new UnsupportedOperationException("An advice method can never be a constructor");
-		}
-		else {
+		} else {
 			// we return null rather than throw an exception so that we behave well
 			// in a chain-of-responsibility.
 			return null;
@@ -329,8 +333,7 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 		if ((this.argumentTypes[0] == JoinPoint.class) || (this.argumentTypes[0] == ProceedingJoinPoint.class)) {
 			bindParameterName(0, THIS_JOIN_POINT);
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
@@ -356,21 +359,16 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 			if (isUnbound(i) && isSubtypeOf(Throwable.class, i)) {
 				if (throwableIndex == -1) {
 					throwableIndex = i;
-				}
-				else {
+				} else {
 					// Second candidate we've found - ambiguous binding
-					throw new AmbiguousBindingException("Binding of throwing parameter '" +
-							this.throwingName + "' is ambiguous: could be bound to argument " +
-							throwableIndex + " or argument " + i);
+					throw new AmbiguousBindingException("Binding of throwing parameter '" + this.throwingName + "' is ambiguous: could be bound to argument " + throwableIndex + " or argument " + i);
 				}
 			}
 		}
 
 		if (throwableIndex == -1) {
-			throw new IllegalStateException("Binding of throwing parameter '" + this.throwingName
-					+ "' could not be completed as no available arguments are a subtype of Throwable");
-		}
-		else {
+			throw new IllegalStateException("Binding of throwing parameter '" + this.throwingName + "' could not be completed as no available arguments are a subtype of Throwable");
+		} else {
 			bindParameterName(throwableIndex, this.throwingName);
 		}
 	}
@@ -380,14 +378,12 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 	 */
 	private void maybeBindReturningVariable() {
 		if (this.numberOfRemainingUnboundArguments == 0) {
-			throw new IllegalStateException(
-					"Algorithm assumes that there must be at least one unbound parameter on entry to this method");
+			throw new IllegalStateException("Algorithm assumes that there must be at least one unbound parameter on entry to this method");
 		}
 
 		if (this.returningName != null) {
 			if (this.numberOfRemainingUnboundArguments > 1) {
-				throw new AmbiguousBindingException("Binding of returning parameter '" + this.returningName +
-						"' is ambiguous, there are " + this.numberOfRemainingUnboundArguments + " candidates.");
+				throw new AmbiguousBindingException("Binding of returning parameter '" + this.returningName + "' is ambiguous, there are " + this.numberOfRemainingUnboundArguments + " candidates.");
 			}
 
 			// We're all set... find the unbound parameter, and bind it.
@@ -424,8 +420,7 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 				if (varName != null) {
 					varNames.add(varName);
 				}
-			}
-			else if (tokens[i].startsWith("@args(") || tokens[i].equals("@args")) {
+			} else if (tokens[i].startsWith("@args(") || tokens[i].equals("@args")) {
 				PointcutBody body = getPointcutBody(tokens, i);
 				i += body.numTokensConsumed;
 				maybeExtractVariableNamesFromArgs(body.text, varNames);
@@ -443,23 +438,16 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 			// we have work to do...
 			int numAnnotationSlots = countNumberOfUnboundAnnotationArguments();
 			if (numAnnotationSlots > 1) {
-				throw new AmbiguousBindingException("Found " + varNames.size() +
-						" potential annotation variable(s), and " +
-						numAnnotationSlots + " potential argument slots");
-			}
-			else if (numAnnotationSlots == 1) {
+				throw new AmbiguousBindingException("Found " + varNames.size() + " potential annotation variable(s), and " + numAnnotationSlots + " potential argument slots");
+			} else if (numAnnotationSlots == 1) {
 				if (varNames.size() == 1) {
 					// it's a match
 					findAndBind(Annotation.class, varNames.get(0));
-				}
-				else {
+				} else {
 					// multiple candidate vars, but only one slot
-					throw new IllegalArgumentException("Found " + varNames.size() +
-							" candidate annotation binding variables" +
-							" but only one potential argument binding slot");
+					throw new IllegalArgumentException("Found " + varNames.size() + " candidate annotation binding variables" + " but only one potential argument binding slot");
 				}
-			}
-			else {
+			} else {
 				// no slots so presume those candidate vars were actually type names
 			}
 		}
@@ -500,25 +488,20 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 	 */
 	private void maybeBindThisOrTargetOrArgsFromPointcutExpression() {
 		if (this.numberOfRemainingUnboundArguments > 1) {
-			throw new AmbiguousBindingException("Still " + this.numberOfRemainingUnboundArguments
-					+ " unbound args at this(),target(),args() binding stage, with no way to determine between them");
+			throw new AmbiguousBindingException("Still " + this.numberOfRemainingUnboundArguments + " unbound args at this(),target(),args() binding stage, with no way to determine between them");
 		}
 
 		List<String> varNames = new ArrayList<>();
 		String[] tokens = StringUtils.tokenizeToStringArray(this.pointcutExpression, " ");
 		for (int i = 0; i < tokens.length; i++) {
-			if (tokens[i].equals("this") ||
-					tokens[i].startsWith("this(") ||
-					tokens[i].equals("target") ||
-					tokens[i].startsWith("target(")) {
+			if (tokens[i].equals("this") || tokens[i].startsWith("this(") || tokens[i].equals("target") || tokens[i].startsWith("target(")) {
 				PointcutBody body = getPointcutBody(tokens, i);
 				i += body.numTokensConsumed;
 				String varName = maybeExtractVariableName(body.text);
 				if (varName != null) {
 					varNames.add(varName);
 				}
-			}
-			else if (tokens[i].equals("args") || tokens[i].startsWith("args(")) {
+			} else if (tokens[i].equals("args") || tokens[i].startsWith("args(")) {
 				PointcutBody body = getPointcutBody(tokens, i);
 				i += body.numTokensConsumed;
 				List<String> candidateVarNames = new ArrayList<>();
@@ -535,10 +518,8 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 
 
 		if (varNames.size() > 1) {
-			throw new AmbiguousBindingException("Found " + varNames.size() +
-					" candidate this(), target() or args() variables but only one unbound argument slot");
-		}
-		else if (varNames.size() == 1) {
+			throw new AmbiguousBindingException("Found " + varNames.size() + " candidate this(), target() or args() variables but only one unbound argument slot");
+		} else if (varNames.size() == 1) {
 			for (int j = 0; j < this.parameterNameBindings.length; j++) {
 				if (isUnbound(j)) {
 					bindParameterName(j, varNames.get(0));
@@ -551,8 +532,7 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 
 	private void maybeBindReferencePointcutParameter() {
 		if (this.numberOfRemainingUnboundArguments > 1) {
-			throw new AmbiguousBindingException("Still " + this.numberOfRemainingUnboundArguments
-					+ " unbound args at reference pointcut binding stage, with no way to determine between them");
+			throw new AmbiguousBindingException("Still " + this.numberOfRemainingUnboundArguments + " unbound args at reference pointcut binding stage, with no way to determine between them");
 		}
 
 		List<String> varNames = new ArrayList<>();
@@ -565,13 +545,11 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 			int firstParenIndex = toMatch.indexOf('(');
 			if (firstParenIndex != -1) {
 				toMatch = toMatch.substring(0, firstParenIndex);
-			}
-			else {
+			} else {
 				if (tokens.length < i + 2) {
 					// no "(" and nothing following
 					continue;
-				}
-				else {
+				} else {
 					String nextToken = tokens[i + 1];
 					if (nextToken.charAt(0) != '(') {
 						// next token is not "(" either, can't be a pc...
@@ -595,10 +573,8 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 		}
 
 		if (varNames.size() > 1) {
-			throw new AmbiguousBindingException("Found " + varNames.size() +
-					" candidate reference pointcut variables but only one unbound argument slot");
-		}
-		else if (varNames.size() == 1) {
+			throw new AmbiguousBindingException("Found " + varNames.size() + " candidate reference pointcut variables but only one unbound argument slot");
+		} else if (varNames.size() == 1) {
 			for (int j = 0; j < this.parameterNameBindings.length; j++) {
 				if (isUnbound(j)) {
 					bindParameterName(j, varNames.get(0));
@@ -620,8 +596,7 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 		if (currentToken.charAt(currentToken.length() - 1) == ')') {
 			// It's an all in one... get the text between the first (and the last)
 			return new PointcutBody(0, currentToken.substring(bodyStart + 1, currentToken.length() - 1));
-		}
-		else {
+		} else {
 			StringBuilder sb = new StringBuilder();
 			if (bodyStart >= 0 && bodyStart != (currentToken.length() - 1)) {
 				sb.append(currentToken.substring(bodyStart + 1));
@@ -662,8 +637,7 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 	private void maybeBindPrimitiveArgsFromPointcutExpression() {
 		int numUnboundPrimitives = countNumberOfUnboundPrimitiveArguments();
 		if (numUnboundPrimitives > 1) {
-			throw new AmbiguousBindingException("Found '" + numUnboundPrimitives +
-					"' unbound primitive arguments with no way to distinguish between them.");
+			throw new AmbiguousBindingException("Found '" + numUnboundPrimitives + "' unbound primitive arguments with no way to distinguish between them.");
 		}
 		if (numUnboundPrimitives == 1) {
 			// Look for arg variable and bind it if we find exactly one...
@@ -677,10 +651,8 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 				}
 			}
 			if (varNames.size() > 1) {
-				throw new AmbiguousBindingException("Found " + varNames.size() +
-						" candidate variable names but only one candidate binding slot when matching primitive args");
-			}
-			else if (varNames.size() == 1) {
+				throw new AmbiguousBindingException("Found " + varNames.size() + " candidate variable names but only one candidate binding slot when matching primitive args");
+			} else if (varNames.size() == 1) {
 				// 1 primitive arg, and one candidate...
 				for (int i = 0; i < this.argumentTypes.length; i++) {
 					if (isUnbound(i) && this.argumentTypes[i].isPrimitive()) {
@@ -748,8 +720,7 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 				return;
 			}
 		}
-		throw new IllegalStateException("Expected to find an unbound argument of type '" +
-				argumentType.getName() + "'");
+		throw new IllegalStateException("Expected to find an unbound argument of type '" + argumentType.getName() + "'");
 	}
 
 
@@ -780,6 +751,7 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 
 		/**
 		 * Construct a new AmbiguousBindingException with the specified message.
+		 *
 		 * @param msg the detail message
 		 */
 		public AmbiguousBindingException(String msg) {

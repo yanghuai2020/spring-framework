@@ -44,8 +44,7 @@ public class PointcutsTests {
 			TEST_BEAN_GET_AGE = TestBean.class.getMethod("getAge");
 			TEST_BEAN_GET_NAME = TestBean.class.getMethod("getName");
 			TEST_BEAN_ABSQUATULATE = TestBean.class.getMethod("absquatulate");
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			throw new RuntimeException("Shouldn't happen: error in test suite");
 		}
 	}
@@ -68,8 +67,7 @@ public class PointcutsTests {
 	public static Pointcut allClassSetterPointcut = Pointcuts.SETTERS;
 
 	// Subclass used for matching
-	public static class MyTestBean extends TestBean {
-	}
+	public static class MyTestBean extends TestBean {}
 
 	public static Pointcut myTestBeanSetterPointcut = new StaticMethodMatcherPointcut() {
 		@Override
@@ -97,8 +95,7 @@ public class PointcutsTests {
 	};
 
 	// Still more specific class
-	public static class MyTestBeanSubclass extends MyTestBean {
-	}
+	public static class MyTestBeanSubclass extends MyTestBean {}
 
 	public static Pointcut myTestBeanSubclassGetterPointcut = new StaticMethodMatcherPointcut() {
 		@Override

@@ -121,8 +121,7 @@ class TypePatternClassFilterTests {
 		TypePatternClassFilter filter1 = new TypePatternClassFilter("org.springframework.beans.testfixture.beans.*");
 		TypePatternClassFilter filter2 = new TypePatternClassFilter("org.springframework.beans.testfixture.beans.*");
 
-		assertThat(filter1.toString())
-			.isEqualTo("org.springframework.aop.aspectj.TypePatternClassFilter: org.springframework.beans.testfixture.beans.*");
+		assertThat(filter1.toString()).isEqualTo("org.springframework.aop.aspectj.TypePatternClassFilter: org.springframework.beans.testfixture.beans.*");
 		assertThat(filter1.toString()).isEqualTo(filter2.toString());
 	}
 

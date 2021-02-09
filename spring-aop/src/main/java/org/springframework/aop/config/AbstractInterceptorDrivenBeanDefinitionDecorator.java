@@ -54,8 +54,8 @@ import org.springframework.util.StringUtils;
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
- * @since 2.0
  * @see org.aopalliance.intercept.MethodInterceptor
+ * @since 2.0
  */
 public abstract class AbstractInterceptorDrivenBeanDefinitionDecorator implements BeanDefinitionDecorator {
 
@@ -73,8 +73,7 @@ public abstract class AbstractInterceptorDrivenBeanDefinitionDecorator implement
 
 		// generate name and register the interceptor
 		String interceptorName = existingBeanName + '.' + getInterceptorNameSuffix(interceptorDefinition);
-		BeanDefinitionReaderUtils.registerBeanDefinition(
-				new BeanDefinitionHolder(interceptorDefinition, interceptorName), registry);
+		BeanDefinitionReaderUtils.registerBeanDefinition(new BeanDefinitionHolder(interceptorDefinition, interceptorName), registry);
 
 		BeanDefinitionHolder result = definitionHolder;
 
@@ -117,8 +116,7 @@ public abstract class AbstractInterceptorDrivenBeanDefinitionDecorator implement
 
 	protected String getInterceptorNameSuffix(BeanDefinition interceptorDefinition) {
 		String beanClassName = interceptorDefinition.getBeanClassName();
-		return (StringUtils.hasLength(beanClassName) ?
-				StringUtils.uncapitalize(ClassUtils.getShortName(beanClassName)) : "");
+		return (StringUtils.hasLength(beanClassName) ? StringUtils.uncapitalize(ClassUtils.getShortName(beanClassName)) : "");
 	}
 
 	/**

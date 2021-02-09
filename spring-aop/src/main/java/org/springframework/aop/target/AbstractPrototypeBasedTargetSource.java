@@ -52,14 +52,13 @@ public abstract class AbstractPrototypeBasedTargetSource extends AbstractBeanFac
 
 		// Check whether the target bean is defined as prototype.
 		if (!beanFactory.isPrototype(getTargetBeanName())) {
-			throw new BeanDefinitionStoreException(
-					"Cannot use prototype-based TargetSource against non-prototype bean with name '" +
-					getTargetBeanName() + "': instances would not be independent");
+			throw new BeanDefinitionStoreException("Cannot use prototype-based TargetSource against non-prototype bean with name '" + getTargetBeanName() + "': instances would not be independent");
 		}
 	}
 
 	/**
 	 * Subclasses should call this method to create a new prototype instance.
+	 *
 	 * @throws BeansException if bean creation failed
 	 */
 	protected Object newPrototypeInstance() throws BeansException {
@@ -71,6 +70,7 @@ public abstract class AbstractPrototypeBasedTargetSource extends AbstractBeanFac
 
 	/**
 	 * Subclasses should call this method to destroy an obsolete prototype instance.
+	 *
 	 * @param target the bean instance to destroy
 	 */
 	protected void destroyPrototypeInstance(Object target) {
@@ -79,12 +79,10 @@ public abstract class AbstractPrototypeBasedTargetSource extends AbstractBeanFac
 		}
 		if (getBeanFactory() instanceof ConfigurableBeanFactory) {
 			((ConfigurableBeanFactory) getBeanFactory()).destroyBean(getTargetBeanName(), target);
-		}
-		else if (target instanceof DisposableBean) {
+		} else if (target instanceof DisposableBean) {
 			try {
 				((DisposableBean) target).destroy();
-			}
-			catch (Throwable ex) {
+			} catch (Throwable ex) {
 				logger.warn("Destroy method on bean with name '" + getTargetBeanName() + "' threw an exception", ex);
 			}
 		}
@@ -96,8 +94,7 @@ public abstract class AbstractPrototypeBasedTargetSource extends AbstractBeanFac
 	//---------------------------------------------------------------------
 
 	private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-		throw new NotSerializableException("A prototype-based TargetSource itself is not deserializable - " +
-				"just a disconnected SingletonTargetSource or EmptyTargetSource is");
+		throw new NotSerializableException("A prototype-based TargetSource itself is not deserializable - " + "just a disconnected SingletonTargetSource or EmptyTargetSource is");
 	}
 
 	/**
@@ -115,10 +112,8 @@ public abstract class AbstractPrototypeBasedTargetSource extends AbstractBeanFac
 		try {
 			// Create disconnected SingletonTargetSource/EmptyTargetSource.
 			Object target = getTarget();
-			return (target != null ? new SingletonTargetSource(target) :
-					EmptyTargetSource.forClass(getTargetClass()));
-		}
-		catch (Exception ex) {
+			return (target != null ? new SingletonTargetSource(target) : EmptyTargetSource.forClass(getTargetClass()));
+		} catch (Exception ex) {
 			String msg = "Cannot get target for disconnecting TargetSource [" + this + "]";
 			logger.error(msg, ex);
 			throw new NotSerializableException(msg + ": " + ex);

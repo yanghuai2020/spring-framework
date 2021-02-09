@@ -202,8 +202,7 @@ public class AspectJPrecedenceComparatorTests {
 	}
 
 	private Advisor createSpringAOPBeforeAdvice(int order) {
-		BeforeAdvice advice = new BeforeAdvice() {
-		};
+		BeforeAdvice advice = new BeforeAdvice() {};
 		DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor(this.anyOldPointcut, advice);
 		advisor.setOrder(order);
 		return advisor;

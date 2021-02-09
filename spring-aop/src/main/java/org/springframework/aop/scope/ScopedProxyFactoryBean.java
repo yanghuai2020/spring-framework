@@ -48,21 +48,26 @@ import org.springframework.util.ClassUtils;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @since 2.0
  * @see #setProxyTargetClass
+ * @since 2.0
  */
 @SuppressWarnings("serial")
-public class ScopedProxyFactoryBean extends ProxyConfig
-		implements FactoryBean<Object>, BeanFactoryAware, AopInfrastructureBean {
+public class ScopedProxyFactoryBean extends ProxyConfig implements FactoryBean<Object>, BeanFactoryAware, AopInfrastructureBean {
 
-	/** The TargetSource that manages scoping. */
+	/**
+	 * The TargetSource that manages scoping.
+	 */
 	private final SimpleBeanTargetSource scopedTargetSource = new SimpleBeanTargetSource();
 
-	/** The name of the target bean. */
+	/**
+	 * The name of the target bean.
+	 */
 	@Nullable
 	private String targetBeanName;
 
-	/** The cached singleton proxy. */
+	/**
+	 * The cached singleton proxy.
+	 */
 	@Nullable
 	private Object proxy;
 
@@ -99,8 +104,7 @@ public class ScopedProxyFactoryBean extends ProxyConfig
 		Assert.notNull(this.targetBeanName, "Property 'targetBeanName' is required");
 		Class<?> beanType = beanFactory.getType(this.targetBeanName);
 		if (beanType == null) {
-			throw new IllegalStateException("Cannot create scoped proxy for bean '" + this.targetBeanName +
-					"': Target type could not be determined at the time of proxy creation.");
+			throw new IllegalStateException("Cannot create scoped proxy for bean '" + this.targetBeanName + "': Target type could not be determined at the time of proxy creation.");
 		}
 		if (!isProxyTargetClass() || beanType.isInterface() || Modifier.isPrivate(beanType.getModifiers())) {
 			pf.setInterfaces(ClassUtils.getAllInterfacesForClass(beanType, cbf.getBeanClassLoader()));

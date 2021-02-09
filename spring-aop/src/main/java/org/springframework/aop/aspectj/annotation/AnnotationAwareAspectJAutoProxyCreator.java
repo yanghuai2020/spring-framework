@@ -43,8 +43,8 @@ import org.springframework.util.Assert;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @since 2.0
  * @see org.springframework.aop.aspectj.annotation.AspectJAdvisorFactory
+ * @since 2.0
  */
 @SuppressWarnings("serial")
 public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorAutoProxyCreator {
@@ -81,8 +81,7 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 		if (this.aspectJAdvisorFactory == null) {
 			this.aspectJAdvisorFactory = new ReflectiveAspectJAdvisorFactory(beanFactory);
 		}
-		this.aspectJAdvisorsBuilder =
-				new BeanFactoryAspectJAdvisorsBuilderAdapter(beanFactory, this.aspectJAdvisorFactory);
+		this.aspectJAdvisorsBuilder = new BeanFactoryAspectJAdvisorsBuilderAdapter(beanFactory, this.aspectJAdvisorFactory);
 	}
 
 
@@ -107,8 +106,7 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 		// proxied by that interface and fail at runtime as the advice method is not
 		// defined on the interface. We could potentially relax the restriction about
 		// not advising aspects in the future.
-		return (super.isInfrastructureClass(beanClass) ||
-				(this.aspectJAdvisorFactory != null && this.aspectJAdvisorFactory.isAspect(beanClass)));
+		return (super.isInfrastructureClass(beanClass) || (this.aspectJAdvisorFactory != null && this.aspectJAdvisorFactory.isAspect(beanClass)));
 	}
 
 	/**
@@ -120,8 +118,7 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 	protected boolean isEligibleAspectBean(String beanName) {
 		if (this.includePatterns == null) {
 			return true;
-		}
-		else {
+		} else {
 			for (Pattern pattern : this.includePatterns) {
 				if (pattern.matcher(beanName).matches()) {
 					return true;
@@ -138,8 +135,7 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 	 */
 	private class BeanFactoryAspectJAdvisorsBuilderAdapter extends BeanFactoryAspectJAdvisorsBuilder {
 
-		public BeanFactoryAspectJAdvisorsBuilderAdapter(
-				ListableBeanFactory beanFactory, AspectJAdvisorFactory advisorFactory) {
+		public BeanFactoryAspectJAdvisorsBuilderAdapter(ListableBeanFactory beanFactory, AspectJAdvisorFactory advisorFactory) {
 
 			super(beanFactory, advisorFactory);
 		}

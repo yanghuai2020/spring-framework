@@ -32,8 +32,8 @@ import org.springframework.util.ObjectUtils;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @since 1.1.2
  * @see AbstractGenericPointcutAdvisor
+ * @since 1.1.2
  */
 @SuppressWarnings("serial")
 public abstract class AbstractPointcutAdvisor implements PointcutAdvisor, Ordered, Serializable {
@@ -73,8 +73,7 @@ public abstract class AbstractPointcutAdvisor implements PointcutAdvisor, Ordere
 			return false;
 		}
 		PointcutAdvisor otherAdvisor = (PointcutAdvisor) other;
-		return (ObjectUtils.nullSafeEquals(getAdvice(), otherAdvisor.getAdvice()) &&
-				ObjectUtils.nullSafeEquals(getPointcut(), otherAdvisor.getPointcut()));
+		return (ObjectUtils.nullSafeEquals(getAdvice(), otherAdvisor.getAdvice()) && ObjectUtils.nullSafeEquals(getPointcut(), otherAdvisor.getPointcut()));
 	}
 
 	@Override

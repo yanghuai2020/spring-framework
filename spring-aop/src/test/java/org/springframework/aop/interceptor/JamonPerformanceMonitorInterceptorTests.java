@@ -67,8 +67,7 @@ public class JamonPerformanceMonitorInterceptorTests {
 		given(mi.getMethod()).willReturn(String.class.getMethod("toString"));
 		given(mi.proceed()).willThrow(new IllegalArgumentException());
 
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				interceptor.invokeUnderTrace(mi, log));
+		assertThatIllegalArgumentException().isThrownBy(() -> interceptor.invokeUnderTrace(mi, log));
 
 		assertThat(MonitorFactory.getNumRows()).as("Monitors must exist for the method invocation and 2 exceptions").isEqualTo(3);
 		assertThat(MonitorFactory.getReport().contains("toString")).as("The jamon report must contain the toString method that was invoked").isTrue();

@@ -70,6 +70,7 @@ class AspectJPrecedenceComparator implements Comparator<Advisor> {
 	/**
 	 * Create an {@code AspectJPrecedenceComparator}, using the given {@link Comparator}
 	 * for comparing {@link org.springframework.aop.Advisor} instances.
+	 *
 	 * @param advisorComparator the {@code Comparator} to use for advisors
 	 */
 	public AspectJPrecedenceComparator(Comparator<? super Advisor> advisorComparator) {
@@ -88,8 +89,7 @@ class AspectJPrecedenceComparator implements Comparator<Advisor> {
 	}
 
 	private int comparePrecedenceWithinAspect(Advisor advisor1, Advisor advisor2) {
-		boolean oneOrOtherIsAfterAdvice =
-				(AspectJAopUtils.isAfterAdvice(advisor1) || AspectJAopUtils.isAfterAdvice(advisor2));
+		boolean oneOrOtherIsAfterAdvice = (AspectJAopUtils.isAfterAdvice(advisor1) || AspectJAopUtils.isAfterAdvice(advisor2));
 		int adviceDeclarationOrderDelta = getAspectDeclarationOrder(advisor1) - getAspectDeclarationOrder(advisor2);
 
 		if (oneOrOtherIsAfterAdvice) {
@@ -98,38 +98,31 @@ class AspectJPrecedenceComparator implements Comparator<Advisor> {
 				// advice1 was declared before advice2
 				// so advice1 has lower precedence
 				return LOWER_PRECEDENCE;
-			}
-			else if (adviceDeclarationOrderDelta == 0) {
+			} else if (adviceDeclarationOrderDelta == 0) {
 				return SAME_PRECEDENCE;
-			}
-			else {
+			} else {
 				return HIGHER_PRECEDENCE;
 			}
-		}
-		else {
+		} else {
 			// the advice declared first has higher precedence
 			if (adviceDeclarationOrderDelta < 0) {
 				// advice1 was declared before advice2
 				// so advice1 has higher precedence
 				return HIGHER_PRECEDENCE;
-			}
-			else if (adviceDeclarationOrderDelta == 0) {
+			} else if (adviceDeclarationOrderDelta == 0) {
 				return SAME_PRECEDENCE;
-			}
-			else {
+			} else {
 				return LOWER_PRECEDENCE;
 			}
 		}
 	}
 
 	private boolean declaredInSameAspect(Advisor advisor1, Advisor advisor2) {
-		return (hasAspectName(advisor1) && hasAspectName(advisor2) &&
-				getAspectName(advisor1).equals(getAspectName(advisor2)));
+		return (hasAspectName(advisor1) && hasAspectName(advisor2) && getAspectName(advisor1).equals(getAspectName(advisor2)));
 	}
 
 	private boolean hasAspectName(Advisor advisor) {
-		return (advisor instanceof AspectJPrecedenceInformation ||
-				advisor.getAdvice() instanceof AspectJPrecedenceInformation);
+		return (advisor instanceof AspectJPrecedenceInformation || advisor.getAdvice() instanceof AspectJPrecedenceInformation);
 	}
 
 	// pre-condition is that hasAspectName returned true
