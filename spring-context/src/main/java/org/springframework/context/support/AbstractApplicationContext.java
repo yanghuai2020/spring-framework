@@ -596,26 +596,38 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 
 	@Override
 	public void refresh() throws BeansException, IllegalStateException {
+
 		synchronized (this.startupShutdownMonitor) {
+
 			StartupStep contextRefresh = this.applicationStartup.start("spring.context.refresh");
 
+			/**容器刷新的准备工作*/
 			// Prepare this context for refreshing.
 			prepareRefresh();
 
+			/**
+			 * 1)解析xml等， 最终得到 BeanDefinetion
+			 * 2)完成BeanFactory(DefaultListableBeanFactory)的创建过程
+			 */
 			// Tell the subclass to refresh the internal bean factory.
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
+			/**BeanFactory 的准备工作*/
 			// Prepare the bean factory for use in this context.
 			prepareBeanFactory(beanFactory);
 
 			try {
+				/**扩展实现*/
 				// Allows post-processing of the bean factory in context subclasses.
 				postProcessBeanFactory(beanFactory);
 
 				StartupStep beanPostProcess = this.applicationStartup.start("spring.context.beans.post-process");
+
+				/**实例化并且执行所有注册的 BFPP(BeanFactoryPostProcessor) */
 				// Invoke factory processors registered as beans in the context.
 				invokeBeanFactoryPostProcessors(beanFactory);
 
+				/**实例化并且注册所有的BPP(BeanPostProcessor)*/
 				// Register bean processors that intercept bean creation.
 				registerBeanPostProcessors(beanFactory);
 				beanPostProcess.end();
@@ -788,6 +800,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 	}
 
 	/**
+	 *
+	 * 实例化并且执行所有注册的 BFPP(BeanFactoryPostProcessor)
 	 * Instantiate and invoke all registered BeanFactoryPostProcessor beans,
 	 * respecting explicit order if given.
 	 * <p>Must be called before singleton instantiation.
@@ -804,6 +818,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 	}
 
 	/**
+	 * 实例化并且注册所有的BPP(BeanPostProcessor)
+	 *
 	 * Instantiate and register all BeanPostProcessor beans,
 	 * respecting explicit order if given.
 	 * <p>Must be called before any instantiation of application beans.
@@ -956,6 +972,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 		beanFactory.setTempClassLoader(null);
 
 		// Allow for caching all bean definition metadata, not expecting further changes.
+		/**不在修改的beanDefinition*/
 		beanFactory.freezeConfiguration();
 
 		// Instantiate all remaining (non-lazy-init) singletons.

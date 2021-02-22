@@ -909,6 +909,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		return (this.configurationFrozen || super.isBeanEligibleForMetadataCaching(beanName));
 	}
 
+
+	/**spring 容器启动的时候，会初始化好所有的单利对象(AbstractApplicationContext#refresh())*/
 	@Override
 	public void preInstantiateSingletons() throws BeansException {
 		if (logger.isTraceEnabled()) {

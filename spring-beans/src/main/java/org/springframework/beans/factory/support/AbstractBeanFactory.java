@@ -177,6 +177,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	private final List<StringValueResolver> embeddedValueResolvers = new CopyOnWriteArrayList<>();
 
 	/**
+	 * AbstractApplicationContext#refresh()#prepareBeanFactory()方法中添加了BeanPostProcessor类
 	 * BeanPostProcessors to apply.
 	 */
 	private final List<BeanPostProcessor> beanPostProcessors = new BeanPostProcessorCacheAwareList();
@@ -270,6 +271,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	}
 
 	/**
+	 * 循环依赖解决的条件：
+	 * 1、必须是单例的，不能是多例的
+	 * 2、构造方法中不能有依赖
+	 *
 	 * Return an instance, which may be shared or independent, of the specified bean.
 	 *
 	 * @param name          the name of the bean to retrieve
@@ -288,7 +293,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		Object beanInstance;
 
 		// Eagerly check singleton cache for manually registered singletons.
+		/**缓存中是否有已经创建过的对象，如果有就直接获取*/
 		Object sharedInstance = getSingleton(beanName);
+
 		if (sharedInstance != null && args == null) {
 			if (logger.isTraceEnabled()) {
 				if (isSingletonCurrentlyInCreation(beanName)) {
