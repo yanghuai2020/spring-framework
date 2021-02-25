@@ -51,8 +51,7 @@ public class FlightRecorderApplicationStartup implements ApplicationStartup {
 
 	@Override
 	public StartupStep start(String name) {
-		FlightRecorderStartupStep step = new FlightRecorderStartupStep(++this.currentSequenceId, name,
-				this.currentSteps.getFirst(), committedStep -> this.currentSteps.removeFirst());
+		FlightRecorderStartupStep step = new FlightRecorderStartupStep(++this.currentSequenceId, name, this.currentSteps.getFirst(), committedStep -> this.currentSteps.removeFirst());
 		this.currentSteps.offerFirst(this.currentSequenceId);
 		return step;
 	}
