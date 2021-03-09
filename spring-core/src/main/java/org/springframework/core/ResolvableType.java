@@ -83,6 +83,39 @@ import org.springframework.util.StringUtils;
 @SuppressWarnings("serial")
 public class ResolvableType implements Serializable {
 
+
+	/***
+	  Java语法中的类型可以分为五大类：组件类型为参数化类型或类型变量的数组、参数化类型、通配符表达式类型、类型变量以及所有定义的Class（每个类都是一个具体的类型）。
+	 除Class类以外的4个接口是jdk1.5以后出现的，因为单纯的Class类无法描述泛型信息。
+
+	public class TypeDemo<T> {
+		// GenericArrayType：组件类型为类型变量的数组
+		public T[] a;
+		// GenericArrayType：组件类型为参数化类型的数组
+		public List<?>[] b;
+		// ParameterizedType：参数化类型
+		// List<? extends Object>携带的"? extends Object"
+		// 即通配符表达式，也就是WildcardType
+		public List<? extends Object> c;
+		// Class：普通类型
+		public List d;
+		// 类型变量
+		public T e;
+		public static void wildcardType() throws Exception{
+			Field field = TypeDemo.class.getDeclaredField("c");
+			Type type = field.getGenericType();
+			if (type instanceof ParameterizedType) {
+				ParameterizedType parameterizedType = (ParameterizedType) type;
+				Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+				for (Type actualTypeArg : actualTypeArguments)
+					System.out.println(actualTypeArg.getClass());
+			}
+		}
+	}
+	*/
+
+
+
 	/**
 	 * {@code ResolvableType} returned when no value is available. {@code NONE} is used
 	 * in preference to {@code null} so that multiple method calls can be safely chained.
@@ -1033,6 +1066,7 @@ public class ResolvableType implements Serializable {
 	 * @since 4.2
 	 */
 	public static ResolvableType forRawClass(@Nullable Class<?> clazz) {
+
 		return new ResolvableType(clazz) {
 			@Override
 			public ResolvableType[] getGenerics() {
