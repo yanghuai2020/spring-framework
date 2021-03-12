@@ -1,4 +1,4 @@
-package org.springframework.demo;
+package org.springframework.resolvertype;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
